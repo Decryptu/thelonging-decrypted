@@ -61,7 +61,7 @@ export function getSetupSteps(role: PlayerRole, method: InstallMethod): SetupSte
         id: "host_yaml",
         title: "Collect every player's YAML scroll",
         detail:
-          "Use the YAML generator on this page to craft your own player file, gather your friends' YAMLs in one folder, and run ArchipelagoGenerate.",
+          "Use the Player YAML screen to craft your own player file, gather your friends' YAMLs in one folder, and run ArchipelagoGenerate.",
       },
       {
         id: "host_room",
@@ -75,7 +75,7 @@ export function getSetupSteps(role: PlayerRole, method: InstallMethod): SetupSte
       id: "join_yaml",
       title: "Generate your YAML scroll and send it to the host",
       detail:
-        "Pick a preset in the YAML generator above, enter your exact player name, download the .yaml file, and hand it to whoever is generating the seed.",
+        "Pick a preset in the Player YAML screen, enter your exact player name, download the .yaml file, and hand it to whoever is generating the seed.",
     });
   }
 

@@ -1,5 +1,11 @@
 import "./styles/longing.css";
-import { CAVERN_PASSAGES, CAVERN_REGIONS, type CheckCategory } from "./data/mapData";
+
+import {
+  CAVERN_PASSAGES,
+  CAVERN_REGIONS,
+  type CavernRegion,
+  type CheckCategory,
+} from "./data/mapData";
 import {
   type CountdownLength,
   DEFAULT_CONFIG,
@@ -15,519 +21,615 @@ import {
 } from "./data/options";
 import { type InstallMethod, type PlayerRole, getSetupSteps } from "./data/setupSteps";
 
-const STORAGE_KEY = "longing-decrypted-setup-v1";
+const STORAGE_KEY_SETUP = "thelonging_decrypted_setup_v1";
 const SVG_NS = "http://www.w3.org/2000/svg";
+const SCREENS = ["menu", "yaml", "map", "setup"] as const;
+type ScreenId = (typeof SCREENS)[number];
 
-/* -------------------------------------------------------------------------- */
-/* 1. Signature 400-day live countdown clock                                  */
-/* -------------------------------------------------------------------------- */
-function initCountdown(): void {
-  const readout = document.getElementById("countdown-readout");
-  const buttons = document.querySelectorAll<HTMLButtonElement>(".rate-btn");
-  if (!readout) return;
+const CLOCK_RATES = [1, 12, 60] as const;
 
-  let remainingSeconds = 400 * 86400 - 1;
-  let rate = 1;
-  let lastTick = performance.now();
+function byId<T extends HTMLElement>(id: string): T {
+  const el = document.getElementById(id);
+  if (!el) {
+    throw new Error(`Missing required element #${id}`);
+  }
+  return el as T;
+}
 
-  const render = (): void => {
-    const clamped = Math.max(0, Math.floor(remainingSeconds));
-    const days = Math.floor(clamped / 86400);
-    const hours = Math.floor((clamped % 86400) / 3600);
-    const mins = Math.floor((clamped % 3600) / 60);
-    const secs = clamped % 60;
-    const pad = (n: number): string => String(n).padStart(2, "0");
-    readout.textContent = `${days}d · ${pad(hours)}:${pad(mins)}:${pad(secs)}`;
+/* ==========================================================================
+   1. IN-GAME SCREEN ROUTER
+   ========================================================================== */
+
+function parseHashScreen(): ScreenId {
+  const raw = window.location.hash.replace(/^#/, "").toLowerCase();
+  if ((SCREENS as readonly string[]).includes(raw)) {
+    return raw as ScreenId;
+  }
+  return "menu";
+}
+
+function initScreens(): void {
+  const sections = document.querySelectorAll<HTMLElement>("[data-screen]");
+  const buttons = document.querySelectorAll<HTMLButtonElement>("[data-screen-btn]");
+
+  const activate = (screen: ScreenId, updateHash: boolean): void => {
+    for (const sec of sections) {
+      sec.classList.toggle("is-active", sec.dataset.screen === screen);
+    }
+    for (const btn of buttons) {
+      const target = btn.dataset.screenBtn;
+      const isNav = btn.classList.contains("hud-nav-tile") || btn.classList.contains("hud-shield");
+      if (isNav) {
+        btn.classList.toggle("is-active", target === screen);
+      }
+    }
+    if (updateHash && window.location.hash !== `#${screen}`) {
+      history.replaceState(null, "", `#${screen}`);
+    }
+    window.scrollTo(0, 0);
   };
 
   for (const btn of buttons) {
     btn.addEventListener("click", () => {
-      const next = Number(btn.dataset.rate || "1");
-      if (!Number.isFinite(next) || next < 1) return;
-      rate = next;
-      for (const b of buttons) {
-        b.classList.toggle("is-active", b === btn);
+      const target = btn.dataset.screenBtn as ScreenId | undefined;
+      if (target && (SCREENS as readonly string[]).includes(target)) {
+        activate(target, true);
       }
     });
   }
 
-  render();
-  window.setInterval(() => {
-    const now = performance.now();
-    const dt = (now - lastTick) / 1000;
-    lastTick = now;
-    remainingSeconds = Math.max(0, remainingSeconds - dt * rate);
-    render();
-  }, 250);
-}
-
-/* -------------------------------------------------------------------------- */
-/* 2. Archipelago YAML Generator                                              */
-/* -------------------------------------------------------------------------- */
-function initYamlGenerator(): void {
-  const presetStrip = document.getElementById("preset-strip");
-  const playerInput = document.getElementById("opt-player") as HTMLInputElement | null;
-  const goalSelect = document.getElementById("opt-goal") as HTMLSelectElement | null;
-  const countdownSelect = document.getElementById("opt-countdown") as HTMLSelectElement | null;
-  const walkSelect = document.getElementById("opt-walk") as HTMLSelectElement | null;
-  const rateInput = document.getElementById("opt-rate") as HTMLInputElement | null;
-  const rateLabel = document.getElementById("opt-rate-label");
-  const timeSkipInput = document.getElementById("opt-timeskip") as HTMLInputElement | null;
-  const booksSelect = document.getElementById("opt-books") as HTMLSelectElement | null;
-  const crystalsSelect = document.getElementById("opt-crystals") as HTMLSelectElement | null;
-  const toolsInput = document.getElementById("opt-tools") as HTMLInputElement | null;
-  const mushroomsInput = document.getElementById("opt-mushrooms") as HTMLInputElement | null;
-  const comfortInput = document.getElementById("opt-comfort") as HTMLInputElement | null;
-  const instrumentsInput = document.getElementById("opt-instruments") as HTMLInputElement | null;
-  const coalInput = document.getElementById("opt-coal") as HTMLInputElement | null;
-  const deathLinkInput = document.getElementById("opt-deathlink") as HTMLInputElement | null;
-  const trapsSelect = document.getElementById("opt-traps") as HTMLSelectElement | null;
-
-  const filenameEl = document.getElementById("yaml-filename");
-  const outputEl = document.getElementById("yaml-output");
-  const messagesEl = document.getElementById("yaml-messages");
-  const copyBtn = document.getElementById("copy-yaml") as HTMLButtonElement | null;
-  const downloadBtn = document.getElementById("download-yaml") as HTMLButtonElement | null;
-
-  if (
-    !presetStrip ||
-    !playerInput ||
-    !goalSelect ||
-    !countdownSelect ||
-    !walkSelect ||
-    !rateInput ||
-    !rateLabel ||
-    !timeSkipInput ||
-    !booksSelect ||
-    !crystalsSelect ||
-    !toolsInput ||
-    !mushroomsInput ||
-    !comfortInput ||
-    !instrumentsInput ||
-    !coalInput ||
-    !deathLinkInput ||
-    !trapsSelect ||
-    !filenameEl ||
-    !outputEl ||
-    !messagesEl ||
-    !copyBtn ||
-    !downloadBtn
-  ) {
-    return;
-  }
-
-  let activePresetId: string | null = PRESETS[0]?.id ?? null;
-  let statusFlash = "";
-
-  const readConfig = (): LongingYamlConfig => ({
-    playerName: playerInput.value,
-    goal: goalSelect.value as GoalOption,
-    countdownLength: countdownSelect.value as CountdownLength,
-    startingTimeRate: Number(rateInput.value),
-    walkSpeed: walkSelect.value as WalkSpeed,
-    timeSkipItems: timeSkipInput.checked,
-    shuffleMattocksAndKeys: toolsInput.checked,
-    shuffleBooks: booksSelect.value as ShuffleDepth,
-    shuffleCrystals: crystalsSelect.value as ShuffleDepth,
-    shuffleMushroomsAndMoss: mushroomsInput.checked,
-    shuffleHomeComfort: comfortInput.checked,
-    shuffleInstrumentParts: instrumentsInput.checked,
-    shuffleCoalAndSulfur: coalInput.checked,
-    trapDensity: trapsSelect.value as TrapDensity,
-    deathLink: deathLinkInput.checked,
+  window.addEventListener("hashchange", () => {
+    activate(parseHashScreen(), false);
   });
 
-  const applyConfigToForm = (cfg: Omit<LongingYamlConfig, "playerName">): void => {
-    goalSelect.value = cfg.goal;
-    countdownSelect.value = cfg.countdownLength;
-    walkSelect.value = cfg.walkSpeed;
-    rateInput.value = String(cfg.startingTimeRate);
-    timeSkipInput.checked = cfg.timeSkipItems;
-    booksSelect.value = cfg.shuffleBooks;
-    crystalsSelect.value = cfg.shuffleCrystals;
-    toolsInput.checked = cfg.shuffleMattocksAndKeys;
-    mushroomsInput.checked = cfg.shuffleMushroomsAndMoss;
-    comfortInput.checked = cfg.shuffleHomeComfort;
-    instrumentsInput.checked = cfg.shuffleInstrumentParts;
-    coalInput.checked = cfg.shuffleCoalAndSulfur;
-    deathLinkInput.checked = cfg.deathLink;
-    trapsSelect.value = cfg.trapDensity;
+  activate(parseHashScreen(), false);
+
+  const closeBtn = byId<HTMLButtonElement>("close-dialogue-btn");
+  const dialogue = byId<HTMLElement>("menu-dialogue");
+  closeBtn.addEventListener("click", () => {
+    dialogue.hidden = true;
+  });
+}
+
+/* ==========================================================================
+   2. 13-CELL 400-DAY COUNTDOWN CLOCK (uhr.png)
+   ========================================================================== */
+
+function initCountdownClock(): void {
+  const cells = {
+    d0: byId<HTMLElement>("clk-d0"),
+    d1: byId<HTMLElement>("clk-d1"),
+    d2: byId<HTMLElement>("clk-d2"),
+    h0: byId<HTMLElement>("clk-h0"),
+    h1: byId<HTMLElement>("clk-h1"),
+    m0: byId<HTMLElement>("clk-m0"),
+    m1: byId<HTMLElement>("clk-m1"),
+    s0: byId<HTMLElement>("clk-s0"),
+    s1: byId<HTMLElement>("clk-s1"),
+  };
+  const rateBtn = byId<HTMLButtonElement>("clock-rate-btn");
+  const rateLabel = byId<HTMLElement>("clock-rate-label");
+
+  const FOUR_HUNDRED_DAYS = 400 * 86_400;
+  let remainingSeconds = FOUR_HUNDRED_DAYS - 1;
+  let rateIndex = 0;
+
+  const renderClock = (): void => {
+    const clamped = Math.max(0, Math.floor(remainingSeconds));
+    const days = String(Math.floor(clamped / 86_400)).padStart(3, "0");
+    const hours = String(Math.floor((clamped % 86_400) / 3600)).padStart(2, "0");
+    const minutes = String(Math.floor((clamped % 3600) / 60)).padStart(2, "0");
+    const seconds = String(clamped % 60).padStart(2, "0");
+
+    cells.d0.textContent = days.charAt(0);
+    cells.d1.textContent = days.charAt(1);
+    cells.d2.textContent = days.charAt(2);
+    cells.h0.textContent = hours.charAt(0);
+    cells.h1.textContent = hours.charAt(1);
+    cells.m0.textContent = minutes.charAt(0);
+    cells.m1.textContent = minutes.charAt(1);
+    cells.s0.textContent = seconds.charAt(0);
+    cells.s1.textContent = seconds.charAt(1);
+  };
+
+  rateBtn.addEventListener("click", () => {
+    rateIndex = (rateIndex + 1) % CLOCK_RATES.length;
+    const rate = CLOCK_RATES[rateIndex] ?? 1;
+    rateLabel.textContent = `${rate}x`;
+  });
+
+  renderClock();
+  window.setInterval(() => {
+    const rate = CLOCK_RATES[rateIndex] ?? 1;
+    remainingSeconds = remainingSeconds <= 0 ? FOUR_HUNDRED_DAYS : remainingSeconds - rate;
+    renderClock();
+  }, 1000);
+}
+
+/* ==========================================================================
+   3. BOOK-TABBED YAML GENERATOR
+   ========================================================================== */
+
+function initYamlGenerator(): void {
+  let state: LongingYamlConfig = { ...DEFAULT_CONFIG };
+  let activePresetId: string | null = PRESETS[0]?.id ?? null;
+
+  const presetBar = byId<HTMLElement>("preset-bar");
+  const bookTabs = document.querySelectorAll<HTMLButtonElement>("[data-yaml-tab]");
+  const bookPanels = document.querySelectorAll<HTMLElement>("[data-yaml-panel]");
+
+  const playerName = byId<HTMLInputElement>("player-name");
+  const goalSelect = byId<HTMLSelectElement>("goal-select");
+  const countdownSelect = byId<HTMLSelectElement>("countdown-select");
+  const timeRateRange = byId<HTMLInputElement>("time-rate-range");
+  const timeRateValue = byId<HTMLElement>("time-rate-value");
+  const walkSpeedSelect = byId<HTMLSelectElement>("walk-speed-select");
+  const timeSkipItems = byId<HTMLInputElement>("time-skip-items");
+  const shuffleMattocks = byId<HTMLInputElement>("shuffle-mattocks");
+  const booksSelect = byId<HTMLSelectElement>("books-select");
+  const crystalsSelect = byId<HTMLSelectElement>("crystals-select");
+  const shuffleMushrooms = byId<HTMLInputElement>("shuffle-mushrooms");
+  const shuffleComfort = byId<HTMLInputElement>("shuffle-comfort");
+  const shuffleInstruments = byId<HTMLInputElement>("shuffle-instruments");
+  const shuffleCoal = byId<HTMLInputElement>("shuffle-coal");
+  const trapDensitySelect = byId<HTMLSelectElement>("trap-density-select");
+  const deathLink = byId<HTMLInputElement>("death-link");
+
+  const validationEl = byId<HTMLElement>("yaml-validation");
+  const previewEl = byId<HTMLElement>("yaml-preview");
+  const filenameEl = byId<HTMLElement>("yaml-filename");
+  const statusEl = byId<HTMLElement>("yaml-status");
+  const downloadBtn = byId<HTMLButtonElement>("download-yaml-btn");
+  const copyBtn = byId<HTMLButtonElement>("copy-yaml-btn");
+  const resetBtn = byId<HTMLButtonElement>("reset-yaml-btn");
+
+  for (const tab of bookTabs) {
+    tab.addEventListener("click", () => {
+      const target = tab.dataset.yamlTab;
+      for (const t of bookTabs) {
+        const active = t.dataset.yamlTab === target;
+        t.classList.toggle("is-active", active);
+        t.setAttribute("aria-selected", String(active));
+      }
+      for (const p of bookPanels) {
+        p.classList.toggle("is-active", p.dataset.yamlPanel === target);
+      }
+    });
+  }
+
+  const syncControlsFromState = (): void => {
+    playerName.value = state.playerName;
+    goalSelect.value = state.goal;
+    countdownSelect.value = state.countdownLength;
+    timeRateRange.value = String(state.startingTimeRate);
+    timeRateValue.textContent = `${state.startingTimeRate}x`;
+    walkSpeedSelect.value = state.walkSpeed;
+    timeSkipItems.checked = state.timeSkipItems;
+    shuffleMattocks.checked = state.shuffleMattocksAndKeys;
+    booksSelect.value = state.shuffleBooks;
+    crystalsSelect.value = state.shuffleCrystals;
+    shuffleMushrooms.checked = state.shuffleMushroomsAndMoss;
+    shuffleComfort.checked = state.shuffleHomeComfort;
+    shuffleInstruments.checked = state.shuffleInstrumentParts;
+    shuffleCoal.checked = state.shuffleCoalAndSulfur;
+    trapDensitySelect.value = state.trapDensity;
+    deathLink.checked = state.deathLink;
   };
 
   const renderPresets = (): void => {
-    presetStrip.innerHTML = "";
+    presetBar.replaceChildren();
     for (const preset of PRESETS) {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = `preset-btn${activePresetId === preset.id ? " is-active" : ""}`;
-      btn.innerHTML = `<strong>${preset.label}</strong><small>${preset.summary}</small>`;
+      btn.title = preset.summary;
+      btn.textContent = preset.label.toUpperCase();
       btn.addEventListener("click", () => {
         activePresetId = preset.id;
-        statusFlash = "";
-        applyConfigToForm(preset.config);
+        state = {
+          playerName: state.playerName,
+          ...preset.config,
+        };
+        syncControlsFromState();
         renderPresets();
-        updateYaml();
+        renderYaml();
+        statusEl.textContent = `Loaded preset: ${preset.label}.`;
       });
-      presetStrip.appendChild(btn);
+      presetBar.appendChild(btn);
     }
   };
 
-  const updateYaml = (): void => {
-    const cfg = readConfig();
-    rateLabel.textContent = `${cfg.startingTimeRate}x`;
-    const validation = validateConfig(cfg);
-    const yaml = serializeYaml(cfg);
-    filenameEl.textContent = makeYamlFilename(cfg.playerName);
-    outputEl.textContent = yaml;
+  const renderYaml = (): void => {
+    const validation = validateConfig(state);
+    validationEl.replaceChildren();
 
-    downloadBtn.disabled = !validation.valid;
-    copyBtn.disabled = !validation.valid;
-
-    messagesEl.innerHTML = "";
     for (const err of validation.errors) {
-      const p = document.createElement("p");
-      p.className = "yaml-msg is-error";
-      p.textContent = err;
-      messagesEl.appendChild(p);
+      const box = document.createElement("div");
+      box.className = "validation-msg is-error";
+      box.textContent = err;
+      validationEl.appendChild(box);
     }
     for (const warn of validation.warnings) {
-      const p = document.createElement("p");
-      p.className = "yaml-msg";
-      p.textContent = warn;
-      messagesEl.appendChild(p);
+      const box = document.createElement("div");
+      box.className = "validation-msg";
+      box.textContent = warn;
+      validationEl.appendChild(box);
     }
-    if (statusFlash && validation.valid) {
-      const p = document.createElement("p");
-      p.className = "yaml-msg is-ok";
-      p.textContent = statusFlash;
-      messagesEl.appendChild(p);
-    }
+
+    previewEl.textContent = serializeYaml(state);
+    filenameEl.textContent = makeYamlFilename(state.playerName);
+    downloadBtn.disabled = !validation.valid;
   };
 
-  const form = document.getElementById("yaml-form");
-  form?.addEventListener("input", () => {
+  const readStateFromForm = (): void => {
     activePresetId = null;
-    statusFlash = "";
+    state = {
+      playerName: playerName.value,
+      goal: goalSelect.value as GoalOption,
+      countdownLength: countdownSelect.value as CountdownLength,
+      startingTimeRate: Number(timeRateRange.value),
+      walkSpeed: walkSpeedSelect.value as WalkSpeed,
+      timeSkipItems: timeSkipItems.checked,
+      shuffleMattocksAndKeys: shuffleMattocks.checked,
+      shuffleBooks: booksSelect.value as ShuffleDepth,
+      shuffleCrystals: crystalsSelect.value as ShuffleDepth,
+      shuffleMushroomsAndMoss: shuffleMushrooms.checked,
+      shuffleHomeComfort: shuffleComfort.checked,
+      shuffleInstrumentParts: shuffleInstruments.checked,
+      shuffleCoalAndSulfur: shuffleCoal.checked,
+      trapDensity: trapDensitySelect.value as TrapDensity,
+      deathLink: deathLink.checked,
+    };
+    timeRateValue.textContent = `${state.startingTimeRate}x`;
     renderPresets();
-    updateYaml();
-  });
+    renderYaml();
+  };
 
-  copyBtn.addEventListener("click", async () => {
-    const cfg = readConfig();
-    if (!validateConfig(cfg).valid) return;
-    try {
-      await navigator.clipboard.writeText(serializeYaml(cfg));
-      statusFlash = "Copied YAML scroll to clipboard.";
-    } catch {
-      statusFlash = "Clipboard blocked — use Download .yaml instead.";
-    }
-    updateYaml();
-  });
+  const form = byId<HTMLFormElement>("yaml-form");
+  form.addEventListener("input", readStateFromForm);
+  form.addEventListener("change", readStateFromForm);
 
   downloadBtn.addEventListener("click", () => {
-    const cfg = readConfig();
-    if (!validateConfig(cfg).valid) return;
-    const blob = new Blob([serializeYaml(cfg)], { type: "text/yaml;charset=utf-8" });
+    const validation = validateConfig(state);
+    if (!validation.valid) {
+      statusEl.textContent = validation.errors[0] ?? "Please fix the errors above.";
+      return;
+    }
+    const content = serializeYaml(state);
+    const filename = makeYamlFilename(state.playerName);
+    const blob = new Blob([content], { type: "text/yaml;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = makeYamlFilename(cfg.playerName);
+    link.download = filename;
     document.body.appendChild(link);
     link.click();
     link.remove();
     URL.revokeObjectURL(url);
-    statusFlash = `Downloaded ${makeYamlFilename(cfg.playerName)}.`;
-    updateYaml();
+    statusEl.textContent = `Downloaded ${filename}.`;
   });
 
-  applyConfigToForm(DEFAULT_CONFIG);
+  copyBtn.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(serializeYaml(state));
+      statusEl.textContent = "Copied YAML to clipboard.";
+    } catch {
+      statusEl.textContent = "Clipboard access unavailable. Use Download YAML instead.";
+    }
+  });
+
+  resetBtn.addEventListener("click", () => {
+    state = { ...DEFAULT_CONFIG };
+    activePresetId = PRESETS[0]?.id ?? null;
+    syncControlsFromState();
+    renderPresets();
+    renderYaml();
+    statusEl.textContent = "Reset to defaults.";
+  });
+
+  syncControlsFromState();
   renderPresets();
-  updateYaml();
+  renderYaml();
 }
 
-/* -------------------------------------------------------------------------- */
-/* 3. Interactive Subterranean Cavern Map                                     */
-/* -------------------------------------------------------------------------- */
-function initCavernMap(): void {
-  const svg = document.getElementById("cavern-svg");
-  const notebook = document.getElementById("region-notebook");
-  const filterWrap = document.getElementById("map-filters");
-  if (!svg || !notebook || !filterWrap) return;
+/* ==========================================================================
+   4. UNDERGROUND KINGDOM MAP
+   ========================================================================== */
 
+function initCavernMap(): void {
+  const passagesLayer = document.getElementById("map-passages-layer");
+  const nodesLayer = document.getElementById("map-nodes-layer");
+  if (!passagesLayer || !nodesLayer) {
+    return;
+  }
+
+  const filterButtons = document.querySelectorAll<HTMLButtonElement>("[data-filter]");
+  const regionDepth = byId<HTMLElement>("region-depth");
+  const regionName = byId<HTMLElement>("region-name");
+  const regionSummary = byId<HTMLElement>("region-summary");
+  const regionGates = byId<HTMLElement>("region-gates");
+  const regionChecks = byId<HTMLElement>("region-checks");
+  const jumpList = byId<HTMLElement>("region-jump-list");
+
+  const regionById = new Map<string, CavernRegion>(CAVERN_REGIONS.map((r) => [r.id, r]));
   let activeFilter: "all" | CheckCategory = "all";
   let selectedId = "shades_home";
-  const byId = new Map(CAVERN_REGIONS.map((r) => [r.id, r]));
 
-  const renderNotebook = (): void => {
-    const region = byId.get(selectedId) ?? CAVERN_REGIONS[0];
-    if (!region) return;
-    notebook.innerHTML = "";
+  const renderDrawer = (region: CavernRegion): void => {
+    regionDepth.textContent = region.depthLabel;
+    regionName.textContent = region.name;
+    regionSummary.textContent = region.summary;
 
-    const depth = document.createElement("p");
-    depth.className = "notebook-depth";
-    depth.textContent = region.depthLabel;
-
-    const title = document.createElement("h3");
-    title.textContent = region.name;
-
-    const summary = document.createElement("p");
-    summary.textContent = region.summary;
-
-    const makeSection = (heading: string, items: string[]): HTMLDivElement => {
-      const box = document.createElement("div");
-      box.className = "notebook-section";
-      const h4 = document.createElement("h4");
-      h4.textContent = heading;
-      const ul = document.createElement("ul");
-      ul.className = "notebook-list";
-      for (const item of items) {
-        const li = document.createElement("li");
-        li.textContent = item;
-        ul.appendChild(li);
-      }
-      box.append(h4, ul);
-      return box;
-    };
-
-    const tags = document.createElement("div");
-    tags.className = "tag-row";
-    for (const cat of region.categories) {
-      const span = document.createElement("span");
-      span.className = "region-tag";
-      span.textContent = cat;
-      tags.appendChild(span);
+    regionGates.replaceChildren();
+    for (const gate of region.gates) {
+      const li = document.createElement("li");
+      li.textContent = gate;
+      regionGates.appendChild(li);
     }
 
-    notebook.append(
-      depth,
-      title,
-      summary,
-      makeSection("Progression Gates", region.gates),
-      makeSection("Planned Check Pool", region.checks),
-      tags,
-    );
+    regionChecks.replaceChildren();
+    for (const check of region.checks) {
+      const li = document.createElement("li");
+      li.textContent = check;
+      regionChecks.appendChild(li);
+    }
   };
 
-  const renderSvg = (): void => {
-    svg.innerHTML = "";
-
-    // Subtle geological strata lines
-    const strata = [98, 200, 315, 425];
-    for (const y of strata) {
-      const path = document.createElementNS(SVG_NS, "path");
-      path.setAttribute("d", `M 16 ${y} Q 210 ${y - 10}, 410 ${y + 6} T 804 ${y - 4}`);
-      path.setAttribute("fill", "none");
-      path.setAttribute("stroke", "#2a1e18");
-      path.setAttribute("stroke-width", "1.4");
-      svg.appendChild(path);
+  const renderJumpList = (): void => {
+    jumpList.replaceChildren();
+    for (const region of CAVERN_REGIONS) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = `region-jump-btn${region.id === selectedId ? " is-active" : ""}`;
+      btn.textContent = region.name;
+      btn.addEventListener("click", () => {
+        selectedId = region.id;
+        renderMap();
+        renderJumpList();
+      });
+      jumpList.appendChild(btn);
     }
+  };
 
-    // Subterranean passages
+  const renderMap = (): void => {
+    passagesLayer.replaceChildren();
+    nodesLayer.replaceChildren();
+
     for (const passage of CAVERN_PASSAGES) {
-      const a = byId.get(passage.from);
-      const b = byId.get(passage.to);
-      if (!a || !b) continue;
+      const a = regionById.get(passage.from);
+      const b = regionById.get(passage.to);
+      if (!a || !b) {
+        continue;
+      }
       const line = document.createElementNS(SVG_NS, "line");
       line.setAttribute("x1", String(a.x));
       line.setAttribute("y1", String(a.y));
       line.setAttribute("x2", String(b.x));
       line.setAttribute("y2", String(b.y));
-      line.setAttribute("stroke", passage.gated ? "#c89d4e" : "#7c624a");
-      line.setAttribute("stroke-width", passage.gated ? "2.4" : "2");
-      line.setAttribute("stroke-opacity", passage.gated ? "0.72" : "0.52");
-      if (passage.gated) {
-        line.setAttribute("stroke-dasharray", "7 5");
-      }
-      svg.appendChild(line);
+      line.setAttribute("class", `map-passage${passage.gated ? " is-gated" : ""}`);
+      passagesLayer.appendChild(line);
     }
 
-    // Interactive chamber nodes
     for (const region of CAVERN_REGIONS) {
       const matches = activeFilter === "all" || region.categories.includes(activeFilter);
-      const g = document.createElementNS(SVG_NS, "g");
-      const classes = ["cavern-node"];
-      if (!matches) classes.push("is-dimmed");
-      if (region.id === selectedId) classes.push("is-selected");
-      if (region.id === "shades_home") classes.push("is-home");
-      if (region.categories.includes("endings")) classes.push("is-ending");
-      g.setAttribute("class", classes.join(" "));
-      g.setAttribute("tabindex", "0");
-      g.setAttribute("role", "button");
-      g.setAttribute("aria-label", `${region.name} (${region.depthLabel})`);
+      const isSelected = region.id === selectedId;
 
-      const ring = document.createElementNS(SVG_NS, "circle");
-      ring.setAttribute("class", "node-ring");
-      ring.setAttribute("cx", String(region.x));
-      ring.setAttribute("cy", String(region.y));
-      ring.setAttribute("r", region.id === selectedId ? "16" : "13");
+      const group = document.createElementNS(SVG_NS, "g");
+      group.setAttribute(
+        "class",
+        `map-node${isSelected ? " is-selected" : ""}${matches ? "" : " is-dimmed"}`,
+      );
+      group.setAttribute("tabindex", "0");
+      group.setAttribute("role", "button");
+      group.setAttribute("aria-label", `${region.name}: ${region.depthLabel}`);
 
-      const core = document.createElementNS(SVG_NS, "circle");
-      core.setAttribute("class", "node-core");
-      core.setAttribute("cx", String(region.x));
-      core.setAttribute("cy", String(region.y));
-      core.setAttribute("r", "5.5");
+      // Carved diamond marker (matches angular runic style)
+      const pin = document.createElementNS(SVG_NS, "polygon");
+      const r = isSelected ? 10 : 7;
+      pin.setAttribute(
+        "points",
+        `${region.x},${region.y - r} ${region.x + r},${region.y} ${region.x},${region.y + r} ${region.x - r},${region.y}`,
+      );
+      pin.setAttribute("class", "map-node-pin");
+      group.appendChild(pin);
 
       const label = document.createElementNS(SVG_NS, "text");
-      label.setAttribute("class", "node-label");
       label.setAttribute("x", String(region.x));
-      label.setAttribute("y", String(region.y + 30));
+      label.setAttribute("y", String(region.y + (region.labelDy ?? -14)));
+      label.setAttribute("class", "map-node-label");
       label.textContent = region.name;
+      group.appendChild(label);
 
-      const select = (): void => {
+      const selectRegion = (): void => {
         selectedId = region.id;
-        renderSvg();
-        renderNotebook();
+        renderMap();
+        renderJumpList();
       };
 
-      g.addEventListener("click", select);
-      g.addEventListener("keydown", (event) => {
+      group.addEventListener("click", selectRegion);
+      group.addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
-          select();
+          selectRegion();
         }
       });
 
-      g.append(ring, core, label);
-      svg.appendChild(g);
+      nodesLayer.appendChild(group);
+    }
+
+    const active = regionById.get(selectedId);
+    if (active) {
+      renderDrawer(active);
     }
   };
 
-  for (const btn of filterWrap.querySelectorAll<HTMLButtonElement>(".filter-chip")) {
+  for (const btn of filterButtons) {
     btn.addEventListener("click", () => {
-      activeFilter = (btn.dataset.filter as "all" | CheckCategory) || "all";
-      for (const b of filterWrap.querySelectorAll<HTMLButtonElement>(".filter-chip")) {
-        b.classList.toggle("is-active", b === btn);
+      activeFilter = (btn.dataset.filter ?? "all") as "all" | CheckCategory;
+      for (const other of filterButtons) {
+        other.classList.toggle("is-active", other === btn);
       }
-      renderSvg();
+      renderMap();
     });
   }
 
-  renderSvg();
-  renderNotebook();
+  renderMap();
+  renderJumpList();
 }
 
-/* -------------------------------------------------------------------------- */
-/* 4. Branching Setup Checklist (persisted in localStorage)                   */
-/* -------------------------------------------------------------------------- */
-interface SavedChecklistState {
-  role?: PlayerRole;
-  method?: InstallMethod;
-  done: Record<string, boolean>;
+/* ==========================================================================
+   5. SETUP CHECKLIST
+   ========================================================================== */
+
+interface SavedSetupState {
+  role: PlayerRole;
+  method: InstallMethod;
+  checked: string[];
 }
 
-function loadChecklistState(): SavedChecklistState {
+function loadSetupState(): SavedSetupState {
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { done: {} };
-    const parsed = JSON.parse(raw) as Partial<SavedChecklistState>;
+    const raw = window.localStorage.getItem(STORAGE_KEY_SETUP);
+    if (!raw) {
+      return { role: "join", method: "manager", checked: [] };
+    }
+    const parsed = JSON.parse(raw) as Partial<SavedSetupState>;
     return {
-      role: parsed.role === "join" || parsed.role === "host" ? parsed.role : undefined,
-      method: parsed.method === "manager" || parsed.method === "manual" ? parsed.method : undefined,
-      done: parsed.done && typeof parsed.done === "object" ? parsed.done : {},
+      role: parsed.role === "host" ? "host" : "join",
+      method: parsed.method === "manual" ? "manual" : "manager",
+      checked: Array.isArray(parsed.checked)
+        ? parsed.checked.filter((id): id is string => typeof id === "string")
+        : [],
     };
   } catch {
-    return { done: {} };
+    return { role: "join", method: "manager", checked: [] };
   }
 }
 
-function saveChecklistState(state: SavedChecklistState): void {
+function saveSetupState(state: SavedSetupState): void {
   try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    window.localStorage.setItem(STORAGE_KEY_SETUP, JSON.stringify(state));
   } catch {
-    // Ignore storage quota or private-mode restrictions.
+    // Ignore storage errors in private contexts.
   }
 }
 
 function initSetupChecklist(): void {
-  const listEl = document.getElementById("setup-steps");
-  const hintEl = document.getElementById("setup-hint");
-  const fillEl = document.getElementById("setup-fill");
-  const countEl = document.getElementById("setup-count");
-  const resetBtn = document.getElementById("setup-reset");
-  const roleRadios = document.querySelectorAll<HTMLInputElement>('input[name="role"]');
-  const methodRadios = document.querySelectorAll<HTMLInputElement>('input[name="method"]');
-  if (!listEl || !hintEl || !fillEl || !countEl || !resetBtn) return;
+  const saved = loadSetupState();
+  const checkedSet = new Set<string>(saved.checked);
+  let role: PlayerRole = saved.role;
+  let method: InstallMethod = saved.method;
 
-  let state = loadChecklistState();
+  const stepsList = byId<HTMLOListElement>("setup-steps-list");
+  const progressFill = byId<HTMLElement>("setup-progress-fill");
+  const progressCount = byId<HTMLElement>("setup-progress-count");
+  const resetBtn = byId<HTMLButtonElement>("reset-setup-btn");
 
-  const syncRadios = (): void => {
-    for (const r of roleRadios) r.checked = r.value === state.role;
-    for (const m of methodRadios) m.checked = m.value === state.method;
+  const roleInputs = document.querySelectorAll<HTMLInputElement>('input[name="setupRole"]');
+  const methodInputs = document.querySelectorAll<HTMLInputElement>('input[name="installMethod"]');
+
+  for (const input of roleInputs) {
+    input.checked = input.value === role;
+  }
+  for (const input of methodInputs) {
+    input.checked = input.value === method;
+  }
+
+  const persist = (): void => {
+    saveSetupState({ role, method, checked: Array.from(checkedSet) });
   };
 
-  const render = (): void => {
-    listEl.innerHTML = "";
-    if (!state.role || !state.method) {
-      hintEl.hidden = false;
-      fillEl.style.width = "0%";
-      countEl.textContent = "0 / 0";
-      return;
-    }
+  const renderSteps = (): void => {
+    const steps = getSetupSteps(role, method);
+    stepsList.replaceChildren();
 
-    hintEl.hidden = true;
-    const steps = getSetupSteps(state.role, state.method);
     let completed = 0;
-
     for (const step of steps) {
-      const checked = Boolean(state.done[step.id]);
-      if (checked) completed += 1;
+      const isChecked = checkedSet.has(step.id);
+      if (isChecked) {
+        completed += 1;
+      }
 
       const li = document.createElement("li");
       const label = document.createElement("label");
+
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
-      checkbox.checked = checked;
+      checkbox.checked = isChecked;
       checkbox.addEventListener("change", () => {
-        state.done[step.id] = checkbox.checked;
-        saveChecklistState(state);
-        render();
+        if (checkbox.checked) {
+          checkedSet.add(step.id);
+        } else {
+          checkedSet.delete(step.id);
+        }
+        persist();
+        renderSteps();
       });
 
-      const body = document.createElement("div");
-      const strong = document.createElement("strong");
-      strong.textContent = step.title;
-      const span = document.createElement("span");
-      span.textContent = step.detail;
-      body.append(strong, span);
+      const box = document.createElement("span");
+      box.className = "step-box";
+      box.setAttribute("aria-hidden", "true");
 
-      label.append(checkbox, body);
+      const body = document.createElement("span");
+      const title = document.createElement("span");
+      title.className = "step-title";
+      title.textContent = step.title;
+
+      const detail = document.createElement("span");
+      detail.className = "step-detail";
+      detail.textContent = step.detail;
+
+      body.appendChild(title);
+      body.appendChild(detail);
+
+      label.appendChild(checkbox);
+      label.appendChild(box);
+      label.appendChild(body);
       li.appendChild(label);
-      listEl.appendChild(li);
+      stepsList.appendChild(li);
     }
 
-    const pct = steps.length > 0 ? Math.round((completed / steps.length) * 100) : 0;
-    fillEl.style.width = `${pct}%`;
-    countEl.textContent = `${completed} / ${steps.length}`;
+    const total = steps.length;
+    const pct = total === 0 ? 0 : Math.round((completed / total) * 100);
+    progressFill.style.width = `${pct}%`;
+    progressCount.textContent = `${completed} / ${total}`;
   };
 
-  for (const radio of roleRadios) {
-    radio.addEventListener("change", () => {
-      state.role = radio.value as PlayerRole;
-      saveChecklistState(state);
-      render();
+  for (const input of roleInputs) {
+    input.addEventListener("change", () => {
+      if (input.checked) {
+        role = input.value === "host" ? "host" : "join";
+        persist();
+        renderSteps();
+      }
     });
   }
 
-  for (const radio of methodRadios) {
-    radio.addEventListener("change", () => {
-      state.method = radio.value as InstallMethod;
-      saveChecklistState(state);
-      render();
+  for (const input of methodInputs) {
+    input.addEventListener("change", () => {
+      if (input.checked) {
+        method = input.value === "manual" ? "manual" : "manager";
+        persist();
+        renderSteps();
+      }
     });
   }
 
   resetBtn.addEventListener("click", () => {
-    state = { done: {} };
-    saveChecklistState(state);
-    syncRadios();
-    render();
+    checkedSet.clear();
+    persist();
+    renderSteps();
   });
 
-  syncRadios();
-  render();
+  renderSteps();
 }
 
-initCountdown();
+/* ==========================================================================
+   BOOT
+   ========================================================================== */
+
+initScreens();
+initCountdownClock();
 initYamlGenerator();
 initCavernMap();
 initSetupChecklist();

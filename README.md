@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo.png" alt="The Shade raising a mattock toward a floating hourglass while wearing the King's crown" width="260" />
+  <img src="assets/logo.png" alt="The Horse Head wall trophy from The Longing" width="220" />
 </p>
 
 # The Longing Decrypted
@@ -14,7 +14,7 @@ Shuffle tools, keys, books, crystals, mushrooms, home comforts, and time boosts 
 
 ## Status
 
-Early development. The repository foundation, game reverse-engineering tools, and player hub (YAML generator preview, cavern map explorer, and setup checklist) are live. The BepInEx 5 x86 client plugin and `the_longing.apworld` package are the next milestones — see [ROADMAP.md](ROADMAP.md).
+Early development. The repository foundation, game reverse-engineering tools, and player hub (YAML generator preview, cavern map explorer, and setup checklist) are live. The BepInEx 5 x86 client plugin and `the_longing.apworld` package are the next milestones. See [ROADMAP.md](ROADMAP.md).
 
 ## Goals
 

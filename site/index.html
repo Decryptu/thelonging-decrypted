@@ -5,422 +5,639 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta
     name="description"
-    content="The Longing Decrypted: an unofficial Archipelago multiworld and randomizer for The Longing, featuring a YAML generator, subterranean cavern map, and setup checklist."
+    content="The Longing Decrypted: unofficial Archipelago multiworld and randomizer for The Longing, with a YAML generator, underground kingdom map, and setup checklist."
   >
-  <title>The Longing Decrypted — Archipelago &amp; Randomizer Hub</title>
+  <title>The Longing Decrypted</title>
   <link rel="icon" type="image/png" href="./assets/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=IM+Fell+English:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=MedievalSharp&display=swap"
     rel="stylesheet"
   >
 </head>
 <body>
-  <!-- Hidden SVG symbols styled after The Longing's carved woodcut UI icons -->
-  <svg width="0" height="0" aria-hidden="true" class="svg-defs">
-    <defs>
-      <pattern id="hatch-rule" width="12" height="8" patternUnits="userSpaceOnUse">
-        <path d="M0 8 L6 0 M6 8 L12 0 M2 8 L10 0" stroke="#0f0907" stroke-width="1.2" opacity="0.85" />
-        <path d="M0 1 L12 1 M0 7 L12 7" stroke="#8b7054" stroke-width="0.9" opacity="0.65" />
-      </pattern>
-      <symbol id="icon-hourglass" viewBox="0 0 24 24">
-        <path d="M6 3h12M6 21h12M7 3v4c0 2.5 3.5 4.2 5 5-1.5.8-5 2.5-5 5v4M17 3v4c0 2.5-3.5 4.2-5 5 1.5.8 5 2.5 5 5v4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
-        <path d="M9.5 6.5h5L12 10zM9.2 19h5.6L12 15.2z" fill="currentColor" opacity="0.8" />
-      </symbol>
-      <symbol id="icon-scroll" viewBox="0 0 24 24">
-        <path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" stroke-width="1.6" />
-        <path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-      </symbol>
-      <symbol id="icon-map" viewBox="0 0 24 24">
-        <path d="M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
-        <path d="M9 4v13.5M15 6.5V20" stroke="currentColor" stroke-width="1.4" />
-        <circle cx="12" cy="11.5" r="1.4" fill="currentColor" />
-      </symbol>
-      <symbol id="icon-mattock" viewBox="0 0 24 24">
-        <path d="M4 20 14.5 9.5M10 5c3.5 0 7.5 1.8 9.5 5-2.6.5-5 1.4-6.8 3.2M10 5c.6 1.8 1.5 3.4 2.7 4.7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
-      </symbol>
-      <symbol id="icon-book" viewBox="0 0 24 24">
-        <path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H19v18H7.5A2.5 2.5 0 0 0 5 22V4.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
-        <path d="M5 18h14M9 7h6M9 10.5h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
-      </symbol>
-      <symbol id="icon-crystal" viewBox="0 0 24 24">
-        <path d="M12 2 18 9l-6 13L6 9Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
-        <path d="M12 2v20M6 9h12" stroke="currentColor" stroke-width="1.2" opacity="0.7" />
-      </symbol>
-      <symbol id="icon-flame" viewBox="0 0 24 24">
-        <path d="M12 3c2.5 3.5 6 6.2 6 10.5a6 6 0 1 1-12 0c0-2.5 1.2-4.8 3-6.5.2 2 1.2 3 2.5 3-.6-2.5-.5-4.8.5-7Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
-      </symbol>
-    </defs>
-  </svg>
+  <div class="game-frame">
+    <!-- Top HUD bar modeled directly on The Longing's HUD.png and uhr.png -->
+    <header class="hud-top">
+      <button
+        type="button"
+        class="hud-tile hud-shield"
+        data-screen-btn="menu"
+        title="Main Menu"
+        aria-label="Main Menu"
+      >
+        <svg viewBox="0 0 36 36" aria-hidden="true">
+          <path d="M9 6h18v13c0 6-9 11-9 11S9 25 9 19V6Z" fill="none" stroke="#080400" stroke-width="2.2" />
+          <path d="M18 12c2.5 3 5 5.4 5 8a5 5 0 0 1-10 0c0-2.6 2.5-5 5-8Z" fill="#080400" />
+        </svg>
+      </button>
 
-  <!-- Signature top countdown strip mimicking The Longing's live 400-day clock -->
-  <header class="top-strip">
-    <div class="top-strip-inner">
-      <a class="brand-link" href="./">
-        <span class="eye-pair" aria-hidden="true"><i></i><i></i></span>
-        <span>The Longing Decrypted</span>
-      </a>
+      <button type="button" class="hud-plaque" data-screen-btn="menu">
+        <span class="hud-plaque-title">: THE LONGING :</span>
+        <span class="hud-plaque-sub">DECRYPTED</span>
+      </button>
 
-      <div class="countdown-box" aria-label="400-day countdown clock">
-        <svg class="hourglass-icon" aria-hidden="true"><use href="#icon-hourglass" /></svg>
-        <span class="countdown-readout" id="countdown-readout">399d · 23:59:59</span>
-        <div class="rate-pills" role="group" aria-label="Hearth time rate">
-          <button type="button" class="rate-btn is-active" data-rate="1" title="Resting pace">1x</button>
-          <button type="button" class="rate-btn" data-rate="12" title="Hearth lit">12x</button>
-          <button type="button" class="rate-btn" data-rate="120" title="Swift multiworld pace">120x</button>
-        </div>
-      </div>
+      <nav class="hud-nav" aria-label="Game screens">
+        <button type="button" class="hud-tile hud-nav-tile" data-screen-btn="yaml" title="Player YAML">
+          <svg viewBox="0 0 36 36" aria-hidden="true">
+            <path d="M9 7h15l3 3v19H9V7Z" fill="none" stroke="#080400" stroke-width="2.2" />
+            <path d="M13 13h10M13 18h10M13 23h7" stroke="#080400" stroke-width="2" />
+          </svg>
+          <span class="hud-tile-label">YAML</span>
+        </button>
 
-      <nav class="top-nav" aria-label="Primary">
-        <a href="#yaml">YAML</a>
-        <a href="#map">Cavern Map</a>
-        <a href="#setup">Setup</a>
-        <a href="https://github.com/Decryptu/thelonging-decrypted">GitHub</a>
+        <button type="button" class="hud-tile hud-nav-tile" data-screen-btn="map" title="Cavern Map">
+          <svg viewBox="0 0 36 36" aria-hidden="true">
+            <path d="M16 8c3 4 4 10 3 19M12 20l7 8 6-8" fill="none" stroke="#080400" stroke-width="2.6" stroke-linecap="square" />
+          </svg>
+          <span class="hud-tile-label">MAP</span>
+        </button>
+
+        <button type="button" class="hud-tile hud-nav-tile" data-screen-btn="setup" title="Setup Guide">
+          <svg viewBox="0 0 36 36" aria-hidden="true">
+            <path d="M8 26 6 11l6 7 6-10 6 10 6-7-2 15H8Z" fill="#080400" />
+          </svg>
+          <span class="hud-tile-label">SETUP</span>
+        </button>
       </nav>
-    </div>
-  </header>
 
-  <main class="cavern-shell">
-    <!-- Title Screen Panel -->
-    <section class="title-chamber" aria-labelledby="title-heading">
-      <div class="emblem-stage">
-        <div class="emblem-halo" aria-hidden="true"></div>
-        <img
-          class="emblem"
-          src="./assets/logo.png"
-          alt="The Shade raising a mattock toward a floating hourglass while wearing the King's crown"
-          width="240"
-          height="240"
-        >
+      <!-- Authentic 13-cell sandstone 400-day clock from uhr.png -->
+      <div class="hud-clock" aria-label="400-day countdown clock">
+        <div class="clock-cell digit" id="clk-d0">3</div>
+        <div class="clock-cell digit" id="clk-d1">9</div>
+        <div class="clock-cell digit" id="clk-d2">9</div>
+        <div class="clock-cell unit" aria-hidden="true">D</div>
+        <div class="clock-cell digit" id="clk-h0">2</div>
+        <div class="clock-cell digit" id="clk-h1">3</div>
+        <div class="clock-cell unit" aria-hidden="true">H</div>
+        <div class="clock-cell digit" id="clk-m0">5</div>
+        <div class="clock-cell digit" id="clk-m1">9</div>
+        <div class="clock-cell unit" aria-hidden="true">M</div>
+        <div class="clock-cell digit" id="clk-s0">5</div>
+        <div class="clock-cell digit" id="clk-s1">9</div>
+        <div class="clock-cell unit" aria-hidden="true">S</div>
       </div>
 
-      <div class="woodcut-banner">
-        <svg class="hatch-bar" viewBox="0 0 600 10" preserveAspectRatio="none" aria-hidden="true">
-          <rect width="600" height="10" fill="url(#hatch-rule)" />
+      <button
+        type="button"
+        class="hud-tile hud-hourglass"
+        id="clock-rate-btn"
+        title="Click to change time speed (1x, 12x, 60x)"
+        aria-label="Cycle time speed"
+      >
+        <svg viewBox="0 0 36 36" aria-hidden="true">
+          <path d="M10 6h16M10 30h16M12 6v5c0 3 6 5.5 6 7s-6 4-6 7v5M24 6v5c0 3-6 5.5-6 7s6 4 6 7v5" fill="none" stroke="#080400" stroke-width="2.2" />
+          <path d="M14 10h8l-4 5-4-5ZM14 28h8l-4-5-4 5Z" fill="#080400" />
         </svg>
-        <h1 id="title-heading">
-          <span class="title-main">: THE LONGING :</span>
-          <span class="title-sub">DECRYPTED</span>
-        </h1>
-        <svg class="hatch-bar" viewBox="0 0 600 10" preserveAspectRatio="none" aria-hidden="true">
-          <rect width="600" height="10" fill="url(#hatch-rule)" />
-        </svg>
-      </div>
+      </button>
 
-      <p class="title-lede">
-        An unofficial Archipelago multiworld and randomizer for <em>The Longing</em>.
-        Shuffle mattocks, books, crystals, mushrooms, doors, and time skips across the
-        Underground Kingdom &mdash; without waiting four hundred days alone.
-      </p>
+      <div class="hud-tile hud-rate-readout" id="clock-rate-label" title="Current time multiplier">1x</div>
 
-      <div class="action-menu" role="navigation" aria-label="Main actions">
-        <a class="action-bar" href="#yaml">
-          <span class="action-socket" aria-hidden="true"><svg><use href="#icon-scroll" /></svg></span>
-          <span class="action-copy">
-            <strong>Craft Player YAML</strong>
-            <small>Configure goals, clock speed, and cavern pools</small>
-          </span>
-          <span class="action-arrow" aria-hidden="true">&rarr;</span>
-        </a>
-        <a class="action-bar" href="#map">
-          <span class="action-socket" aria-hidden="true"><svg><use href="#icon-map" /></svg></span>
-          <span class="action-copy">
-            <strong>Explore Cavern Map</strong>
-            <small>Inspect regions, progression gates, and check pools</small>
-          </span>
-          <span class="action-arrow" aria-hidden="true">&rarr;</span>
-        </a>
-        <a class="action-bar" href="#setup">
-          <span class="action-socket" aria-hidden="true"><svg><use href="#icon-mattock" /></svg></span>
-          <span class="action-copy">
-            <strong>Installation Checklist</strong>
-            <small>Step-by-step BepInEx 5 x86 &amp; Archipelago guide</small>
-          </span>
-          <span class="action-arrow" aria-hidden="true">&rarr;</span>
-        </a>
-        <a class="action-bar" href="https://github.com/Decryptu/thelonging-decrypted/blob/main/ROADMAP.md">
-          <span class="action-socket" aria-hidden="true"><svg><use href="#icon-book" /></svg></span>
-          <span class="action-copy">
-            <strong>Development Roadmap</strong>
-            <small>Track mod, APWorld, and tracker milestones</small>
-          </span>
-          <span class="action-arrow" aria-hidden="true">&rarr;</span>
-        </a>
-      </div>
+      <div class="hud-filler" aria-hidden="true"></div>
+    </header>
 
-      <aside class="notice-plaque" aria-label="Development status">
-        <span class="notice-badge">Early Development</span>
-        <p>
-          The player hub, save tooling, and option draft are live. The BepInEx 5 x86 plugin and
-          <code>the_longing.apworld</code> package are next on the
-          <a href="https://github.com/Decryptu/thelonging-decrypted/blob/main/ROADMAP.md">roadmap</a>.
-        </p>
-      </aside>
-    </section>
+    <!-- Middle row: left carved tile wall + active game screen + right carved tile wall -->
+    <div class="hud-middle">
+      <div class="hud-rail hud-rail-left" aria-hidden="true"></div>
 
-    <!-- YAML Generator Panel -->
-    <section id="yaml" class="chamber-panel" aria-labelledby="yaml-heading">
-      <div class="panel-header">
-        <p class="panel-kicker">Player Scroll</p>
-        <h2 id="yaml-heading">Archipelago YAML Generator</h2>
-        <p class="panel-desc">
-          Pick a preset or tune every cavern setting below. Your file is built locally in your browser.
-        </p>
-      </div>
+      <main class="game-viewport" id="game-viewport">
+        <!-- SCREEN 1: MAIN MENU (menue_bg.png + startthegame_0001.png + shade_dialoge_notext_01.png) -->
+        <section class="screen screen-menu is-active" id="screen-menu" data-screen="menu" aria-labelledby="menu-title">
+          <div class="menu-stage">
+            <header class="menu-header">
+              <div class="rune-rule" aria-hidden="true"></div>
+              <h1 id="menu-title">: THE LONGING :</h1>
+              <div class="rune-rule" aria-hidden="true"></div>
+              <div class="menu-subrow">
+                <img
+                  class="menu-item-logo"
+                  src="./assets/logo.png"
+                  alt="The Horse Head trophy from The Longing"
+                  width="76"
+                  height="76"
+                >
+                <div class="menu-subtitle-block">
+                  <p class="menu-subhead">DECRYPTED</p>
+                  <p class="menu-tagline">Archipelago Multiworld &amp; Randomizer</p>
+                </div>
+              </div>
+            </header>
 
-      <div class="preset-strip" id="preset-strip" role="group" aria-label="YAML presets"></div>
+            <nav class="menu-buttons" aria-label="Main menu">
+              <button type="button" class="game-btn" data-screen-btn="yaml">
+                <span class="game-btn-glyph" aria-hidden="true">
+                  <svg viewBox="0 0 40 40"><path d="M13 8 28 20 13 32" fill="none" stroke="#987767" stroke-width="5.5" stroke-linecap="square" /></svg>
+                </span>
+                <span class="game-btn-body">
+                  <span class="game-btn-title">PLAYER YAML</span>
+                  <span class="game-btn-sub">Configure goal, countdown, check pools, and download .yaml</span>
+                </span>
+              </button>
 
-      <div class="yaml-workspace">
-        <form id="yaml-form" class="scroll-controls" novalidate>
-          <div class="control-group">
-            <h3>Shade &amp; Goal</h3>
-            <label class="field">
-              <span>Player Name</span>
-              <input
-                id="opt-player"
-                type="text"
-                maxlength="16"
-                value="Shade"
-                placeholder="Shade"
-                autocomplete="off"
-                required
+              <button type="button" class="game-btn" data-screen-btn="map">
+                <span class="game-btn-glyph" aria-hidden="true">
+                  <svg viewBox="0 0 40 40"><path d="M13 8 28 20 13 32" fill="none" stroke="#987767" stroke-width="5.5" stroke-linecap="square" /></svg>
+                </span>
+                <span class="game-btn-body">
+                  <span class="game-btn-title">CAVERN MAP</span>
+                  <span class="game-btn-sub">Inspect the Underground Kingdom regions, gates, and checks</span>
+                </span>
+              </button>
+
+              <button type="button" class="game-btn" data-screen-btn="setup">
+                <span class="game-btn-glyph" aria-hidden="true">
+                  <svg viewBox="0 0 40 40"><path d="M13 8 28 20 13 32" fill="none" stroke="#987767" stroke-width="5.5" stroke-linecap="square" /></svg>
+                </span>
+                <span class="game-btn-body">
+                  <span class="game-btn-title">SETUP GUIDE</span>
+                  <span class="game-btn-sub">Step-by-step checklist for BepInEx 5 x86 and Archipelago</span>
+                </span>
+              </button>
+
+              <a class="game-btn" href="https://github.com/Decryptu/thelonging-decrypted">
+                <span class="game-btn-glyph" aria-hidden="true">
+                  <svg viewBox="0 0 40 40"><path d="M13 8 28 20 13 32" fill="none" stroke="#987767" stroke-width="5.5" stroke-linecap="square" /></svg>
+                </span>
+                <span class="game-btn-body">
+                  <span class="game-btn-title">GITHUB REPOSITORY</span>
+                  <span class="game-btn-sub">Source code, roadmap, and issue tracker</span>
+                </span>
+              </a>
+            </nav>
+
+            <!-- Shade dialogue box modeled directly on shade_dialoge_notext_01.png -->
+            <aside class="shade-dialogue" id="menu-dialogue" aria-label="Project status">
+              <div class="shade-portrait" aria-hidden="true">
+                <svg viewBox="0 0 92 84">
+                  <!-- wispy back hairs -->
+                  <path d="M24 22c-8 1-14 5-18 12M22 30c-9 3-14 9-16 16M24 38c-8 4-12 10-13 17M28 46c-7 5-9 10-9 15" stroke="#080400" stroke-width="2.4" fill="none" stroke-linecap="round" />
+                  <!-- head silhouette + pointed nose -->
+                  <path d="M24 38c0-15 11-26 25-26 12 0 21 8 23 19l11 19-14-4c-2 8-9 13-18 14l2 10-10 2-3-12c-10-2-16-10-16-22Z" fill="#0d0907" stroke="#080400" stroke-width="2" />
+                  <!-- bright yellow Shade eyes -->
+                  <ellipse cx="48" cy="36" rx="9" ry="10.5" fill="#f6f600" stroke="#080400" stroke-width="2.2" />
+                  <ellipse cx="64" cy="34" rx="7.5" ry="9" fill="#f6f600" stroke="#080400" stroke-width="2.2" />
+                  <circle cx="50" cy="37" r="2.6" fill="#080400" />
+                  <circle cx="65" cy="35" r="2.3" fill="#080400" />
+                </svg>
+              </div>
+              <div class="shade-dialogue-copy">
+                <p>
+                  Early development. The BepInEx 5 x86 client mod and
+                  <code>the_longing.apworld</code> are currently in progress. You can draft a
+                  player YAML, browse the cavern map, or read the
+                  <a href="https://github.com/Decryptu/thelonging-decrypted/blob/main/ROADMAP.md">roadmap</a>.
+                </p>
+              </div>
+              <button
+                type="button"
+                class="dialogue-close"
+                id="close-dialogue-btn"
+                title="Close note"
+                aria-label="Close note"
               >
-              <small>Up to 16 characters, no braces. Must match your Archipelago slot name.</small>
-            </label>
+                X
+              </button>
+            </aside>
+          </div>
+        </section>
 
-            <label class="field">
-              <span>Victory Goal</span>
-              <select id="opt-goal">
-                <option value="wake_the_king">Wake the King (Countdown Reaches 0)</option>
-                <option value="escape_surface">Escape to the Surface</option>
-                <option value="secret_ending">Secret Ending (Tower &amp; Darkness)</option>
-                <option value="crystal_book_hunt">Crystal &amp; Book Hunt</option>
-                <option value="any_ending">Any Ending</option>
-              </select>
-            </label>
+        <!-- SCREEN 2: PLAYER YAML (chooseabook_empty.png + controls.png) -->
+        <section class="screen screen-yaml" id="screen-yaml" data-screen="yaml" aria-labelledby="yaml-heading">
+          <div class="screen-bar">
+            <h2 id="yaml-heading">PLAYER YAML</h2>
+            <div class="preset-strip" id="preset-bar" role="group" aria-label="YAML presets"></div>
           </div>
 
-          <div class="control-group">
-            <h3>Time &amp; Movement QoL</h3>
-            <div class="field-row">
-              <label class="field">
-                <span>Starting Countdown</span>
-                <select id="opt-countdown">
-                  <option value="1_hour">1 Hour (Sprint)</option>
-                  <option value="6_hours" selected>6 Hours (Multiworld)</option>
-                  <option value="24_hours">24 Hours (Long Session)</option>
-                  <option value="40_days">40 Days (Async)</option>
-                  <option value="400_days">400 Days (True Longing)</option>
-                </select>
-              </label>
+          <div class="yaml-book-layout">
+            <!-- Left: chooseabook_empty.png structure (left dark square tab strip + sandstone sheet) -->
+            <div class="book-frame">
+              <div class="book-tabs" role="tablist" aria-label="Option sections">
+                <button type="button" class="book-tab is-active" role="tab" aria-selected="true" data-yaml-tab="core">
+                  CORE
+                </button>
+                <button type="button" class="book-tab" role="tab" aria-selected="false" data-yaml-tab="pools">
+                  POOLS
+                </button>
+                <button type="button" class="book-tab" role="tab" aria-selected="false" data-yaml-tab="pacing">
+                  PACING
+                </button>
+                <button type="button" class="book-tab" role="tab" aria-selected="false" data-yaml-tab="extra">
+                  EXTRA
+                </button>
+              </div>
 
-              <label class="field">
-                <span>Shade Walk Speed</span>
-                <select id="opt-walk">
-                  <option value="vanilla">Vanilla (Meditative)</option>
-                  <option value="brisk" selected>Brisk (2x)</option>
-                  <option value="swift">Swift (3.5x)</option>
-                  <option value="hasty">Hasty (5x)</option>
-                </select>
-              </label>
+              <form id="yaml-form" class="book-sheet" novalidate>
+                <div class="yaml-tab-panel is-active" data-yaml-panel="core">
+                  <h3 class="sheet-heading">Core Seed Options</h3>
+
+                  <label class="ink-field">
+                    <span>Player Name</span>
+                    <input
+                      id="player-name"
+                      name="playerName"
+                      type="text"
+                      maxlength="16"
+                      value="Shade"
+                      autocomplete="off"
+                      required
+                    >
+                    <small>Up to 16 characters, no curly braces. Match this slot name when connecting.</small>
+                  </label>
+
+                  <label class="ink-field">
+                    <span>Victory Goal</span>
+                    <select id="goal-select" name="goal">
+                      <option value="wake_the_king">Wake the King (Countdown Reaches Zero)</option>
+                      <option value="escape_surface">Escape to the Surface (The Well)</option>
+                      <option value="secret_ending">Secret Ending (Darkness &amp; Tower)</option>
+                      <option value="crystal_book_hunt">Crystal &amp; Book Hunt</option>
+                      <option value="any_ending">Any Ending</option>
+                    </select>
+                  </label>
+
+                  <label class="ink-field">
+                    <span>Countdown Length</span>
+                    <select id="countdown-select" name="countdownLength">
+                      <option value="1_hour">1 Hour (Quick Sync)</option>
+                      <option value="6_hours">6 Hours (Multiworld Evening)</option>
+                      <option value="24_hours">24 Hours (Weekend Run)</option>
+                      <option value="40_days">40 Days (Compact Async)</option>
+                      <option value="400_days">400 Days (Original Wait)</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="yaml-tab-panel" data-yaml-panel="pools">
+                  <h3 class="sheet-heading">Randomized Check Pools</h3>
+
+                  <div class="ink-field-pair">
+                    <label class="ink-field">
+                      <span>Books</span>
+                      <select id="books-select" name="shuffleBooks">
+                        <option value="vanilla">Vanilla</option>
+                        <option value="progression">Progression Shelves</option>
+                        <option value="full">All Books</option>
+                      </select>
+                    </label>
+
+                    <label class="ink-field">
+                      <span>Crystals</span>
+                      <select id="crystals-select" name="shuffleCrystals">
+                        <option value="vanilla">Vanilla</option>
+                        <option value="progression">Key Veins</option>
+                        <option value="full">All Crystals &amp; Lapis</option>
+                      </select>
+                    </label>
+                  </div>
+
+                  <div class="ink-checks">
+                    <label class="ink-check">
+                      <input type="checkbox" id="shuffle-mattocks" name="shuffleMattocksAndKeys">
+                      <span class="check-box" aria-hidden="true"></span>
+                      <span><strong>Mattocks &amp; Keys</strong><small>Progression tools and sealed cavern doors.</small></span>
+                    </label>
+
+                    <label class="ink-check">
+                      <input type="checkbox" id="shuffle-mushrooms" name="shuffleMushroomsAndMoss">
+                      <span class="check-box" aria-hidden="true"></span>
+                      <span><strong>Mushrooms &amp; Moss</strong><small>Green/purple fungi and moss harvest spots.</small></span>
+                    </label>
+
+                    <label class="ink-check">
+                      <input type="checkbox" id="shuffle-comfort" name="shuffleHomeComfort">
+                      <span class="check-box" aria-hidden="true"></span>
+                      <span><strong>Home Comforts</strong><small>Carpets, drawings, bed frame, and hearth milestones.</small></span>
+                    </label>
+
+                    <label class="ink-check">
+                      <input type="checkbox" id="shuffle-instruments" name="shuffleInstrumentParts">
+                      <span class="check-box" aria-hidden="true"></span>
+                      <span><strong>Instrument Parts</strong><small>Scattered musical pieces around the kingdom.</small></span>
+                    </label>
+
+                    <label class="ink-check">
+                      <input type="checkbox" id="shuffle-coal" name="shuffleCoalAndSulfur">
+                      <span class="check-box" aria-hidden="true"></span>
+                      <span><strong>Coal &amp; Sulfur</strong><small>Adds every cavern lump to the check pool.</small></span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="yaml-tab-panel" data-yaml-panel="pacing">
+                  <h3 class="sheet-heading">Time &amp; Movement Pacing</h3>
+
+                  <label class="ink-field">
+                    <span class="range-label-row">
+                      <span>Starting Time Rate</span>
+                      <strong id="time-rate-value">12x</strong>
+                    </span>
+                    <input
+                      id="time-rate-range"
+                      name="startingTimeRate"
+                      type="range"
+                      min="1"
+                      max="100"
+                      step="1"
+                      value="12"
+                    >
+                    <small>Base countdown speed before home comforts and fireplace bonuses.</small>
+                  </label>
+
+                  <label class="ink-field">
+                    <span>Shade Walk Speed</span>
+                    <select id="walk-speed-select" name="walkSpeed">
+                      <option value="vanilla">Vanilla (1.0x)</option>
+                      <option value="brisk">Brisk (1.75x)</option>
+                      <option value="swift">Swift (2.5x)</option>
+                      <option value="hasty">Hasty (3.5x)</option>
+                    </select>
+                  </label>
+
+                  <div class="ink-checks">
+                    <label class="ink-check">
+                      <input type="checkbox" id="time-skip-items" name="timeSkipItems">
+                      <span class="check-box" aria-hidden="true"></span>
+                      <span><strong>Time-Skip Items in Pool</strong><small>Other players can send Hourglass bursts that shave time off your clock.</small></span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="yaml-tab-panel" data-yaml-panel="extra">
+                  <h3 class="sheet-heading">Multiworld Modifiers</h3>
+
+                  <label class="ink-field">
+                    <span>Trap Density</span>
+                    <select id="trap-density-select" name="trapDensity">
+                      <option value="none">None</option>
+                      <option value="light">Light (Slowness, Doused Fire)</option>
+                      <option value="moderate">Moderate (+ Darkness, Time Rewind)</option>
+                      <option value="heavy">Heavy</option>
+                    </select>
+                  </label>
+
+                  <div class="ink-checks">
+                    <label class="ink-check">
+                      <input type="checkbox" id="death-link" name="deathLink">
+                      <span class="check-box" aria-hidden="true"></span>
+                      <span><strong>DeathLink</strong><small>Links cliff falls, trapped exits, and fatal events across worlds.</small></span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="validation-box" id="yaml-validation" aria-live="polite"></div>
+              </form>
             </div>
 
-            <label class="field">
-              <span>Starting Time Rate: <strong id="opt-rate-label">12x</strong></span>
-              <input id="opt-rate" type="range" min="1" max="100" step="1" value="12">
-              <small>Base clock multiplier before hearth fires, books, and furnishings add more.</small>
-            </label>
+            <!-- Right: controls.png layout (dark header bar + clay body + sandstone code sheet) -->
+            <div class="controls-frame">
+              <div class="controls-head">
+                <span>GENERATED FILE</span>
+                <code id="yaml-filename">Shade_TheLonging.yaml</code>
+              </div>
 
-            <label class="toggle-row">
-              <input id="opt-timeskip" type="checkbox" checked>
-              <span>
-                <strong>Include Time-Skip Items in Pool</strong>
-                <small>Adds progression hourglasses that advance the King's clock when received.</small>
-              </span>
-            </label>
-          </div>
+              <div class="controls-body">
+                <pre class="yaml-sheet"><code id="yaml-preview"></code></pre>
 
-          <div class="control-group">
-            <h3>Cavern Randomization Pools</h3>
-            <div class="field-row">
-              <label class="field">
-                <span>Library &amp; Eternal Books</span>
-                <select id="opt-books">
-                  <option value="vanilla">Vanilla</option>
-                  <option value="progression" selected>Key Volumes Only</option>
-                  <option value="full">All 30+ Books</option>
-                </select>
-              </label>
+                <div class="controls-actions">
+                  <button type="button" class="stone-btn stone-btn-primary" id="download-yaml-btn">
+                    DOWNLOAD YAML
+                  </button>
+                  <button type="button" class="stone-btn" id="copy-yaml-btn">
+                    COPY
+                  </button>
+                  <button type="button" class="stone-btn" id="reset-yaml-btn">
+                    RESET
+                  </button>
+                </div>
 
-              <label class="field">
-                <span>Crystal Veins</span>
-                <select id="opt-crystals">
-                  <option value="vanilla">Vanilla</option>
-                  <option value="progression">Major Veins</option>
-                  <option value="full" selected>Every Crystal &amp; Lapis</option>
-                </select>
-              </label>
-            </div>
-
-            <div class="toggle-grid">
-              <label class="toggle-row">
-                <input id="opt-tools" type="checkbox" checked>
-                <span><strong>Mattocks &amp; Keys</strong><small>Mining tools and locked cavern doors</small></span>
-              </label>
-              <label class="toggle-row">
-                <input id="opt-mushrooms" type="checkbox" checked>
-                <span><strong>Mushrooms &amp; Moss</strong><small>Plantable ledges and moss cliffs</small></span>
-              </label>
-              <label class="toggle-row">
-                <input id="opt-comfort" type="checkbox" checked>
-                <span><strong>Home Comfort &amp; Art</strong><small>Bed parts, paper, curtains, paintings</small></span>
-              </label>
-              <label class="toggle-row">
-                <input id="opt-instruments" type="checkbox" checked>
-                <span><strong>Instrument Parts</strong><small>Didgeridoo &amp; cavern acoustics</small></span>
-              </label>
-              <label class="toggle-row">
-                <input id="opt-coal" type="checkbox">
-                <span><strong>Coal &amp; Sulfur</strong><small>Extra fireplace fuel checks</small></span>
-              </label>
-              <label class="toggle-row">
-                <input id="opt-deathlink" type="checkbox">
-                <span><strong>DeathLink</strong><small>Share cliff falls and dark fates</small></span>
-              </label>
-            </div>
-
-            <label class="field">
-              <span>Traps (Snail Pace, Snuffed Hearth, Spider Web)</span>
-              <select id="opt-traps">
-                <option value="none">None</option>
-                <option value="light" selected>Light</option>
-                <option value="moderate">Moderate</option>
-                <option value="heavy">Heavy</option>
-              </select>
-            </label>
-          </div>
-        </form>
-
-        <div class="yaml-preview-pane">
-          <div class="preview-bar">
-            <span class="preview-title" id="yaml-filename">Shade_TheLonging.yaml</span>
-            <div class="preview-actions">
-              <button type="button" class="stone-btn" id="copy-yaml">Copy YAML</button>
-              <button type="button" class="stone-btn is-primary" id="download-yaml">Download .yaml</button>
+                <p class="action-status" id="yaml-status" role="status" aria-live="polite"></p>
+              </div>
             </div>
           </div>
+        </section>
 
-          <div id="yaml-messages" class="yaml-messages" aria-live="polite"></div>
-          <pre class="yaml-code"><code id="yaml-output"></code></pre>
-        </div>
-      </div>
-    </section>
+        <!-- SCREEN 3: CAVERN MAP (black cavern viewport + real Underground Kingdom + waypoint_HUD drawer) -->
+        <section class="screen screen-map" id="screen-map" data-screen="map" aria-labelledby="map-heading">
+          <div class="map-layout">
+            <div class="cavern-viewport">
+              <div class="cavern-bar">
+                <h2 id="map-heading">UNDERGROUND KINGDOM</h2>
+                <div class="map-filters" id="map-filters" role="group" aria-label="Filter cavern regions">
+                  <button type="button" class="filter-tile is-active" data-filter="all">ALL</button>
+                  <button type="button" class="filter-tile" data-filter="tools">TOOLS</button>
+                  <button type="button" class="filter-tile" data-filter="books">BOOKS</button>
+                  <button type="button" class="filter-tile" data-filter="crystals">CRYSTALS</button>
+                  <button type="button" class="filter-tile" data-filter="comfort">COMFORT</button>
+                  <button type="button" class="filter-tile" data-filter="endings">ENDINGS</button>
+                </div>
+              </div>
 
-    <!-- Interactive Cavern Map Panel -->
-    <section id="map" class="chamber-panel" aria-labelledby="map-heading">
-      <div class="panel-header">
-        <p class="panel-kicker">Cartographer's Chart</p>
-        <h2 id="map-heading">Underground Kingdom Map</h2>
-        <p class="panel-desc">
-          Inspect the major cavern strata, progression gates, and planned check categories. Select any chamber to open the Shade's notes.
-        </p>
-      </div>
+              <div class="cavern-stage">
+                <!-- Real Underground Kingdom silhouette modeled from secret_map_4k -->
+                <svg
+                  id="cavern-svg"
+                  class="cavern-svg"
+                  viewBox="0 0 800 540"
+                  role="img"
+                  aria-label="Map of the Underground Kingdom in The Longing"
+                >
+                  <rect width="800" height="540" fill="#000000" />
 
-      <div class="map-filters" id="map-filters" role="group" aria-label="Filter cavern check categories">
-        <button type="button" class="filter-chip is-active" data-filter="all">All Chambers</button>
-        <button type="button" class="filter-chip" data-filter="tools">Tools &amp; Keys</button>
-        <button type="button" class="filter-chip" data-filter="books">Books</button>
-        <button type="button" class="filter-chip" data-filter="crystals">Crystals</button>
-        <button type="button" class="filter-chip" data-filter="comfort">Home Comfort</button>
-        <button type="button" class="filter-chip" data-filter="endings">Endings</button>
-      </div>
+                  <!-- Upper jagged dark blue-grey cavern tunnels toward the Well & Surface -->
+                  <path
+                    d="M204 114 L236 86 L282 70 L340 58 L452 52 L582 48 L692 46 L690 56 L584 59 L456 64 L344 70 L286 82 L248 96 L224 114 L288 116 L354 132 L434 138 L488 134 L486 144 L430 149 L348 144 L282 126 L210 124 Z"
+                    fill="#1f2332"
+                    stroke="#0b0c12"
+                    stroke-width="1.5"
+                  />
+                  <path
+                    d="M312 150 L392 158 L474 170 L470 180 L432 204 L410 222 L396 220 L422 194 L452 178 L386 169 L310 160 Z"
+                    fill="#1d202e"
+                    stroke="#0b0c12"
+                    stroke-width="1.5"
+                  />
+                  <!-- Upper cavern chamber (Secret Tower / Darkness ridge) -->
+                  <path d="M335 208 L360 192 L412 195 L438 224 L480 226 L535 228 L535 248 L430 248 L335 238 Z" fill="#232229" stroke="#0d0c10" stroke-width="2" />
 
-      <div class="map-layout">
-        <div class="map-canvas-frame">
-          <svg
-            id="cavern-svg"
-            class="cavern-svg"
-            viewBox="0 0 820 470"
-            role="img"
-            aria-label="Interactive subterranean map of The Longing's cavern regions"
-          ></svg>
-          <div class="map-legend">
-            <span><i class="dot dot-open"></i> Open passage</span>
-            <span><i class="dot dot-gated"></i> Item or timer gate</span>
-            <span><i class="dot dot-active"></i> Selected chamber</span>
+                  <!-- Upper spiral staircase -->
+                  <path d="M386 244 C382 260 398 265 394 282 C390 292 384 298 388 308 L404 308 C408 296 402 288 406 274 C409 262 400 250 402 244 Z" fill="#4f2f25" stroke="#080400" stroke-width="2" />
+
+                  <!-- Moss Cliffs (upper-west ledge) -->
+                  <path d="M148 294 L245 292 L252 310 L144 312 Z" fill="#433223" stroke="#080400" stroke-width="2" />
+                  <path d="M92 318 L175 330 L172 346 L88 332 Z" fill="#3a2a1d" stroke="#080400" stroke-width="2" />
+
+                  <!-- 3-story ruined Library (mid-left teal stone building) -->
+                  <g>
+                    <path d="M188 318 L206 308 L226 312 L236 320 L236 362 L188 362 Z" fill="#384a4e" stroke="#080400" stroke-width="2" />
+                    <path d="M196 326 h8 v9 h-8 Z M210 326 h8 v9 h-8 Z M223 326 h7 v9 h-7 Z M196 342 h8 v9 h-8 Z M210 342 h8 v9 h-8 Z M223 342 h7 v9 h-7 Z" fill="#182226" />
+                  </g>
+
+                  <!-- Southwest Labyrinth & Halls of Eternity (ending in bright white door) -->
+                  <g fill="#262b33" stroke="#080400" stroke-width="1.5">
+                    <rect x="44" y="408" width="22" height="12" />
+                    <rect x="72" y="404" width="28" height="13" />
+                    <rect x="106" y="401" width="32" height="14" />
+                    <rect x="144" y="396" width="38" height="14" />
+                    <rect x="52" y="426" width="26" height="12" />
+                    <rect x="86" y="424" width="30" height="13" />
+                    <rect x="122" y="422" width="34" height="13" />
+                    <rect x="100" y="442" width="46" height="13" />
+                    <!-- White doorway at end of Eternity -->
+                    <rect x="142" y="443" width="6" height="11" fill="#edeae2" stroke="none" />
+                  </g>
+
+                  <!-- Central Great Halls horseshoe & Shade's Home -->
+                  <path d="M294 316 C318 292 468 292 492 316 L492 356 L464 356 L464 328 C446 312 340 312 322 328 L322 356 L294 356 Z" fill="#633a32" stroke="#080400" stroke-width="2" />
+                  <!-- Pillared Gallery (left of home) -->
+                  <rect x="312" y="338" width="52" height="18" fill="#5e3645" stroke="#080400" stroke-width="2" />
+                  <!-- Shade's Home (central chamber + pink mushroom ceiling) -->
+                  <path d="M368 332 L396 322 L424 332 L424 362 L368 362 Z" fill="#6c3e35" stroke="#080400" stroke-width="2" />
+                  <circle cx="384" cy="326" r="3" fill="#b46b94" />
+                  <circle cx="396" cy="323" r="3.5" fill="#c77aa6" />
+                  <circle cx="408" cy="326" r="3" fill="#b46b94" />
+                  <!-- Hearth fire glow chamber (east of home) -->
+                  <rect x="426" y="338" width="46" height="18" fill="#704327" stroke="#080400" stroke-width="2" />
+                  <path d="M432 352 Q449 338 466 352 Z" fill="#d98a2b" />
+
+                  <!-- East Sulfur/Mushroom tunnels leading to Crystal Cavern -->
+                  <path d="M494 338 L556 326 L618 336 L658 334 L658 352 L610 356 L552 346 L494 356 Z" fill="#463125" stroke="#080400" stroke-width="2" />
+                  <path d="M518 364 L574 362 L574 378 L518 378 Z" fill="#3c2b20" stroke="#080400" stroke-width="2" />
+
+                  <!-- Far-East Crystal Cavern & Waterfall -->
+                  <g>
+                    <path d="M658 326 L696 308 L742 320 L768 340 L748 358 L658 356 Z" fill="#3a3335" stroke="#080400" stroke-width="2" />
+                    <!-- Glowing blue crystal cluster -->
+                    <polygon points="694,352 699,330 704,352" fill="#9bd5f7" />
+                    <polygon points="704,352 710,324 715,352" fill="#c2e8ff" />
+                    <polygon points="714,352 720,334 724,352" fill="#7ab8e0" />
+                  </g>
+
+                  <!-- Lower spiral stair descending to the King's Hall -->
+                  <path d="M388 364 C384 382 400 390 396 410 C392 424 386 432 390 444 L406 444 C410 430 404 420 408 404 C412 388 402 374 404 364 Z" fill="#523025" stroke="#080400" stroke-width="2" />
+
+                  <!-- Deepest chamber: The King's Throne Hall -->
+                  <g>
+                    <path d="M294 468 C294 432 326 418 356 418 C386 418 416 434 416 468 C416 502 390 524 356 524 C320 524 294 502 294 468 Z" fill="#6b4423" stroke="#080400" stroke-width="2.5" />
+                    <!-- Twin stone pillars -->
+                    <rect x="322" y="426" width="11" height="84" fill="#3d434a" stroke="#080400" stroke-width="1.5" />
+                    <rect x="378" y="426" width="11" height="84" fill="#3d434a" stroke="#080400" stroke-width="1.5" />
+                    <!-- Sleeping King crown silhouette -->
+                    <path d="M342 440 L347 458 L355 442 L363 458 L368 440 L365 466 L345 466 Z" fill="#1b120b" />
+                  </g>
+
+                  <!-- Dynamic passages & region pins injected by main.ts -->
+                  <g id="map-passages-layer"></g>
+                  <g id="map-nodes-layer"></g>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Right: waypoint_HUD_new_0002.png style drawer -->
+            <aside class="waypoint-drawer" aria-live="polite">
+              <div class="drawer-head">
+                <span class="drawer-depth" id="region-depth">Central Hearth</span>
+                <h3 id="region-name">The Shade's Home</h3>
+              </div>
+
+              <div class="drawer-body">
+                <p class="drawer-summary" id="region-summary"></p>
+
+                <div class="drawer-section">
+                  <h4>Requirements</h4>
+                  <ul class="drawer-gates" id="region-gates"></ul>
+                </div>
+
+                <div class="drawer-section">
+                  <h4>Planned Checks</h4>
+                  <ul class="drawer-checks" id="region-checks"></ul>
+                </div>
+
+                <div class="drawer-section">
+                  <h4>Jump to Region</h4>
+                  <div class="region-jump-list" id="region-jump-list"></div>
+                </div>
+              </div>
+            </aside>
           </div>
-        </div>
+        </section>
 
-        <aside class="notebook-card" id="region-notebook" aria-live="polite"></aside>
+        <!-- SCREEN 4: SETUP GUIDE (controls.png + chooseabook_empty.png) -->
+        <section class="screen screen-setup" id="screen-setup" data-screen="setup" aria-labelledby="setup-heading">
+          <div class="setup-shell">
+            <div class="controls-frame setup-frame">
+              <div class="controls-head setup-head">
+                <h2 id="setup-heading">SETUP CHECKLIST</h2>
+                <div class="setup-progress-wrap">
+                  <div class="setup-track" aria-hidden="true">
+                    <div class="setup-fill" id="setup-progress-fill"></div>
+                  </div>
+                  <span id="setup-progress-count">0 / 0</span>
+                </div>
+              </div>
+
+              <div class="setup-body">
+                <div class="setup-choices">
+                  <fieldset class="choice-group">
+                    <legend>Role</legend>
+                    <label class="choice-tile">
+                      <input type="radio" name="setupRole" value="join" checked>
+                      <span>JOINING A GAME</span>
+                      <small>Connect to a friend's room</small>
+                    </label>
+                    <label class="choice-tile">
+                      <input type="radio" name="setupRole" value="host">
+                      <span>HOSTING A SEED</span>
+                      <small>Generate &amp; host the multiworld</small>
+                    </label>
+                  </fieldset>
+
+                  <fieldset class="choice-group">
+                    <legend>Install Method</legend>
+                    <label class="choice-tile">
+                      <input type="radio" name="installMethod" value="manager" checked>
+                      <span>MOD MANAGER</span>
+                      <small>r2modman or Gale (BepInEx 5 x86)</small>
+                    </label>
+                    <label class="choice-tile">
+                      <input type="radio" name="installMethod" value="manual">
+                      <span>MANUAL INSTALL</span>
+                      <small>Copy BepInEx 5 x86 next to The Longing.exe</small>
+                    </label>
+                  </fieldset>
+                </div>
+
+                <div class="setup-sheet">
+                  <ol class="setup-steps" id="setup-steps-list"></ol>
+                </div>
+
+                <div class="setup-footer">
+                  <button type="button" class="stone-btn" id="reset-setup-btn">RESET CHECKLIST</button>
+                  <div class="setup-links">
+                    <a href="https://github.com/Decryptu/thelonging-decrypted/blob/main/DEVELOPMENT.md">DEVELOPMENT.md</a>
+                    <a href="https://github.com/Decryptu/thelonging-decrypted/blob/main/ROADMAP.md">ROADMAP.md</a>
+                    <a href="https://github.com/Decryptu/thelonging-decrypted/issues">REPORT AN ISSUE</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <div class="hud-rail hud-rail-right" aria-hidden="true"></div>
+    </div>
+
+    <!-- Bottom HUD bar modeled directly on HUD.png -->
+    <footer class="hud-bottom">
+      <div class="hud-filler" aria-hidden="true"></div>
+      <div class="hud-bottom-plaque">
+        <span>Unofficial fan project. Not affiliated with Studio Seufz.</span>
+        <a href="https://github.com/Decryptu/thelonging-decrypted">GitHub</a>
       </div>
-    </section>
-
-    <!-- Branching Setup Checklist Panel -->
-    <section id="setup" class="chamber-panel" aria-labelledby="setup-heading">
-      <div class="panel-header">
-        <p class="panel-kicker">Preparation</p>
-        <h2 id="setup-heading">Setup Checklist</h2>
-        <p class="panel-desc">
-          Choose your role and mod installation style. Checked steps stay saved in this browser.
-        </p>
-        <div class="progress-wrap" aria-live="polite">
-          <div class="progress-track"><div class="progress-fill" id="setup-fill"></div></div>
-          <span class="progress-count" id="setup-count">0 / 0</span>
-        </div>
-      </div>
-
-      <div class="choice-stack">
-        <fieldset class="choice-fieldset">
-          <legend>What are you doing?</legend>
-          <label class="choice-card">
-            <input type="radio" name="role" value="join">
-            <strong>Joining a multiworld</strong>
-            <small>Someone else generates the seed and shares the room address.</small>
-          </label>
-          <label class="choice-card">
-            <input type="radio" name="role" value="host">
-            <strong>Hosting a multiworld</strong>
-            <small>You install the APWorld, collect YAMLs, and generate the room.</small>
-          </label>
-        </fieldset>
-
-        <fieldset class="choice-fieldset">
-          <legend>How do you install Unity mods?</legend>
-          <label class="choice-card">
-            <input type="radio" name="method" value="manager">
-            <strong>r2modman / Gale</strong>
-            <small>Isolated BepInEx 5 x86 profile (recommended).</small>
-          </label>
-          <label class="choice-card">
-            <input type="radio" name="method" value="manual">
-            <strong>Manual install</strong>
-            <small>Copy BepInEx 5 x86 and the plugin DLL yourself.</small>
-          </label>
-        </fieldset>
-      </div>
-
-      <ol class="checklist" id="setup-steps"></ol>
-      <p class="checklist-hint" id="setup-hint">Select both options above to reveal your checklist.</p>
-      <button type="button" class="reset-btn" id="setup-reset">Reset checklist progress</button>
-    </section>
-  </main>
-
-  <footer class="cavern-footer">
-    <p>
-      Unofficial fan project by <a href="https://github.com/Decryptu">Decrypt</a>.
-      Not affiliated with Studio Seufz or Application Systems Heidelberg.
-    </p>
-    <p class="footer-links">
-      <a href="https://github.com/Decryptu/thelonging-decrypted">Source</a>
-      &middot;
-      <a href="https://github.com/Decryptu/thelonging-decrypted/blob/main/DEVELOPMENT.md">Development</a>
-      &middot;
-      <a href="https://github.com/Decryptu/thelonging-decrypted/issues">Issues</a>
-      &middot;
-      <a href="https://archipelago.gg">Archipelago</a>
-    </p>
-  </footer>
+      <div class="hud-filler" aria-hidden="true"></div>
+    </footer>
+  </div>
 
   <script type="module" src="/src/main.ts"></script>
 </body>
