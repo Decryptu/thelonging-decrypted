@@ -1,2 +1,22 @@
-# Auto detect text files and perform LF normalization
+# Store text files with LF regardless of local core.autocrlf settings.
 * text=auto
+
+*.sh text eol=lf
+.githooks/* text eol=lf
+*.py text eol=lf
+*.ps1 text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.ts text eol=lf
+*.js text eol=lf
+*.svg text eol=lf
+*.cs text eol=lf
+*.csproj text eol=lf
+
+*.png binary
+*.webp binary
+*.ico binary

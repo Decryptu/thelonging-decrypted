@@ -1,0 +1,67 @@
+# Local game research, saves, decompiled code, and extracted assets
+local/
+artifacts/
+backups/
+
+# .NET and BepInEx build output
+[Bb]in/
+[Oo]bj/
+TestResults/
+.vs/
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Python caches and test output
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Node / website build output
+node_modules/
+site/dist/
+.vite/
+
+# Package and release output
+build/
+dist/
+outputs/
+*.apworld
+*.dll
+*.exe
+*.pdb
+*.nupkg
+*.snupkg
+*.zip
+*.rar
+*.7z
+
+# Local configuration and game paths
+.env
+.env.*
+!.env.example
+Directory.Build.props
+LongingPath.props
+
+# Logs, saves, and temporary files
+*.log
+*.bak
+*.tmp
+saveData*.txt
+LongingMap*.jpeg
+
+# Editor and operating-system files
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+Desktop.ini
