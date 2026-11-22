@@ -1,3 +1,5 @@
+import { type CatalogCheck, WORLD_CATALOG } from "./catalogData";
+
 export type CheckCategory = "tools" | "books" | "crystals" | "comfort" | "endings";
 
 export interface CavernRegion {
@@ -9,7 +11,7 @@ export interface CavernRegion {
   labelDy?: number;
   summary: string;
   gates: string[];
-  checks: string[];
+  endingNotes: string[];
   categories: CheckCategory[];
 }
 
@@ -19,6 +21,16 @@ export interface CavernPassage {
   gated?: boolean;
 }
 
+export const REQUIREMENT_LABELS: Readonly<Record<string, string>> = {
+  mattock_1: "Mattock x1",
+  mattock_2: "Mattock x2",
+  giant_spores: "Giant Mushroom Spores",
+  moss_10: "Cavern Moss x10",
+  sulfur: "Sulfur",
+  instrument_3: "Musical Instrument Part x3",
+  paper: "Drawing Paper",
+};
+
 export const CAVERN_REGIONS: readonly CavernRegion[] = [
   {
     id: "surface_well",
@@ -27,10 +39,10 @@ export const CAVERN_REGIONS: readonly CavernRegion[] = [
     x: 410,
     y: 64,
     summary:
-      "The long winding climb beneath the well shaft. Waiting by the bucket can draw the Old Man or the Troll.",
-    gates: ["Upper Cavern Climb", "Darkness Crossing"],
-    checks: ["Escape to the Surface Ending", "Well Bucket Encounter", "Upper Shaft Overlook"],
-    categories: ["endings"],
+      "The long winding climb beneath the well shaft (`brunnen` -> `oberwelt`). Waiting by the bucket can draw the Old Man or the Troll.",
+    gates: ["Surface Gate Pass", "Giant Mushroom Spores"],
+    endingNotes: ["Escape to the Surface Ending"],
+    categories: ["tools", "comfort", "endings"],
   },
   {
     id: "secret_tower",
@@ -39,10 +51,10 @@ export const CAVERN_REGIONS: readonly CavernRegion[] = [
     x: 378,
     y: 162,
     summary:
-      "A dark ridge above the spiral stair where the Shade must close his eyes to face fear and reach the hidden tower.",
-    gates: ["Closed Eyes / Fear Threshold", "Purple Mushroom Growth"],
-    checks: ["Tower Summit Keepsakes", "Cliffside Moss Ledge", "Secret Ending Trigger"],
-    categories: ["tools", "comfort", "endings"],
+      "The hidden tower above the Great Cave (`tower`) holding 6 shelf books, a Mattock, the Tower Big Crystal, and the Secret Key.",
+    gates: ["Surface Gate Pass", "Giant Mushroom Spores"],
+    endingNotes: ["Secret Ending (requires Secret Key)"],
+    categories: ["tools", "books", "crystals", "endings"],
   },
   {
     id: "library",
@@ -51,14 +63,10 @@ export const CAVERN_REGIONS: readonly CavernRegion[] = [
     x: 212,
     y: 332,
     summary:
-      "A three-story stone ruin stacked with classic literature: Nietzsche, Poe, Melville, and tales that enrich the Shade's home.",
-    gates: ["Library Door Key or Wait Timer"],
-    checks: [
-      "Shelf Volumes (20+ planned book checks)",
-      "Library Reading Alcove",
-      "Hidden Bookmark Notes",
-    ],
-    categories: ["books", "comfort"],
+      "A three-story stone ruin (`library`) holding 19 classic literature volumes beyond the Library Vestibule door.",
+    gates: ["Library Door Pass"],
+    endingNotes: [],
+    categories: ["books"],
   },
   {
     id: "halls_eternity",
@@ -67,14 +75,10 @@ export const CAVERN_REGIONS: readonly CavernRegion[] = [
     x: 118,
     y: 422,
     summary:
-      "An endless stone corridor beyond the labyrinth where the 400-day clock stands still and books, curtains, and paintings appear.",
-    gates: ["Labyrinth Entrance"],
-    checks: [
-      "Endless Books (12+ planned checks)",
-      "Eternal Paintings & Curtains",
-      "Carpet & Comfort Relics",
-    ],
-    categories: ["books", "comfort"],
+      "Sixteen labyrinth chambers leading to an endless white corridor (`halls_of_eternity`) with the Horse Head trophy, carpets, curtains, and Black Crystal.",
+    gates: ["Labyrinth Traversal (Mattock x2 for Black Crystal)"],
+    endingNotes: [],
+    categories: ["crystals", "comfort"],
   },
   {
     id: "great_cave",
@@ -83,15 +87,10 @@ export const CAVERN_REGIONS: readonly CavernRegion[] = [
     x: 398,
     y: 288,
     summary:
-      "The arched stone corridors linking the upper spiral stair, the library, the moss cliffs, the spider web, and sealed cavern doors.",
-    gates: ["None (Hub)", "Mattock for Weak Walls"],
-    checks: [
-      "Moss & Mushroom Patches",
-      "Spider Web Crossing",
-      "Breakable Cavern Alcoves",
-      "Musical Instrument Parts",
-    ],
-    categories: ["tools", "comfort"],
+      "The arched east and west halls, Moss Cliff, Moss Grottos, Face Chamber, and Secret Hall (L05) behind the Mystery Door.",
+    gates: ["Open Hub (Secret Key for Secret Hall L05; Mattock x1/x2 for White & Blue Crystals)"],
+    endingNotes: [],
+    categories: ["tools", "books", "crystals", "comfort"],
   },
   {
     id: "shades_home",
@@ -101,46 +100,36 @@ export const CAVERN_REGIONS: readonly CavernRegion[] = [
     y: 348,
     labelDy: 24,
     summary:
-      "The Shade's private cavern room. Burning coal, reading, drawing, hanging crystals, and playing music make time move faster.",
-    gates: ["Starting Region"],
-    checks: [
-      "Hearth & Sulfur Fire Milestones",
-      "Drawing Paper & Charcoal Sketches",
-      "Bed Construction & Chair Comfort",
-      "Home Wall Excavations",
-    ],
-    categories: ["comfort", "books", "crystals"],
+      "The Shade's private chamber (`home`). Burning coal and sulfur, building the bed, drawing, playing music, and digging side walls speed time.",
+    gates: ["Starting Region (Mattock x1 for wall expansion & home mattock)"],
+    endingNotes: ["Crystal & Book Hunt Goal Turn-In"],
+    categories: ["tools", "comfort", "endings"],
   },
   {
     id: "mushroom_groves",
-    name: "Sulfur & Mushroom Groves",
+    name: "Great Cave & Mushroom Groves",
     depthLabel: "East Passages",
     x: 548,
     y: 350,
     labelDy: -16,
     summary:
-      "Damp eastern tunnels where green and purple mushrooms can be harvested, carried, and planted to reach high ledges.",
-    gates: ["Green Mushroom Seed"],
-    checks: ["Wild Mushroom Harvests", "Planted Giant Mushroom Ledge", "Coal & Sulfur Piles"],
-    categories: ["tools", "comfort"],
+      "The vast upper-east cavern (`exit` & `greatCave_complete`) with 58 mushroom grow spots, Spider Flower, Purple Crystal, Lapis, and fuel.",
+    gates: ["Surface Gate Pass (Giant Mushroom Spores for trampoline climb)"],
+    endingNotes: [],
+    categories: ["tools", "crystals", "comfort"],
   },
   {
     id: "crystal_cavern",
-    name: "Crystal Cavern & Waterfall",
+    name: "Mines & Sulfur Veins",
     depthLabel: "Far East Grotto",
     x: 696,
     y: 338,
     labelDy: 28,
     summary:
-      "Glittering seams of blue, rose, purple, and dark crystals beside the underground waterfall, pried loose with sturdy mattocks.",
-    gates: ["Mattock (Tier 1 / 2)", "Dripstone Bridge"],
-    checks: [
-      "Blue & Rose Crystal Veins",
-      "Lapis Lazuli Deposit",
-      "Dark Crystal Shard",
-      "Minecart & Sulfur Lumps",
-    ],
-    categories: ["tools", "crystals"],
+      "The timbered mining tunnels (`mine_01`, `mine_03`, `mine_04`) rich in timber, yellow sulfur deposits, and a deep coal seam.",
+    gates: ["Surface Gate Pass", "Mattock x1 (for Sulfur & Coal veins)"],
+    endingNotes: [],
+    categories: ["comfort"],
   },
   {
     id: "kings_hall",
@@ -150,10 +139,10 @@ export const CAVERN_REGIONS: readonly CavernRegion[] = [
     y: 484,
     labelDy: 48,
     summary:
-      "The deepest cavern chamber where the ancient stone King sleeps for 400 days until the Shade returns to wake him.",
-    gates: ["Countdown Reaches Zero (or Goal Unlock)"],
-    checks: ["King's Stairs Coal & Relics", "Wake the King Ending", "Throne Chamber Inspection"],
-    categories: ["endings", "comfort"],
+      "The sleeping King's throne, King's Stairs, Entrance Halls, Treasury, and sealed Mystery Rooms (`king` through `entrancehall3`).",
+    gates: ["Open Hub (Secret Key for Mystery Rooms; Mattock x2 for Rose Crystals)"],
+    endingNotes: ["Wake the Sleeping King Ending"],
+    categories: ["tools", "books", "crystals", "comfort", "endings"],
   },
 ];
 
@@ -161,10 +150,25 @@ export const CAVERN_PASSAGES: readonly CavernPassage[] = [
   { from: "kings_hall", to: "shades_home" },
   { from: "shades_home", to: "great_cave" },
   { from: "great_cave", to: "library", gated: true },
-  { from: "library", to: "halls_eternity" },
-  { from: "shades_home", to: "mushroom_groves" },
+  { from: "great_cave", to: "halls_eternity" },
+  { from: "great_cave", to: "mushroom_groves", gated: true },
   { from: "mushroom_groves", to: "crystal_cavern", gated: true },
-  { from: "great_cave", to: "crystal_cavern", gated: true },
-  { from: "great_cave", to: "secret_tower", gated: true },
+  { from: "mushroom_groves", to: "secret_tower", gated: true },
   { from: "secret_tower", to: "surface_well", gated: true },
 ];
+
+export function getRegionChecks(
+  regionId: string,
+  filter: "all" | CheckCategory = "all",
+): readonly CatalogCheck[] {
+  return WORLD_CATALOG.checks.filter(
+    (c) => c.regionId === regionId && (filter === "all" || c.mapCategory === filter),
+  );
+}
+
+export function formatCheckRequirements(reqs: readonly string[]): string {
+  if (reqs.length === 0) {
+    return "No extra items";
+  }
+  return reqs.map((r) => REQUIREMENT_LABELS[r] ?? r).join(" + ");
+}

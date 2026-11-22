@@ -1,0 +1,115 @@
+"""Archipelago world implementation for The Longing (Studio Seufz)."""
+from __future__ import annotations
+
+from typing import Any, ClassVar
+
+from worlds.AutoWorld import World
+
+from .items import (
+    ITEM_NAME_GROUPS,
+    ITEM_NAME_TO_ID,
+    LongingItem,
+    build_item_pool,
+    create_item,
+)
+from .locations import LOCATION_NAME_GROUPS, LOCATION_NAME_TO_ID
+from .options import LongingOptions
+from .regions import create_regions
+from .rules import set_rules
+from .web_world import LongingWebWorld
+
+
+class LongingWorld(World):
+    """Explore the Underground Kingdom, furnish the Shade's home, and exchange cavern relics across Archipelago."""
+
+    game: ClassVar[str] = "The Longing"
+    web: ClassVar[LongingWebWorld] = LongingWebWorld()
+    options_dataclass = LongingOptions
+    options: LongingOptions
+
+    item_name_to_id: ClassVar[dict[str, int]] = ITEM_NAME_TO_ID
+    location_name_to_id: ClassVar[dict[str, int]] = LOCATION_NAME_TO_ID
+    item_name_groups: ClassVar[dict[str, set[str]]] = ITEM_NAME_GROUPS
+    location_name_groups: ClassVar[dict[str, set[str]]] = LOCATION_NAME_GROUPS
+
+    def __init__(self, multiworld: Any, player: int) -> None:
+        super().__init__(multiworld, player)
+        self.enabled_locations: list[dict[str, object]] = []
+        self.crystals_in_pool: int = 0
+        self.books_in_pool: int = 0
+        self.effective_required_crystals: int = 0
+        self.effective_required_books: int = 0
+
+    def generate_early(self) -> None:
+        # Compute effective crystal/book targets early so rules and slot_data always agree
+        if self.options.shuffle_crystals.value == self.options.shuffle_crystals.option_full:
+            self.crystals_in_pool = 16
+        elif self.options.shuffle_crystals.value == self.options.shuffle_crystals.option_progression:
+            self.crystals_in_pool = 7
+        else:
+            self.crystals_in_pool = 0
+
+        if self.options.shuffle_books.value == self.options.shuffle_books.option_full:
+            self.books_in_pool = 31
+        elif self.options.shuffle_books.value == self.options.shuffle_books.option_progression:
+            self.books_in_pool = 16
+        else:
+            self.books_in_pool = 0
+
+        self.effective_required_crystals = min(self.options.required_crystals.value, self.crystals_in_pool)
+        self.effective_required_books = min(self.options.required_books.value, self.books_in_pool)
+
+    def create_regions(self) -> None:
+        self.enabled_locations = create_regions(self)
+
+    def create_item(self, name: str) -> LongingItem:
+        return create_item(self, name)
+
+    def get_filler_item_name(self) -> str:
+        if self.options.time_skip_items:
+            return self.random.choice(
+                (
+                    "Time Skip (15 Minutes)",
+                    "Time Skip (15 Minutes)",
+                    "Coal",
+                    "Wood",
+                    "Quiet Reflection",
+                )
+            )
+        return self.random.choice(("Coal", "Wood", "Quiet Reflection"))
+
+    def create_items(self) -> None:
+        total_locations = len(self.enabled_locations)
+        pool, crystals_count, books_count = build_item_pool(self, total_locations)
+        self.crystals_in_pool = crystals_count
+        self.books_in_pool = books_count
+        self.effective_required_crystals = min(self.options.required_crystals.value, crystals_count)
+        self.effective_required_books = min(self.options.required_books.value, books_count)
+        self.multiworld.itempool.extend(pool)
+
+    def set_rules(self) -> None:
+        set_rules(self, self.enabled_locations)
+
+    def fill_slot_data(self) -> dict[str, Any]:
+        return {
+            "world_version": "0.1.0",
+            "goal": self.options.goal.current_key,
+            "countdown_length": self.options.countdown_length.current_key,
+            "countdown_seconds": self.options.countdown_length.to_seconds(),
+            "starting_time_rate": self.options.starting_time_rate.value,
+            "time_skip_items": bool(self.options.time_skip_items.value),
+            "walk_speed": self.options.walk_speed.current_key,
+            "walk_speed_multiplier": self.options.walk_speed.to_multiplier(),
+            "shuffle_mattocks_and_keys": bool(self.options.shuffle_mattocks_and_keys.value),
+            "shuffle_books": self.options.shuffle_books.current_key,
+            "shuffle_crystals": self.options.shuffle_crystals.current_key,
+            "shuffle_mushrooms_and_moss": bool(self.options.shuffle_mushrooms_and_moss.value),
+            "shuffle_home_comfort": bool(self.options.shuffle_home_comfort.value),
+            "shuffle_instrument_parts": bool(self.options.shuffle_instrument_parts.value),
+            "shuffle_coal_and_sulfur": bool(self.options.shuffle_coal_and_sulfur.value),
+            "required_crystals": self.effective_required_crystals,
+            "required_books": self.effective_required_books,
+            "trap_density": self.options.trap_density.current_key,
+            "death_link": bool(self.options.death_link.value),
+            "enabled_location_ids": [int(loc["id"]) for loc in self.enabled_locations],
+        }

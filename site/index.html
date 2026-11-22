@@ -183,9 +183,10 @@
               </div>
               <div class="shade-dialogue-copy">
                 <p>
-                  Early development. The BepInEx 5 x86 client mod and
-                  <code>the_longing.apworld</code> are currently in progress. You can draft a
-                  player YAML, browse the cavern map, or read the
+                  Cavern catalog (66 playable rooms, 145 checks, 75 items),
+                  <code>the_longing.apworld</code> (Archipelago 0.6.8+), and the BepInEx 5 x86
+                  plugin are built. Craft an option-synced YAML, explore the interactive cavern
+                  tracker, or check the
                   <a href="https://github.com/Decryptu/thelonging-decrypted/blob/main/ROADMAP.md">roadmap</a>.
                 </p>
               </div>
@@ -266,6 +267,31 @@
                       <option value="400_days">400 Days (Original Wait)</option>
                     </select>
                   </label>
+
+                  <div class="ink-field-pair" id="hunt-targets-row">
+                    <label class="ink-field">
+                      <span>Required Crystals (Hunt)</span>
+                      <input
+                        id="required-crystals"
+                        name="requiredCrystals"
+                        type="number"
+                        min="1"
+                        max="16"
+                        value="8"
+                      >
+                    </label>
+                    <label class="ink-field">
+                      <span>Required Books (Hunt)</span>
+                      <input
+                        id="required-books"
+                        name="requiredBooks"
+                        type="number"
+                        min="1"
+                        max="30"
+                        value="12"
+                      >
+                    </label>
+                  </div>
                 </div>
 
                 <div class="yaml-tab-panel" data-yaml-panel="pools">
@@ -392,7 +418,7 @@
             <!-- Right: controls.png layout (dark header bar + clay body + sandstone code sheet) -->
             <div class="controls-frame">
               <div class="controls-head">
-                <span>GENERATED FILE</span>
+                <span id="yaml-check-count">GENERATED FILE</span>
                 <code id="yaml-filename">Shade_TheLonging.yaml</code>
               </div>
 
@@ -544,12 +570,17 @@
                 <p class="drawer-summary" id="region-summary"></p>
 
                 <div class="drawer-section">
-                  <h4>Requirements</h4>
+                  <h4>Requirements &amp; Logic</h4>
                   <ul class="drawer-gates" id="region-gates"></ul>
                 </div>
 
                 <div class="drawer-section">
-                  <h4>Planned Checks</h4>
+                  <div class="range-label-row">
+                    <h4 id="region-checks-heading">Cataloged Checks</h4>
+                    <button type="button" class="filter-tile" id="toggle-spoilers-btn">
+                      HIDE SPOILERS
+                    </button>
+                  </div>
                   <ul class="drawer-checks" id="region-checks"></ul>
                 </div>
 

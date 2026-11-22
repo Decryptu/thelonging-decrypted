@@ -6,13 +6,14 @@ Everything a contributor needs to inspect *The Longing*, run the player hub loca
 
 | Path | Contents |
 | --- | --- |
-| `site/` | GitHub Pages player hub (Vite + TypeScript, YAML generator, interactive cavern map, branching setup checklist), deployed from `main` |
+| `data/` | Structured world catalog (`world_catalog.json`) extracted from game scenes and assemblies |
+| `apworld/the_longing/` | Archipelago 0.6.8+ world package (options, items, locations, regions, rules, docs, generation tests) |
+| `mod/` | BepInEx 5 x86 C# client plugin (`net472`, Harmony patches, Archipelago client, IMGUI tracker HUD) |
+| `site/` | GitHub Pages player hub (Vite + TypeScript, option-synced YAML generator, interactive cavern tracker, branching setup checklist), deployed from `main` |
 | `assets/` | Project emblem (`logo.png`) |
-| `tools/` | Local scripts: `check_public_metadata.py`, `decompile.ps1`, `decode_save.py`, `build_apworld.py` |
+| `tools/` | Scripts: `extract_catalog.py`, `sync_world_data.py`, `build_apworld.py`, `decode_save.py`, `decompile.ps1`, `check_public_metadata.py` |
 | `.githooks/` | Publication metadata hooks (`commit-msg`, `pre-push`) |
-| `apworld/the_longing/` | Planned Archipelago world package (logic, options, regions, items, locations) |
-| `mod/` | Planned BepInEx 5 x86 C# plugin (`net472`) |
-| `local/` | Ignored local directory for save backups, decompiled classes (`local/code/`), and extracted research assets |
+| `local/` | Ignored local directory for save backups, decompiled classes (`local/code/`), local NuGet cache, and extracted research assets |
 
 ## Verified game internals (Steam Windows build)
 
@@ -58,6 +59,23 @@ Inspect single types on demand with `tools/decompile.ps1` (requires `ilspycmd`, 
 ```
 
 Output lands in ignored `local/code/`. Never commit decompiled source or extracted game data.
+
+## Building the catalog, APWorld, and BepInEx plugin
+
+```powershell
+# Re-extract structured world catalog from local Steam install and sync IDs to APWorld, mod, and hub
+python tools/extract_catalog.py
+python tools/sync_world_data.py
+
+# Run Archipelago 0.6.8+ solo & multiworld generation tests
+python apworld/the_longing/test/test_generation.py -v
+
+# Package the_longing.apworld from tracked files
+python tools/build_apworld.py --output dist/the_longing.apworld
+
+# Build the BepInEx 5 x86 plugin (net472)
+dotnet build mod/TheLongingDecrypted.csproj -c Release
+```
 
 ## Player hub (`site/`)
 

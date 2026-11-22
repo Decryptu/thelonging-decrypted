@@ -14,7 +14,7 @@ Shuffle tools, keys, books, crystals, mushrooms, home comforts, and time boosts 
 
 ## Status
 
-Early development. The repository foundation, game reverse-engineering tools, and player hub (YAML generator preview, cavern map explorer, and setup checklist) are live. The BepInEx 5 x86 client plugin and `the_longing.apworld` package are the next milestones. See [ROADMAP.md](ROADMAP.md).
+Active development. The structured cavern catalog (66 playable rooms, 145 checks, 75 items), `the_longing.apworld` (Archipelago 0.6.8+), BepInEx 5 x86 client plugin (`mod/`), and option-synced player hub (`site/`) are implemented and verified. In-game playtesting and 1.0 release packaging are next. See [ROADMAP.md](ROADMAP.md).
 
 ## Goals
 

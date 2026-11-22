@@ -1,3 +1,5 @@
+import { WORLD_CATALOG } from "./catalogData";
+
 export type GoalOption =
   | "wake_the_king"
   | "escape_surface"
@@ -27,6 +29,8 @@ export interface LongingYamlConfig {
   shuffleHomeComfort: boolean;
   shuffleInstrumentParts: boolean;
   shuffleCoalAndSulfur: boolean;
+  requiredCrystals: number;
+  requiredBooks: number;
   trapDensity: TrapDensity;
   deathLink: boolean;
 }
@@ -37,6 +41,8 @@ export interface PresetDefinition {
   summary: string;
   config: Omit<LongingYamlConfig, "playerName">;
 }
+
+export const APWORLD_SCHEMA_VERSION = WORLD_CATALOG.worldVersion;
 
 export const DEFAULT_CONFIG: LongingYamlConfig = {
   playerName: "Shade",
@@ -52,6 +58,8 @@ export const DEFAULT_CONFIG: LongingYamlConfig = {
   shuffleHomeComfort: true,
   shuffleInstrumentParts: true,
   shuffleCoalAndSulfur: false,
+  requiredCrystals: 8,
+  requiredBooks: 12,
   trapDensity: "light",
   deathLink: false,
 };
@@ -74,6 +82,8 @@ export const PRESETS: readonly PresetDefinition[] = [
       shuffleHomeComfort: true,
       shuffleInstrumentParts: true,
       shuffleCoalAndSulfur: false,
+      requiredCrystals: 8,
+      requiredBooks: 12,
       trapDensity: "light",
       deathLink: false,
     },
@@ -95,6 +105,8 @@ export const PRESETS: readonly PresetDefinition[] = [
       shuffleHomeComfort: true,
       shuffleInstrumentParts: false,
       shuffleCoalAndSulfur: false,
+      requiredCrystals: 7,
+      requiredBooks: 12,
       trapDensity: "none",
       deathLink: false,
     },
@@ -116,6 +128,8 @@ export const PRESETS: readonly PresetDefinition[] = [
       shuffleHomeComfort: true,
       shuffleInstrumentParts: true,
       shuffleCoalAndSulfur: true,
+      requiredCrystals: 10,
+      requiredBooks: 18,
       trapDensity: "moderate",
       deathLink: false,
     },
@@ -137,6 +151,8 @@ export const PRESETS: readonly PresetDefinition[] = [
       shuffleHomeComfort: true,
       shuffleInstrumentParts: true,
       shuffleCoalAndSulfur: true,
+      requiredCrystals: 8,
+      requiredBooks: 12,
       trapDensity: "light",
       deathLink: false,
     },
@@ -147,12 +163,46 @@ export interface ValidationResult {
   valid: boolean;
   errors: string[];
   warnings: string[];
+  enabledChecks: number;
+}
+
+export function countEnabledChecks(config: LongingYamlConfig): number {
+  let count = 0;
+  for (const check of WORLD_CATALOG.checks) {
+    if (check.pool === "tools" && config.shuffleMattocksAndKeys) {
+      count += 1;
+    } else if (check.pool === "books") {
+      if (
+        config.shuffleBooks === "full" ||
+        (config.shuffleBooks === "progression" && check.depth === "progression")
+      ) {
+        count += 1;
+      }
+    } else if (check.pool === "crystals") {
+      if (
+        config.shuffleCrystals === "full" ||
+        (config.shuffleCrystals === "progression" && check.depth === "progression")
+      ) {
+        count += 1;
+      }
+    } else if (check.pool === "mushrooms_moss" && config.shuffleMushroomsAndMoss) {
+      count += 1;
+    } else if (check.pool === "comfort" && config.shuffleHomeComfort) {
+      count += 1;
+    } else if (check.pool === "instrument" && config.shuffleInstrumentParts) {
+      count += 1;
+    } else if (check.pool === "coal_sulfur" && config.shuffleCoalAndSulfur) {
+      count += 1;
+    }
+  }
+  return count < 10 ? 12 : count;
 }
 
 export function validateConfig(config: LongingYamlConfig): ValidationResult {
   const errors: string[] = [];
   const warnings: string[] = [];
   const trimmed = config.playerName.trim();
+  const enabledChecks = countEnabledChecks(config);
 
   if (trimmed.length === 0) {
     errors.push("Player name is required.");
@@ -166,6 +216,14 @@ export function validateConfig(config: LongingYamlConfig): ValidationResult {
     errors.push("Starting time rate must stay between 1x and 100x.");
   }
 
+  if (config.requiredCrystals < 1 || config.requiredCrystals > 16) {
+    errors.push("Required crystals must stay between 1 and 16.");
+  }
+
+  if (config.requiredBooks < 1 || config.requiredBooks > 30) {
+    errors.push("Required books must stay between 1 and 30.");
+  }
+
   if (
     config.goal === "wake_the_king" &&
     config.countdownLength === "400_days" &&
@@ -177,13 +235,41 @@ export function validateConfig(config: LongingYamlConfig): ValidationResult {
     );
   }
 
+  if (config.goal === "crystal_book_hunt") {
+    const availCrystals =
+      config.shuffleCrystals === "full" ? 16 : config.shuffleCrystals === "progression" ? 7 : 0;
+    const availBooks =
+      config.shuffleBooks === "full" ? 31 : config.shuffleBooks === "progression" ? 16 : 0;
+
+    if (availCrystals === 0 && availBooks === 0) {
+      warnings.push(
+        "Crystal & Book Hunt plays best when books or crystals are shuffled into the multiworld.",
+      );
+    } else {
+      if (availCrystals > 0 && config.requiredCrystals > availCrystals) {
+        warnings.push(
+          `Only ${availCrystals} crystals are shuffled; the APWorld will clamp required_crystals to ${availCrystals}.`,
+        );
+      }
+      if (availBooks > 0 && config.requiredBooks > availBooks) {
+        warnings.push(
+          `Only ${availBooks} books are shuffled; the APWorld will clamp required_books to ${availBooks}.`,
+        );
+      }
+    }
+  }
+
   if (
-    config.goal === "crystal_book_hunt" &&
+    !config.shuffleMattocksAndKeys &&
     config.shuffleBooks === "vanilla" &&
-    config.shuffleCrystals === "vanilla"
+    config.shuffleCrystals === "vanilla" &&
+    !config.shuffleMushroomsAndMoss &&
+    !config.shuffleHomeComfort &&
+    !config.shuffleInstrumentParts &&
+    !config.shuffleCoalAndSulfur
   ) {
     warnings.push(
-      "Crystal & Book Hunt plays best when books or crystals are shuffled into the multiworld.",
+      "All check pools are off; the APWorld will enable 12 fallback tool and comfort checks.",
     );
   }
 
@@ -191,6 +277,7 @@ export function validateConfig(config: LongingYamlConfig): ValidationResult {
     valid: errors.length === 0,
     errors,
     warnings,
+    enabledChecks,
   };
 }
 
@@ -205,8 +292,7 @@ function yamlQuote(value: string): string {
 export function serializeYaml(config: LongingYamlConfig): string {
   const name = config.playerName.trim() || "Shade";
   const lines = [
-    "# Draft Archipelago player file for The Longing Decrypted",
-    "# Option names will lock to the shipped APWorld schema at first release.",
+    `# Archipelago ${WORLD_CATALOG.archipelagoTarget} player file for The Longing Decrypted (v${APWORLD_SCHEMA_VERSION})`,
     `name: ${yamlQuote(name)}`,
     "description: Generated with The Longing Decrypted player hub",
     "game: The Longing",
@@ -221,6 +307,8 @@ export function serializeYaml(config: LongingYamlConfig): string {
     `  starting_time_rate: ${Math.round(config.startingTimeRate)}`,
     `  time_skip_items: ${config.timeSkipItems ? "true" : "false"}`,
     `  walk_speed: ${config.walkSpeed}`,
+    `  required_crystals: ${Math.round(config.requiredCrystals)}`,
+    `  required_books: ${Math.round(config.requiredBooks)}`,
     "",
     "  # Cavern check pools",
     `  shuffle_mattocks_and_keys: ${config.shuffleMattocksAndKeys ? "true" : "false"}`,

@@ -1,0 +1,4757 @@
+{
+  "schema_version": 1,
+  "engine": {
+    "unity_version": "2018.4.36f1",
+    "architecture": "x86",
+    "bepinex_target": "BepInEx 5 x86",
+    "archipelago_target": "0.6.8+"
+  },
+  "summary": {
+    "total_scenes": 81,
+    "playable_rooms": 66,
+    "ending_rooms": 4,
+    "unique_pickups": 133,
+    "books_in_shelf": 44,
+    "gates_and_events": 84,
+    "item_keys": 29
+  },
+  "item_keys": {
+    "PH534TLO0": {
+      "name": "Mattock",
+      "category": "tools",
+      "secondary_key": null,
+      "description": "Mining tool used to break weak cavern walls, crystals, coal, and sulfur veins."
+    },
+    "SecretKey": {
+      "name": "Secret Key",
+      "category": "tools",
+      "secondary_key": null,
+      "description": "Key found atop the Secret Tower that unlocks the Mystery Room and hidden passages."
+    },
+    "B00BZ": {
+      "name": "Book",
+      "category": "books",
+      "secondary_key": null,
+      "description": "Classic literature volume added to the Shade's home bookshelf."
+    },
+    "WHSDGV&234": {
+      "name": "White Crystal",
+      "category": "crystals",
+      "secondary_key": null,
+      "description": "Pale crystal chipped from Moss Cliff walls."
+    },
+    "SDGV&234": {
+      "name": "Rose Crystal",
+      "category": "crystals",
+      "secondary_key": null,
+      "description": "Pink crystal mined from the Entrance Hall veins."
+    },
+    "SDGVBL": {
+      "name": "Blue Crystal",
+      "category": "crystals",
+      "secondary_key": null,
+      "description": "Azure crystal mined near the whispering Face."
+    },
+    "SDGLV234": {
+      "name": "Purple Crystal",
+      "category": "crystals",
+      "secondary_key": null,
+      "description": "Violet crystal mined in the Great Cave."
+    },
+    "SDGVBLA": {
+      "name": "Black Crystal",
+      "category": "crystals",
+      "secondary_key": null,
+      "description": "Dark crystal mined deep inside the Labyrinth."
+    },
+    "HJUIASD&jI33": {
+      "name": "Great Hall Big Crystal",
+      "category": "crystals",
+      "secondary_key": null,
+      "description": "Giant crystal hidden in the secret chamber behind the Mystery Door."
+    },
+    "KLKASJD&ASGD786h": {
+      "name": "Tower Big Crystal",
+      "category": "crystals",
+      "secondary_key": null,
+      "description": "Giant crystal resting in the Secret Tower."
+    },
+    "ITMM0023Z": {
+      "name": "Moss",
+      "category": "mushrooms_moss",
+      "secondary_key": null,
+      "description": "Soft cavern moss used to build the Shade's bed and cushion falls."
+    },
+    "MUL4L4L4": {
+      "name": "Musical Instrument Part",
+      "category": "instrument",
+      "secondary_key": null,
+      "description": "Piece of the Shade's cavern didgeridoo / instrument."
+    },
+    "KSTTFF34": {
+      "name": "Coal",
+      "category": "coal_sulfur",
+      "secondary_key": null,
+      "description": "Lump of coal burned in the Shade's hearth to warm the home and speed time."
+    },
+    "FRST435": {
+      "name": "Wood",
+      "category": "coal_sulfur",
+      "secondary_key": null,
+      "description": "Dry timber gathered for the Shade's hearth fire."
+    },
+    "FRST986": {
+      "name": "Flint",
+      "category": "coal_sulfur",
+      "secondary_key": null,
+      "description": "Flint stone used to strike sparks for the hearth."
+    },
+    "STN_CLRS3423": {
+      "name": "Sulfur",
+      "category": "coal_sulfur",
+      "secondary_key": "5U2LFU6",
+      "description": "Yellow sulfur pigment and smelly hearth fuel mined in Mine 03."
+    },
+    "STN_CLRS3421": {
+      "name": "White Chalk",
+      "category": "comfort",
+      "secondary_key": null,
+      "description": "White drawing chalk for sketching on the home walls."
+    },
+    "STN_CLRS3422": {
+      "name": "Red Clay",
+      "category": "comfort",
+      "secondary_key": null,
+      "description": "Red clay pigment for home drawings."
+    },
+    "STN_CLRS3424": {
+      "name": "Lapis Lazuli",
+      "category": "comfort",
+      "secondary_key": "L45I5",
+      "description": "Blue lapis lazuli pigment and decorative gemstone."
+    },
+    "P4H_FFT": {
+      "name": "Drawing Paper",
+      "category": "comfort",
+      "secondary_key": null,
+      "description": "Sheet of paper used to sketch pictures for the Shade's home."
+    },
+    "FLWRSPDR": {
+      "name": "Spider Flower",
+      "category": "comfort",
+      "secondary_key": null,
+      "description": "Rare cavern bloom growing in the Great Cave."
+    },
+    "GLDNCN": {
+      "name": "Golden Coin",
+      "category": "comfort",
+      "secondary_key": null,
+      "description": "Ancient gold piece from the King's Treasury."
+    },
+    "TEKNGRISES777": {
+      "name": "Painting of the King",
+      "category": "comfort",
+      "secondary_key": null,
+      "description": "Framed royal portrait hidden in the secret chamber."
+    },
+    "WIIHAHAHAHAH&234": {
+      "name": "Horse Head Trophy",
+      "category": "comfort",
+      "secondary_key": null,
+      "description": "Wall-mounted horse head trophy discovered in the Halls of Eternity."
+    },
+    "HJUIASD&jIU_55": {
+      "name": "Birthday Hourglass",
+      "category": "comfort",
+      "secondary_key": null,
+      "description": "Gift-wrapped hourglass found on Moss Cliff."
+    },
+    "WATHAMCC": {
+      "name": "Labyrinth Keepsake Stone",
+      "category": "comfort",
+      "secondary_key": null,
+      "description": "Movable relic stone deep in Labyrinth 16."
+    },
+    "T33PCHZWO": {
+      "name": "Eternal Carpet II",
+      "category": "comfort",
+      "secondary_key": null,
+      "description": "Woven rug found along the Halls of Eternity."
+    },
+    "T33PCHIERD": {
+      "name": "Eternal Carpet III",
+      "category": "comfort",
+      "secondary_key": null,
+      "description": "Large rug found along the Halls of Eternity."
+    },
+    "VROHG": {
+      "name": "Eternal Curtain",
+      "category": "comfort",
+      "secondary_key": null,
+      "description": "Hanging curtain found along the Halls of Eternity."
+    }
+  },
+  "rooms": [
+    {
+      "index": 0,
+      "name": "01_SplashScene",
+      "kind": "menu_or_utility",
+      "region": "menu_or_utility",
+      "waypoint_count": 0,
+      "mushroom_spots": 0,
+      "transitions": []
+    },
+    {
+      "index": 1,
+      "name": "02_StartMenu",
+      "kind": "menu_or_utility",
+      "region": "menu_or_utility",
+      "waypoint_count": 0,
+      "mushroom_spots": 0,
+      "transitions": []
+    },
+    {
+      "index": 2,
+      "name": "03_Placeholder",
+      "kind": "menu_or_utility",
+      "region": "menu_or_utility",
+      "waypoint_count": 0,
+      "mushroom_spots": 0,
+      "transitions": []
+    },
+    {
+      "index": 3,
+      "name": "king",
+      "kind": "playable",
+      "region": "kings_hall",
+      "waypoint_count": 78,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 4,
+          "to": "home",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 6,
+          "to": "king_stairs",
+          "via": "waypoint",
+          "waypoint_id": 75,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "name": "home",
+      "kind": "playable",
+      "region": "shades_home",
+      "waypoint_count": 143,
+      "mushroom_spots": 6,
+      "transitions": [
+        {
+          "to_index": 3,
+          "to": "king",
+          "via": "waypoint",
+          "waypoint_id": 96,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "name": "king_entrance",
+      "kind": "menu_or_utility",
+      "region": "menu_or_utility",
+      "waypoint_count": 1,
+      "mushroom_spots": 0,
+      "transitions": []
+    },
+    {
+      "index": 6,
+      "name": "king_stairs",
+      "kind": "playable",
+      "region": "kings_hall",
+      "waypoint_count": 88,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 3,
+          "to": "king",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 7,
+          "to": "entrance_hall",
+          "via": "door",
+          "progress_uid": "door_anim_king_stairs_04"
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "name": "entrance_hall",
+      "kind": "playable",
+      "region": "kings_hall",
+      "waypoint_count": 112,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 6,
+          "to": "king_stairs",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 8,
+          "to": "treasury",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 21,
+          "to": "entrancehall2",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 24,
+          "to": "gallery",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "name": "treasury",
+      "kind": "playable",
+      "region": "kings_hall",
+      "waypoint_count": 37,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 7,
+          "to": "entrance_hall",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 9,
+          "to": "hall_R_02",
+          "via": "waypoint",
+          "waypoint_id": 36,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 15,
+          "to": "hall_R_01",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "name": "hall_R_02",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 58,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 8,
+          "to": "treasury",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 10,
+          "to": "hall_R_04",
+          "via": "waypoint",
+          "waypoint_id": 31,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 11,
+          "to": "hall_R_03",
+          "via": "waypoint",
+          "waypoint_id": 57,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 72,
+          "to": "hall_L_05",
+          "via": "door",
+          "progress_uid": "secret_door_uID_05"
+        }
+      ]
+    },
+    {
+      "index": 10,
+      "name": "hall_R_04",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 111,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 9,
+          "to": "hall_R_02",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 11,
+          "to": "hall_R_03",
+          "via": "waypoint",
+          "waypoint_id": 85,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 12,
+          "to": "moss_cliff",
+          "via": "waypoint",
+          "waypoint_id": 70,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 16,
+          "to": "hall_R_05",
+          "via": "waypoint",
+          "waypoint_id": 110,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 11,
+      "name": "hall_R_03",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 50,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 9,
+          "to": "hall_R_02",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 10,
+          "to": "hall_R_04",
+          "via": "waypoint",
+          "waypoint_id": 43,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 12,
+          "to": "moss_cliff",
+          "via": "waypoint",
+          "waypoint_id": 20,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 68,
+          "to": "hall_L06_behind",
+          "via": "waypoint",
+          "waypoint_id": 49,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 72,
+          "to": "hall_L_05",
+          "via": "door",
+          "progress_uid": "secret_door_uID_05"
+        }
+      ]
+    },
+    {
+      "index": 12,
+      "name": "moss_cliff",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 583,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 10,
+          "to": "hall_R_04",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 11,
+          "to": "hall_R_03",
+          "via": "waypoint",
+          "waypoint_id": 557,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 13,
+      "name": "intro",
+      "kind": "menu_or_utility",
+      "region": "menu_or_utility",
+      "waypoint_count": 0,
+      "mushroom_spots": 0,
+      "transitions": []
+    },
+    {
+      "index": 14,
+      "name": "labyrinth 11A",
+      "kind": "playable",
+      "region": "halls_eternity",
+      "waypoint_count": 3,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 31,
+          "to": "labyrinth_04",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 37,
+          "to": "labyrinth_10",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 15,
+      "name": "hall_R_01",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 38,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 8,
+          "to": "treasury",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 16,
+          "to": "hall_R_05",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 18,
+          "to": "hall_R_06",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 20,
+          "to": "hall_R_08",
+          "via": "waypoint",
+          "waypoint_id": 37,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 16,
+      "name": "hall_R_05",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 81,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 10,
+          "to": "hall_R_04",
+          "via": "waypoint",
+          "waypoint_id": 32,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 15,
+          "to": "hall_R_01",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 17,
+          "to": "face",
+          "via": "waypoint",
+          "waypoint_id": 80,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 17,
+      "name": "face",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 13,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 16,
+          "to": "hall_R_05",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 18,
+      "name": "hall_R_06",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 112,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 15,
+          "to": "hall_R_01",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 19,
+          "to": "hall_R_07",
+          "via": "waypoint",
+          "waypoint_id": 20,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 19,
+      "name": "hall_R_07",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 58,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 18,
+          "to": "hall_R_06",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 20,
+          "to": "hall_R_08",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 54,
+          "to": "entrancehall3",
+          "via": "waypoint",
+          "waypoint_id": 57,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 20,
+      "name": "hall_R_08",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 52,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 15,
+          "to": "hall_R_01",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 19,
+          "to": "hall_R_07",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 21,
+          "to": "entrancehall2",
+          "via": "waypoint",
+          "waypoint_id": 51,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 21,
+      "name": "entrancehall2",
+      "kind": "playable",
+      "region": "kings_hall",
+      "waypoint_count": 46,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 7,
+          "to": "entrance_hall",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 20,
+          "to": "hall_R_08",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 22,
+          "to": "hall_L_08",
+          "via": "waypoint",
+          "waypoint_id": 45,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 70,
+          "to": "mysteryroom_01",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 71,
+          "to": "mysteryroom_02",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 72,
+          "to": "hall_L_05",
+          "via": "door",
+          "progress_uid": "secret_door_uID_05"
+        }
+      ]
+    },
+    {
+      "index": 22,
+      "name": "hall_L_08",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 46,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 21,
+          "to": "entrancehall2",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 23,
+          "to": "hall_L_01",
+          "via": "waypoint",
+          "waypoint_id": 45,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 53,
+          "to": "hall_L_09",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 23,
+      "name": "hall_L_01",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 45,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 22,
+          "to": "hall_L_08",
+          "via": "waypoint",
+          "waypoint_id": 44,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 24,
+          "to": "gallery",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 52,
+          "to": "hall_L_07",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 56,
+          "to": "hall L 06A",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 24,
+      "name": "gallery",
+      "kind": "playable",
+      "region": "kings_hall",
+      "waypoint_count": 37,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 7,
+          "to": "entrance_hall",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 23,
+          "to": "hall_L_01",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 25,
+          "to": "hall_L_02",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 25,
+      "name": "hall_L_02",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 57,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 24,
+          "to": "gallery",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 26,
+          "to": "hall_L_03",
+          "via": "waypoint",
+          "waypoint_id": 32,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 27,
+          "to": "entrance_labyrinth",
+          "via": "waypoint",
+          "waypoint_id": 56,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 72,
+          "to": "hall_L_05",
+          "via": "door",
+          "progress_uid": "secret_door_uID_05"
+        }
+      ]
+    },
+    {
+      "index": 26,
+      "name": "hall_L_03",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 127,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 25,
+          "to": "hall_L_02",
+          "via": "waypoint",
+          "waypoint_id": 102,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 27,
+          "to": "entrance_labyrinth",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 47,
+          "to": "hall_L_04",
+          "via": "waypoint",
+          "waypoint_id": 125,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 72,
+          "to": "hall_L_05",
+          "via": "door",
+          "progress_uid": "secret_door_uID_05"
+        }
+      ]
+    },
+    {
+      "index": 27,
+      "name": "entrance_labyrinth",
+      "kind": "playable",
+      "region": "halls_eternity",
+      "waypoint_count": 72,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 25,
+          "to": "hall_L_02",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 26,
+          "to": "hall_L_03",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 28,
+          "to": "labyrinth_01",
+          "via": "waypoint",
+          "waypoint_id": 71,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 28,
+      "name": "labyrinth_01",
+      "kind": "playable",
+      "region": "halls_eternity",
+      "waypoint_count": 44,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 27,
+          "to": "entrance_labyrinth",
+          "via": "waypoint",
+          "waypoint_id": 43,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 29,
+          "to": "labyrinth_02",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 30,
+          "to": "labyrinth_03",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 31,
+          "to": "labyrinth_04",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 72,
+          "to": "hall_L_05",
+          "via": "door",
+          "progress_uid": "secret_door_uID_05"
+        }
+      ]
+    },
+    {
+      "index": 29,
+      "name": "labyrinth_02",
+      "kind": "playable",
+      "region": "halls_eternity",
+      "waypoint_count": 12,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 28,
+          "to": "labyrinth_01",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 33,
+          "to": "labyrinth_06",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 30,
+      "name": "labyrinth_03",
+      "kind": "playable",
+      "region": "halls_eternity",
+      "waypoint_count": 22,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 28,
+          "to": "labyrinth_01",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 35,
+          "to": "labyrinth_08",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 31,
+      "name": "labyrinth_04",
+      "kind": "playable",
+      "region": "halls_eternity",
+      "waypoint_count": 24,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 14,
+          "to": "labyrinth 11A",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 28,
+          "to": "labyrinth_01",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 32,
+          "to": "labyrinth_05",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 32,
+      "name": "labyrinth_05",
+      "kind": "playable",
+      "region": "halls_eternity",
+      "waypoint_count": 35,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 31,
+          "to": "labyrinth_04",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 34,
+          "to": "labyrinth_07",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 33,
+      "name": "labyrinth_06",
+      "kind": "playable",
+      "region": "halls_eternity",
+      "waypoint_count": 27,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 29,
+          "to": "labyrinth_02",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 36,
+          "to": "labyrinth_09",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 34,
+      "name": "labyrinth_07",
+      "kind": "playable",
+      "region": "halls_eternity",
+      "waypoint_count": 18,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 32,
+          "to": "labyrinth_05",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 35,
+          "to": "labyrinth_08",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 35,
+      "name": "labyrinth_08",
+      "kind": "playable",
+      "region": "halls_eternity",
+      "waypoint_count": 12,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 30,
+          "to": "labyrinth_03",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 34,
+          "to": "labyrinth_07",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 64,
+          "to": "labyrinth 14A",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 36,
+      "name": "labyrinth_09",
+      "kind": "playable",
+      "region": "halls_eternity",
+      "waypoint_count": 36,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 33,
+          "to": "labyrinth_06",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 37,
+          "to": "labyrinth_10",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 40,
+          "to": "labyrinth_13",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 37,
+      "name": "labyrinth_10",
+      "kind": "playable",
+      "region": "halls_eternity",
+      "waypoint_count": 46,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 36,
+          "to": "labyrinth_09",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 38,
+          "to": "labyrinth_11",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 43,
+          "to": "labyrinth_16",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 38,
+      "name": "labyrinth_11",
+      "kind": "playable",
+      "region": "halls_eternity",
+      "waypoint_count": 24,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 31,
+          "to": "labyrinth_04",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 37,
+          "to": "labyrinth_10",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 39,
+      "name": "labyrinth_12",
+      "kind": "playable",
+      "region": "halls_eternity",
+      "waypoint_count": 24,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 42,
+          "to": "labyrinth_15",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 44,
+          "to": "entrance_eternity",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 40,
+      "name": "labyrinth_13",
+      "kind": "playable",
+      "region": "halls_eternity",
+      "waypoint_count": 13,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 36,
+          "to": "labyrinth_09",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 41,
+          "to": "labyrinth_14",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 42,
+          "to": "labyrinth_15",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 41,
+      "name": "labyrinth_14",
+      "kind": "playable",
+      "region": "halls_eternity",
+      "waypoint_count": 12,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 35,
+          "to": "labyrinth_08",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 40,
+          "to": "labyrinth_13",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 42,
+      "name": "labyrinth_15",
+      "kind": "playable",
+      "region": "halls_eternity",
+      "waypoint_count": 11,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 39,
+          "to": "labyrinth_12",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 40,
+          "to": "labyrinth_13",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 43,
+      "name": "labyrinth_16",
+      "kind": "playable",
+      "region": "halls_eternity",
+      "waypoint_count": 11,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 37,
+          "to": "labyrinth_10",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 44,
+      "name": "entrance_eternity",
+      "kind": "playable",
+      "region": "halls_eternity",
+      "waypoint_count": 36,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 39,
+          "to": "labyrinth_12",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 45,
+          "to": "halls_of_eternity",
+          "via": "waypoint",
+          "waypoint_id": 35,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 45,
+      "name": "halls_of_eternity",
+      "kind": "playable",
+      "region": "halls_eternity",
+      "waypoint_count": 96,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 44,
+          "to": "entrance_eternity",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 45,
+          "to": "halls_of_eternity",
+          "via": "waypoint",
+          "waypoint_id": 95,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 46,
+      "name": "library",
+      "kind": "playable",
+      "region": "library",
+      "waypoint_count": 111,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 50,
+          "to": "entrance_library",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 47,
+      "name": "hall_L_04",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 101,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 26,
+          "to": "hall_L_03",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 48,
+          "to": "grotto_01",
+          "via": "waypoint",
+          "waypoint_id": 95,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 56,
+          "to": "hall L 06A",
+          "via": "waypoint",
+          "waypoint_id": 37,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 68,
+          "to": "hall_L06_behind",
+          "via": "waypoint",
+          "waypoint_id": 98,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 48,
+      "name": "grotto_01",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 93,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 47,
+          "to": "hall_L_04",
+          "via": "waypoint",
+          "waypoint_id": 92,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 49,
+          "to": "grotto_02",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 51,
+          "to": "hall_L_06",
+          "via": "waypoint",
+          "waypoint_id": 86,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 49,
+      "name": "grotto_02",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 95,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 48,
+          "to": "grotto_01",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 50,
+          "to": "entrance_library",
+          "via": "waypoint",
+          "waypoint_id": 94,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 50,
+      "name": "entrance_library",
+      "kind": "playable",
+      "region": "library",
+      "waypoint_count": 31,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 46,
+          "to": "library",
+          "via": "door",
+          "progress_uid": "door_library_26"
+        },
+        {
+          "to_index": 49,
+          "to": "grotto_02",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 51,
+      "name": "hall_L_06",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 11,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 48,
+          "to": "grotto_01",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 52,
+          "to": "hall_L_07",
+          "via": "waypoint",
+          "waypoint_id": 10,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 52,
+      "name": "hall_L_07",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 45,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 23,
+          "to": "hall_L_01",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 51,
+          "to": "hall_L_06",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 53,
+          "to": "hall_L_09",
+          "via": "waypoint",
+          "waypoint_id": 25,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 53,
+      "name": "hall_L_09",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 32,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 22,
+          "to": "hall_L_08",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 52,
+          "to": "hall_L_07",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 54,
+          "to": "entrancehall3",
+          "via": "waypoint",
+          "waypoint_id": 31,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 54,
+      "name": "entrancehall3",
+      "kind": "playable",
+      "region": "kings_hall",
+      "waypoint_count": 97,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 19,
+          "to": "hall_R_07",
+          "via": "waypoint",
+          "waypoint_id": 23,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 53,
+          "to": "hall_L_09",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 55,
+          "to": "up_01",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 55,
+      "name": "up_01",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 107,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 54,
+          "to": "entrancehall3",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 61,
+          "to": "up_07",
+          "via": "waypoint",
+          "waypoint_id": 103,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 56,
+      "name": "hall L 06A",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 16,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 23,
+          "to": "hall_L_01",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 47,
+          "to": "hall_L_04",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 57,
+      "name": "extra loading",
+      "kind": "menu_or_utility",
+      "region": "menu_or_utility",
+      "waypoint_count": 1,
+      "mushroom_spots": 0,
+      "transitions": []
+    },
+    {
+      "index": 58,
+      "name": "HUD test",
+      "kind": "menu_or_utility",
+      "region": "menu_or_utility",
+      "waypoint_count": 87,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 3,
+          "to": "king",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 59,
+      "name": "ende oberwelt",
+      "kind": "ending",
+      "region": "ending",
+      "waypoint_count": 104,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 61,
+          "to": "up_07",
+          "via": "waypoint",
+          "waypoint_id": 100,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 60,
+      "name": "tower",
+      "kind": "playable",
+      "region": "secret_tower",
+      "waypoint_count": 214,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 67,
+          "to": "greatCave_complete",
+          "via": "waypoint",
+          "waypoint_id": 186,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 61,
+      "name": "up_07",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 70,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 55,
+          "to": "up_01",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 62,
+          "to": "exit",
+          "via": "door",
+          "progress_uid": "door_anim_UP07_14"
+        }
+      ]
+    },
+    {
+      "index": 62,
+      "name": "exit",
+      "kind": "playable",
+      "region": "mushroom_groves",
+      "waypoint_count": 256,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 61,
+          "to": "up_07",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 63,
+          "to": "mine_01",
+          "via": "waypoint",
+          "waypoint_id": 181,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 67,
+          "to": "greatCave_complete",
+          "via": "waypoint",
+          "waypoint_id": 238,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 63,
+      "name": "mine_01",
+      "kind": "playable",
+      "region": "crystal_cavern",
+      "waypoint_count": 101,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 62,
+          "to": "exit",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 65,
+          "to": "mine_03",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 66,
+          "to": "mine_04",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 64,
+      "name": "labyrinth 14A",
+      "kind": "playable",
+      "region": "halls_eternity",
+      "waypoint_count": 7,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 35,
+          "to": "labyrinth_08",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 65,
+      "name": "mine_03",
+      "kind": "playable",
+      "region": "crystal_cavern",
+      "waypoint_count": 9,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 63,
+          "to": "mine_01",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 66,
+      "name": "mine_04",
+      "kind": "playable",
+      "region": "crystal_cavern",
+      "waypoint_count": 13,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 63,
+          "to": "mine_01",
+          "via": "door",
+          "progress_uid": null
+        }
+      ]
+    },
+    {
+      "index": 67,
+      "name": "greatCave_complete",
+      "kind": "playable",
+      "region": "mushroom_groves",
+      "waypoint_count": 1290,
+      "mushroom_spots": 58,
+      "transitions": [
+        {
+          "to_index": 60,
+          "to": "tower",
+          "via": "waypoint",
+          "waypoint_id": 1279,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 62,
+          "to": "exit",
+          "via": "waypoint",
+          "waypoint_id": 652,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 69,
+          "to": "brunnen",
+          "via": "waypoint",
+          "waypoint_id": 1272,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 72,
+          "to": "hall_L_05",
+          "via": "door",
+          "progress_uid": "secret_door_uID_05"
+        }
+      ]
+    },
+    {
+      "index": 68,
+      "name": "hall_L06_behind",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 17,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 11,
+          "to": "hall_R_03",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 47,
+          "to": "hall_L_04",
+          "via": "waypoint",
+          "waypoint_id": 16,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 69,
+      "name": "brunnen",
+      "kind": "playable",
+      "region": "surface_well",
+      "waypoint_count": 290,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 67,
+          "to": "greatCave_complete",
+          "via": "waypoint",
+          "waypoint_id": 0,
+          "initially_reachable": true
+        },
+        {
+          "to_index": 73,
+          "to": "oberwelt",
+          "via": "well"
+        }
+      ]
+    },
+    {
+      "index": 70,
+      "name": "mysteryroom_01",
+      "kind": "playable",
+      "region": "kings_hall",
+      "waypoint_count": 29,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 21,
+          "to": "entrancehall2",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 71,
+          "to": "mysteryroom_02",
+          "via": "waypoint",
+          "waypoint_id": 27,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 71,
+      "name": "mysteryroom_02",
+      "kind": "playable",
+      "region": "kings_hall",
+      "waypoint_count": 27,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 21,
+          "to": "entrancehall2",
+          "via": "door",
+          "progress_uid": null
+        },
+        {
+          "to_index": 70,
+          "to": "mysteryroom_01",
+          "via": "waypoint",
+          "waypoint_id": 26,
+          "initially_reachable": true
+        }
+      ]
+    },
+    {
+      "index": 72,
+      "name": "hall_L_05",
+      "kind": "playable",
+      "region": "great_cave",
+      "waypoint_count": 24,
+      "mushroom_spots": 0,
+      "transitions": [
+        {
+          "to_index": 34,
+          "to": "labyrinth_07",
+          "via": "door",
+          "progress_uid": "secret_door_uID_05"
+        }
+      ]
+    },
+    {
+      "index": 73,
+      "name": "oberwelt",
+      "kind": "playable",
+      "region": "surface_well",
+      "waypoint_count": 45,
+      "mushroom_spots": 0,
+      "transitions": []
+    },
+    {
+      "index": 74,
+      "name": "prison",
+      "kind": "menu_or_utility",
+      "region": "menu_or_utility",
+      "waypoint_count": 3,
+      "mushroom_spots": 0,
+      "transitions": []
+    },
+    {
+      "index": 75,
+      "name": "ende suicide",
+      "kind": "ending",
+      "region": "ending",
+      "waypoint_count": 12,
+      "mushroom_spots": 0,
+      "transitions": []
+    },
+    {
+      "index": 76,
+      "name": "ende tragedy",
+      "kind": "ending",
+      "region": "ending",
+      "waypoint_count": 12,
+      "mushroom_spots": 0,
+      "transitions": []
+    },
+    {
+      "index": 77,
+      "name": "PasswordScene",
+      "kind": "menu_or_utility",
+      "region": "menu_or_utility",
+      "waypoint_count": 0,
+      "mushroom_spots": 0,
+      "transitions": []
+    },
+    {
+      "index": 78,
+      "name": "BetaExpired",
+      "kind": "menu_or_utility",
+      "region": "menu_or_utility",
+      "waypoint_count": 0,
+      "mushroom_spots": 0,
+      "transitions": []
+    },
+    {
+      "index": 79,
+      "name": "ende_king",
+      "kind": "ending",
+      "region": "ending",
+      "waypoint_count": 12,
+      "mushroom_spots": 0,
+      "transitions": []
+    },
+    {
+      "index": 80,
+      "name": "LoaderScene",
+      "kind": "menu_or_utility",
+      "region": "menu_or_utility",
+      "waypoint_count": 0,
+      "mushroom_spots": 0,
+      "transitions": []
+    }
+  ],
+  "pickups": [
+    {
+      "scene_index": 4,
+      "scene": "home",
+      "region": "shades_home",
+      "go_name": "first coal",
+      "progress_uid": "kohle_home_01",
+      "item_key": "KSTTFF34",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "kohle_home_01",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 4,
+      "scene": "home",
+      "region": "shades_home",
+      "go_name": "first coal (1)",
+      "progress_uid": "kohle_home_02",
+      "item_key": "KSTTFF34",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "kohle_home_02",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 4,
+      "scene": "home",
+      "region": "shades_home",
+      "go_name": "Hacke home",
+      "progress_uid": "grab_hacke_01_home",
+      "item_key": "PH534TLO0",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_hacke_01_home",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 6,
+      "scene": "king_stairs",
+      "region": "kings_hall",
+      "go_name": "first coal",
+      "progress_uid": "kohle_kingstairs_06",
+      "item_key": "KSTTFF34",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "kohle_kingstairs_06",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 7,
+      "scene": "entrance_hall",
+      "region": "kings_hall",
+      "go_name": "kristall_01_am_boden",
+      "progress_uid": "grab_kristall_entrance_hall_A106at",
+      "item_key": "SDGV&234",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_kristall_entrance_hall_A106at",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 7,
+      "scene": "entrance_hall",
+      "region": "kings_hall",
+      "go_name": "kristall_01_am_boden",
+      "progress_uid": "grab_kristall_entrance_hall_A107at",
+      "item_key": "SDGV&234",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_kristall_entrance_hall_A107at",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 7,
+      "scene": "entrance_hall",
+      "region": "kings_hall",
+      "go_name": "kristall_01_am_boden",
+      "progress_uid": "grab_kristall_entrance_hall_A108a",
+      "item_key": "SDGV&234",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_kristall_entrance_hall_A108a",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 7,
+      "scene": "entrance_hall",
+      "region": "kings_hall",
+      "go_name": "kristall_01_am_boden",
+      "progress_uid": "grab_kristall_entrance_hall_A109a",
+      "item_key": "SDGV&234",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_kristall_entrance_hall_A109a",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 8,
+      "scene": "treasury",
+      "region": "kings_hall",
+      "go_name": "treasure floor",
+      "progress_uid": null,
+      "item_key": "GLDNCN",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "treasury:treasure floor",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 8,
+      "scene": "treasury",
+      "region": "kings_hall",
+      "go_name": "kreide",
+      "progress_uid": "grab_kreide_treasury_02",
+      "item_key": "STN_CLRS3421",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_kreide_treasury_02",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 10,
+      "scene": "hall_R_04",
+      "region": "great_cave",
+      "go_name": "Item_Paper (1)",
+      "progress_uid": "grab_item_mysteryroom_paper_UID_02",
+      "item_key": "P4H_FFT",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_mysteryroom_paper_UID_02",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "go_name": "feuerstein",
+      "progress_uid": "grab_feuerstein_hall_r_04_2",
+      "item_key": "FRST986",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_feuerstein_hall_r_04_2",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "go_name": "BirthdayPresent",
+      "progress_uid": "HJUIASD&jIU_56",
+      "item_key": "HJUIASD&jIU_55",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "HJUIASD&jIU_56",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (8)",
+      "progress_uid": "cliff_moss_1_8640990",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "cliff_moss_1_8640990",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (THE ONE)",
+      "progress_uid": "cliff_moss_1_86409901",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "cliff_moss_1_86409901",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (10)",
+      "progress_uid": "moos_ moss_cliff_01",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "moos_ moss_cliff_01",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (11)",
+      "progress_uid": "moos_ moss_cliff_02",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "moos_ moss_cliff_02",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (12)",
+      "progress_uid": "moos_ moss_cliff_03",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "moos_ moss_cliff_03",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "go_name": "Hacke",
+      "progress_uid": "grab_hacke_mosscliff_r08",
+      "item_key": "PH534TLO0",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_hacke_mosscliff_r08",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "go_name": "kreide",
+      "progress_uid": "grab_kreide_01",
+      "item_key": "STN_CLRS3421",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_kreide_01",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "go_name": "present (2)",
+      "progress_uid": "pre5en7_10",
+      "item_key": "STN_CLRS3424",
+      "secondary_key": "L45I5",
+      "amount": 1,
+      "canonical_id": "pre5en7_10",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "go_name": "present (3)",
+      "progress_uid": "pre5en7_11",
+      "item_key": "STN_CLRS3424",
+      "secondary_key": "L45I5",
+      "amount": 1,
+      "canonical_id": "pre5en7_11",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "go_name": "present",
+      "progress_uid": "pre5en7_8",
+      "item_key": "STN_CLRS3424",
+      "secondary_key": "L45I5",
+      "amount": 1,
+      "canonical_id": "pre5en7_8",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "go_name": "present (1)",
+      "progress_uid": "pre5en7_9",
+      "item_key": "STN_CLRS3424",
+      "secondary_key": "L45I5",
+      "amount": 1,
+      "canonical_id": "pre5en7_9",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "go_name": "kristall_01_am_boden",
+      "progress_uid": "grab_white_kristall_moss_cliff_A101",
+      "item_key": "WHSDGV&234",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_white_kristall_moss_cliff_A101",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "go_name": "kristall_01_am_boden",
+      "progress_uid": "grab_white_kristall_moss_cliff_A102b",
+      "item_key": "WHSDGV&234",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_white_kristall_moss_cliff_A102b",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "go_name": "kristall_01_am_boden",
+      "progress_uid": "grab_white_kristall_moss_cliff_A103",
+      "item_key": "WHSDGV&234",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_white_kristall_moss_cliff_A103",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "go_name": "kristall_01_am_boden",
+      "progress_uid": "grab_white_kristall_moss_cliff_A104",
+      "item_key": "WHSDGV&234",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_white_kristall_moss_cliff_A104",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "go_name": "kristall_01_am_boden",
+      "progress_uid": "grab_white_kristall_moss_cliff_A105",
+      "item_key": "WHSDGV&234",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_white_kristall_moss_cliff_A105",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "go_name": "kristall_01_am_boden",
+      "progress_uid": "grab_white_kristall_moss_cliff_A106",
+      "item_key": "WHSDGV&234",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_white_kristall_moss_cliff_A106",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 14,
+      "scene": "labyrinth 11A",
+      "region": "halls_eternity",
+      "go_name": "kristall_01_am_boden",
+      "progress_uid": "grab_kristall_entrance_hall_A107a",
+      "item_key": "SDGVBLA",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_kristall_entrance_hall_A107a",
+      "alias_scenes": [
+        "labyrinth_11"
+      ]
+    },
+    {
+      "scene_index": 16,
+      "scene": "hall_R_05",
+      "region": "great_cave",
+      "go_name": "holz_halls",
+      "progress_uid": "grab_holz_exit_01",
+      "item_key": "FRST435",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_holz_exit_01",
+      "alias_scenes": [
+        "exit"
+      ]
+    },
+    {
+      "scene_index": 17,
+      "scene": "face",
+      "region": "great_cave",
+      "go_name": "kristall_01_am_boden",
+      "progress_uid": "grab_blue_kristall_face_A101",
+      "item_key": "SDGVBL",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_blue_kristall_face_A101",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 17,
+      "scene": "face",
+      "region": "great_cave",
+      "go_name": "kristall_01_am_boden",
+      "progress_uid": "grab_blue_kristall_face_A102",
+      "item_key": "SDGVBL",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_blue_kristall_face_A102",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 21,
+      "scene": "entrancehall2",
+      "region": "kings_hall",
+      "go_name": "Item_Book (14)",
+      "progress_uid": "entrancehall2_newbook_UID_1",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "entrancehall2_newbook_UID_1",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 21,
+      "scene": "entrancehall2",
+      "region": "kings_hall",
+      "go_name": "Item_Book (16)",
+      "progress_uid": "entrancehall2_newbook_UID_2",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "entrancehall2_newbook_UID_2",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 22,
+      "scene": "hall_L_08",
+      "region": "great_cave",
+      "go_name": "holz_halls",
+      "progress_uid": "grab_holz_exit_03",
+      "item_key": "FRST435",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_holz_exit_03",
+      "alias_scenes": [
+        "exit"
+      ]
+    },
+    {
+      "scene_index": 23,
+      "scene": "hall_L_01",
+      "region": "great_cave",
+      "go_name": "kohle_lab",
+      "progress_uid": "sakdz34hbhsloac",
+      "item_key": "KSTTFF34",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "sakdz34hbhsloac",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 26,
+      "scene": "hall_L_03",
+      "region": "great_cave",
+      "go_name": "flute",
+      "progress_uid": "didgeridoo_moss_cliff_part_1",
+      "item_key": "MUL4L4L4",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "didgeridoo_moss_cliff_part_1",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 27,
+      "scene": "entrance_labyrinth",
+      "region": "halls_eternity",
+      "go_name": "feuerstein",
+      "progress_uid": "grab_feuerstein_entrancely_01",
+      "item_key": "FRST986",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_feuerstein_entrancely_01",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 28,
+      "scene": "labyrinth_01",
+      "region": "halls_eternity",
+      "go_name": "kohle_lab",
+      "progress_uid": "kohle_labyrinth_01",
+      "item_key": "KSTTFF34",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "kohle_labyrinth_01",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 30,
+      "scene": "labyrinth_03",
+      "region": "halls_eternity",
+      "go_name": "kohle_lab",
+      "progress_uid": "kohle_labyrinth_02",
+      "item_key": "KSTTFF34",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "kohle_labyrinth_02",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 32,
+      "scene": "labyrinth_05",
+      "region": "halls_eternity",
+      "go_name": "kohle_lab",
+      "progress_uid": "kohle_labyrinth_03",
+      "item_key": "KSTTFF34",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "kohle_labyrinth_03",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 34,
+      "scene": "labyrinth_07",
+      "region": "halls_eternity",
+      "go_name": "feuerstein (1)",
+      "progress_uid": "grab_feuerstein_labyrinth_04",
+      "item_key": "FRST986",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_feuerstein_labyrinth_04",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 35,
+      "scene": "labyrinth_08",
+      "region": "halls_eternity",
+      "go_name": "kohle_lab",
+      "progress_uid": "kohle_labyrinth_04",
+      "item_key": "KSTTFF34",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "kohle_labyrinth_04",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 37,
+      "scene": "labyrinth_10",
+      "region": "halls_eternity",
+      "go_name": "kohle_lab",
+      "progress_uid": "kohle_labyrinth_05",
+      "item_key": "KSTTFF34",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "kohle_labyrinth_05",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 41,
+      "scene": "labyrinth_14",
+      "region": "halls_eternity",
+      "go_name": "kohle_lab",
+      "progress_uid": "kohle_labyrinth_06",
+      "item_key": "KSTTFF34",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "kohle_labyrinth_06",
+      "alias_scenes": [
+        "labyrinth 14A"
+      ]
+    },
+    {
+      "scene_index": 43,
+      "scene": "labyrinth_16",
+      "region": "halls_eternity",
+      "go_name": "MovableStone (1)",
+      "progress_uid": "movable_stone_labyrinth_02",
+      "item_key": "WATHAMCC",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "movable_stone_labyrinth_02",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 45,
+      "scene": "halls_of_eternity",
+      "region": "halls_eternity",
+      "go_name": "GenericItemToGrab_Once",
+      "progress_uid": "2",
+      "item_key": "WIIHAHAHAHAH&234",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "2",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 46,
+      "scene": "library",
+      "region": "library",
+      "go_name": "Item_Book",
+      "progress_uid": "grab_item_library_book_UID_01",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_library_book_UID_01",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 46,
+      "scene": "library",
+      "region": "library",
+      "go_name": "Item_Book (1)",
+      "progress_uid": "grab_item_library_book_UID_02",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_library_book_UID_02",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 46,
+      "scene": "library",
+      "region": "library",
+      "go_name": "Item_Book (2)",
+      "progress_uid": "grab_item_library_book_UID_03",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_library_book_UID_03",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 46,
+      "scene": "library",
+      "region": "library",
+      "go_name": "Item_Book (3)",
+      "progress_uid": "grab_item_library_book_UID_04",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_library_book_UID_04",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 46,
+      "scene": "library",
+      "region": "library",
+      "go_name": "Item_Book (4)",
+      "progress_uid": "grab_item_library_book_UID_05",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_library_book_UID_05",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 46,
+      "scene": "library",
+      "region": "library",
+      "go_name": "Item_Book (7)",
+      "progress_uid": "grab_item_library_book_UID_06",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_library_book_UID_06",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 46,
+      "scene": "library",
+      "region": "library",
+      "go_name": "Item_Book (13)",
+      "progress_uid": "grab_item_library_book_UID_07",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_library_book_UID_07",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 46,
+      "scene": "library",
+      "region": "library",
+      "go_name": "Item_Book (5)",
+      "progress_uid": "grab_item_library_book_UID_08",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_library_book_UID_08",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 46,
+      "scene": "library",
+      "region": "library",
+      "go_name": "Item_Book (6)",
+      "progress_uid": "grab_item_library_book_UID_09",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_library_book_UID_09",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 46,
+      "scene": "library",
+      "region": "library",
+      "go_name": "Item_Book (9)",
+      "progress_uid": "grab_item_library_book_UID_10",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_library_book_UID_10",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 46,
+      "scene": "library",
+      "region": "library",
+      "go_name": "Item_Book (8)",
+      "progress_uid": "grab_item_library_book_UID_11",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_library_book_UID_11",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 46,
+      "scene": "library",
+      "region": "library",
+      "go_name": "Item_Book (12)",
+      "progress_uid": "grab_item_library_book_UID_12",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_library_book_UID_12",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 46,
+      "scene": "library",
+      "region": "library",
+      "go_name": "Item_Book (11)",
+      "progress_uid": "grab_item_library_book_UID_13",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_library_book_UID_13",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 46,
+      "scene": "library",
+      "region": "library",
+      "go_name": "Item_Book (10)",
+      "progress_uid": "grab_item_library_book_UID_14",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_library_book_UID_14",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 46,
+      "scene": "library",
+      "region": "library",
+      "go_name": "Item_Book (14)",
+      "progress_uid": "grab_item_library_newbook_UID_1",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_library_newbook_UID_1",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 46,
+      "scene": "library",
+      "region": "library",
+      "go_name": "Item_Book (15)",
+      "progress_uid": "grab_item_library_newbook_UID_2",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_library_newbook_UID_2",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 46,
+      "scene": "library",
+      "region": "library",
+      "go_name": "Item_Book (16)",
+      "progress_uid": "grab_item_library_newbook_UID_3",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_library_newbook_UID_3",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 46,
+      "scene": "library",
+      "region": "library",
+      "go_name": "Item_Book (17)",
+      "progress_uid": "grab_item_library_newbook_UID_4",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_library_newbook_UID_4",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 46,
+      "scene": "library",
+      "region": "library",
+      "go_name": "Item_Book (18)",
+      "progress_uid": "grab_item_library_newbook_UID_5",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_library_newbook_UID_5",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 47,
+      "scene": "hall_L_04",
+      "region": "great_cave",
+      "go_name": "lehm",
+      "progress_uid": "grab_lehm_1",
+      "item_key": "STN_CLRS3422",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_lehm_1",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 48,
+      "scene": "grotto_01",
+      "region": "great_cave",
+      "go_name": "Moss_Growing",
+      "progress_uid": "grotto_1_01",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grotto_1_01",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 48,
+      "scene": "grotto_01",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (2)",
+      "progress_uid": "grotto_1_02",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grotto_1_02",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 48,
+      "scene": "grotto_01",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (3)",
+      "progress_uid": "grotto_1_03",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grotto_1_03",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 48,
+      "scene": "grotto_01",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (4)",
+      "progress_uid": "grotto_1_04",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grotto_1_04",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 48,
+      "scene": "grotto_01",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (5)",
+      "progress_uid": "grotto_1_05",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grotto_1_05",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 48,
+      "scene": "grotto_01",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (6)",
+      "progress_uid": "grotto_1_06",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grotto_1_06",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 48,
+      "scene": "grotto_01",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (7)",
+      "progress_uid": "grotto_1_07",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grotto_1_07",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 48,
+      "scene": "grotto_01",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (8)",
+      "progress_uid": "grotto_1_08",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grotto_1_08",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 48,
+      "scene": "grotto_01",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (9)",
+      "progress_uid": "grotto_1_09",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grotto_1_09",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 48,
+      "scene": "grotto_01",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (10)",
+      "progress_uid": "grotto_1_10",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grotto_1_10",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 49,
+      "scene": "grotto_02",
+      "region": "great_cave",
+      "go_name": "Moss_Growing",
+      "progress_uid": "grotto_2_moss_01",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grotto_2_moss_01",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 49,
+      "scene": "grotto_02",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (1)",
+      "progress_uid": "grotto_2_moss_02",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grotto_2_moss_02",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 49,
+      "scene": "grotto_02",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (2)",
+      "progress_uid": "grotto_2_moss_03",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grotto_2_moss_03",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 49,
+      "scene": "grotto_02",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (3)",
+      "progress_uid": "grotto_2_moss_04",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grotto_2_moss_04",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 49,
+      "scene": "grotto_02",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (4)",
+      "progress_uid": "grotto_2_moss_05",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grotto_2_moss_05",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 49,
+      "scene": "grotto_02",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (6)",
+      "progress_uid": "grotto_2_moss_07",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grotto_2_moss_07",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 49,
+      "scene": "grotto_02",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (7)",
+      "progress_uid": "grotto_2_moss_08",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grotto_2_moss_08",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 49,
+      "scene": "grotto_02",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (8)",
+      "progress_uid": "grotto_2_moss_09",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grotto_2_moss_09",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 49,
+      "scene": "grotto_02",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (9)",
+      "progress_uid": "grotto_2_moss_10",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grotto_2_moss_10",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 49,
+      "scene": "grotto_02",
+      "region": "great_cave",
+      "go_name": "Moss_Growing (10)",
+      "progress_uid": "grotto_2_moss_11",
+      "item_key": "ITMM0023Z",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grotto_2_moss_11",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 51,
+      "scene": "hall_L_06",
+      "region": "great_cave",
+      "go_name": "hidden flute",
+      "progress_uid": "didgeridoo_l06_1",
+      "item_key": "MUL4L4L4",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "didgeridoo_l06_1",
+      "alias_scenes": [
+        "hall L 06A",
+        "hall_L06_behind"
+      ]
+    },
+    {
+      "scene_index": 54,
+      "scene": "entrancehall3",
+      "region": "kings_hall",
+      "go_name": "Hacke",
+      "progress_uid": "grab_hacke_01_mine",
+      "item_key": "PH534TLO0",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_hacke_01_mine",
+      "alias_scenes": [
+        "mine_01"
+      ]
+    },
+    {
+      "scene_index": 60,
+      "scene": "tower",
+      "region": "secret_tower",
+      "go_name": "Item_Book (6)",
+      "progress_uid": "sadjk78sadklasdblk11",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "sadjk78sadklasdblk11",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 60,
+      "scene": "tower",
+      "region": "secret_tower",
+      "go_name": "Item_Book (5)",
+      "progress_uid": "sadjk78sadklasdblk13",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "sadjk78sadklasdblk13",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 60,
+      "scene": "tower",
+      "region": "secret_tower",
+      "go_name": "Item_Book (3)",
+      "progress_uid": "sadjk78sadklasdblk14",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "sadjk78sadklasdblk14",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 60,
+      "scene": "tower",
+      "region": "secret_tower",
+      "go_name": "Item_Book (4)",
+      "progress_uid": "sadjk78sadklasdblk15",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "sadjk78sadklasdblk15",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 60,
+      "scene": "tower",
+      "region": "secret_tower",
+      "go_name": "Item_Book (7)",
+      "progress_uid": "sadjk78sadklasdblk16",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "sadjk78sadklasdblk16",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 60,
+      "scene": "tower",
+      "region": "secret_tower",
+      "go_name": "Item_Book",
+      "progress_uid": "sadjk78sadklasdblk18",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "sadjk78sadklasdblk18",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 60,
+      "scene": "tower",
+      "region": "secret_tower",
+      "go_name": "Big Crystal",
+      "progress_uid": "jsadj7sgadi6dfdfsdsgdsgdsd2",
+      "item_key": "KLKASJD&ASGD786h",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "jsadj7sgadi6dfdfsdsgdsgdsd2",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 60,
+      "scene": "tower",
+      "region": "secret_tower",
+      "go_name": "Hacke (1)",
+      "progress_uid": "grab_hacke_02_tower",
+      "item_key": "PH534TLO0",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_hacke_02_tower",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 60,
+      "scene": "tower",
+      "region": "secret_tower",
+      "go_name": "secretkey",
+      "progress_uid": "secretkey_05",
+      "item_key": "SecretKey",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "secretkey_05",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 61,
+      "scene": "up_07",
+      "region": "great_cave",
+      "go_name": "hidden flute",
+      "progress_uid": "didgeridoo_home_part_3",
+      "item_key": "MUL4L4L4",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "didgeridoo_home_part_3",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 62,
+      "scene": "exit",
+      "region": "mushroom_groves",
+      "go_name": "holz_halls (1)",
+      "progress_uid": "grab_holz_exit_02",
+      "item_key": "FRST435",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_holz_exit_02",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 62,
+      "scene": "exit",
+      "region": "mushroom_groves",
+      "go_name": "holz_halls (3)",
+      "progress_uid": "grab_holz_exit_04",
+      "item_key": "FRST435",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_holz_exit_04",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 62,
+      "scene": "exit",
+      "region": "mushroom_groves",
+      "go_name": "holz_halls (4)",
+      "progress_uid": "grab_holz_exit_05",
+      "item_key": "FRST435",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_holz_exit_05",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 62,
+      "scene": "exit",
+      "region": "mushroom_groves",
+      "go_name": "kohle_lab",
+      "progress_uid": "kohle_exit_01",
+      "item_key": "KSTTFF34",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "kohle_exit_01",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 62,
+      "scene": "exit",
+      "region": "mushroom_groves",
+      "go_name": "kohle_lab (1)",
+      "progress_uid": "kohle_exit_02",
+      "item_key": "KSTTFF34",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "kohle_exit_02",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 62,
+      "scene": "exit",
+      "region": "mushroom_groves",
+      "go_name": "kohle_lab (2)",
+      "progress_uid": "kohle_exit_03",
+      "item_key": "KSTTFF34",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "kohle_exit_03",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 62,
+      "scene": "exit",
+      "region": "mushroom_groves",
+      "go_name": "kohle_lab (3)",
+      "progress_uid": "kohle_exit_04",
+      "item_key": "KSTTFF34",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "kohle_exit_04",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 63,
+      "scene": "mine_01",
+      "region": "crystal_cavern",
+      "go_name": "holz_01_item-once",
+      "progress_uid": "grab_item_MINE_HOLZ1_4000",
+      "item_key": "FRST435",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_MINE_HOLZ1_4000",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 63,
+      "scene": "mine_01",
+      "region": "crystal_cavern",
+      "go_name": "holz_01_0001",
+      "progress_uid": "grab_item_MINE_HOLZ1_UID",
+      "item_key": "FRST435",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_MINE_HOLZ1_UID",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 63,
+      "scene": "mine_01",
+      "region": "crystal_cavern",
+      "go_name": "holz_02_item-once",
+      "progress_uid": "grab_item_MINE_HOLZ2_4000",
+      "item_key": "FRST435",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_MINE_HOLZ2_4000",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 63,
+      "scene": "mine_01",
+      "region": "crystal_cavern",
+      "go_name": "holz_03_item-once",
+      "progress_uid": "grab_item_MINE_HOLZ3_4000",
+      "item_key": "FRST435",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_MINE_HOLZ3_4000",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 63,
+      "scene": "mine_01",
+      "region": "crystal_cavern",
+      "go_name": "holz_04_item-once",
+      "progress_uid": "grab_item_MINE_HOLZ4_4000",
+      "item_key": "FRST435",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_MINE_HOLZ4_4000",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 65,
+      "scene": "mine_03",
+      "region": "crystal_cavern",
+      "go_name": "schwefel_am_boden",
+      "progress_uid": "grab_schwfel_01_1",
+      "item_key": "STN_CLRS3423",
+      "secondary_key": "5U2LFU6",
+      "amount": 1,
+      "canonical_id": "grab_schwfel_01_1",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 65,
+      "scene": "mine_03",
+      "region": "crystal_cavern",
+      "go_name": "schwefel_am_boden",
+      "progress_uid": "grab_schwfel_02_1",
+      "item_key": "STN_CLRS3423",
+      "secondary_key": "5U2LFU6",
+      "amount": 1,
+      "canonical_id": "grab_schwfel_02_1",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 66,
+      "scene": "mine_04",
+      "region": "crystal_cavern",
+      "go_name": "kohle_am_boden",
+      "progress_uid": "grab_kohle_01_1",
+      "item_key": "KSTTFF34",
+      "secondary_key": null,
+      "amount": 5,
+      "canonical_id": "grab_kohle_01_1",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "go_name": "Flower",
+      "progress_uid": "spiderflower_01",
+      "item_key": "FLWRSPDR",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "spiderflower_01",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "go_name": "feuerstein (1)",
+      "progress_uid": "grab_feuerstein_gretcave_02",
+      "item_key": "FRST986",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_feuerstein_gretcave_02",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "go_name": "first coal",
+      "progress_uid": "kohle_gc_01",
+      "item_key": "KSTTFF34",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "kohle_gc_01",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "go_name": "first coal (1)",
+      "progress_uid": "kohle_gc_02",
+      "item_key": "KSTTFF34",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "kohle_gc_02",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "go_name": "kristall_01_am_boden",
+      "progress_uid": "grab_purple-kristall-great_cave-B101",
+      "item_key": "SDGLV234",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_purple-kristall-great_cave-B101",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "go_name": "LAPIS",
+      "progress_uid": "grab_lapis_gretcave_02",
+      "item_key": "STN_CLRS3424",
+      "secondary_key": "L45I5",
+      "amount": 1,
+      "canonical_id": "grab_lapis_gretcave_02",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 69,
+      "scene": "brunnen",
+      "region": "surface_well",
+      "go_name": "holz_halls (2)",
+      "progress_uid": "grab_holz_brunnen_01",
+      "item_key": "FRST435",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_holz_brunnen_01",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 69,
+      "scene": "brunnen",
+      "region": "surface_well",
+      "go_name": "holz_halls (1)",
+      "progress_uid": "grab_holz_brunnen_02",
+      "item_key": "FRST435",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_holz_brunnen_02",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 69,
+      "scene": "brunnen",
+      "region": "surface_well",
+      "go_name": "Hacke (1)",
+      "progress_uid": "grab_hacke_02_mine",
+      "item_key": "PH534TLO0",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_hacke_02_mine",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 70,
+      "scene": "mysteryroom_01",
+      "region": "kings_hall",
+      "go_name": "Item_Book",
+      "progress_uid": "grab_item_mysteryroom_book_UID_01",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_mysteryroom_book_UID_01",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 70,
+      "scene": "mysteryroom_01",
+      "region": "kings_hall",
+      "go_name": "Item_Book (14)",
+      "progress_uid": "mysteryroom_newbook_UID_1",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "mysteryroom_newbook_UID_1",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 70,
+      "scene": "mysteryroom_01",
+      "region": "kings_hall",
+      "go_name": "Item_Book (16)",
+      "progress_uid": "mysteryroom_newbook_UID_2",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "mysteryroom_newbook_UID_2",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 70,
+      "scene": "mysteryroom_01",
+      "region": "kings_hall",
+      "go_name": "Item_Paper",
+      "progress_uid": "grab_item_mysteryroom_paper_UID_01",
+      "item_key": "P4H_FFT",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_mysteryroom_paper_UID_01",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 71,
+      "scene": "mysteryroom_02",
+      "region": "kings_hall",
+      "go_name": "papier_halls 3",
+      "progress_uid": "papier_mystyeroom_2_paper_UID_1",
+      "item_key": "P4H_FFT",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "papier_mystyeroom_2_paper_UID_1",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 72,
+      "scene": "hall_L_05",
+      "region": "great_cave",
+      "go_name": "Item_Book",
+      "progress_uid": "grab_item_book_secret_01",
+      "item_key": "B00BZ",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_book_secret_01",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 72,
+      "scene": "hall_L_05",
+      "region": "great_cave",
+      "go_name": "Big Crystal",
+      "progress_uid": "scrtcrstl33",
+      "item_key": "HJUIASD&jI33",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "scrtcrstl33",
+      "alias_scenes": []
+    },
+    {
+      "scene_index": 72,
+      "scene": "hall_L_05",
+      "region": "great_cave",
+      "go_name": "Item_Bild",
+      "progress_uid": "grab_item_bildking_01",
+      "item_key": "TEKNGRISES777",
+      "secondary_key": null,
+      "amount": 1,
+      "canonical_id": "grab_item_bildking_01",
+      "alias_scenes": []
+    }
+  ],
+  "books": [
+    {
+      "book_id": -2,
+      "title": "moby dick",
+      "filename": "mobydick.txt"
+    },
+    {
+      "book_id": -2,
+      "title": "thoughts",
+      "filename": "poespoems.txt"
+    },
+    {
+      "book_id": -2,
+      "title": "the goose girl",
+      "filename": "thegoosegirl.txt"
+    },
+    {
+      "book_id": -2,
+      "title": "thus spoke zarathustra i",
+      "filename": "zarathustra1.txt"
+    },
+    {
+      "book_id": 0,
+      "title": "poems ii",
+      "filename": "poem2.txt"
+    },
+    {
+      "book_id": 1,
+      "title": "metamorphoses",
+      "filename": "metamorphoses.txt"
+    },
+    {
+      "book_id": 2,
+      "title": "the six swans",
+      "filename": "thesixswans.txt"
+    },
+    {
+      "book_id": 3,
+      "title": "fables i",
+      "filename": "fables1.txt"
+    },
+    {
+      "book_id": 4,
+      "title": "thus spoke zarathustra ii",
+      "filename": "zarathustra2.txt"
+    },
+    {
+      "book_id": 5,
+      "title": "amontillado",
+      "filename": "amontillado.txt"
+    },
+    {
+      "book_id": 6,
+      "title": "thus spoke zarathustra iii",
+      "filename": "zarathustra3.txt"
+    },
+    {
+      "book_id": 7,
+      "title": "illiad i-xiii",
+      "filename": "iliad_01-08.txt"
+    },
+    {
+      "book_id": 8,
+      "title": "nibelungenlied",
+      "filename": "nibelungenlied.txt"
+    },
+    {
+      "book_id": 9,
+      "title": "illiad ix-xvii",
+      "filename": "iliad_09-17.txt"
+    },
+    {
+      "book_id": 10,
+      "title": "the raven",
+      "filename": "theraven.txt"
+    },
+    {
+      "book_id": 11,
+      "title": "THUS SPOKE ZARATHUSTRA IV",
+      "filename": "zarathustra4.txt"
+    },
+    {
+      "book_id": 12,
+      "title": "fables ii",
+      "filename": "fables2.txt"
+    },
+    {
+      "book_id": 13,
+      "title": "three tales",
+      "filename": "the3.txt"
+    },
+    {
+      "book_id": 14,
+      "title": "the golden bird",
+      "filename": "thegoldenbird.txt"
+    },
+    {
+      "book_id": 15,
+      "title": "illiad xviii-xxiv",
+      "filename": "iliad_18-24.txt"
+    },
+    {
+      "book_id": 16,
+      "title": "morella",
+      "filename": "morella.txt"
+    },
+    {
+      "book_id": 17,
+      "title": "ligeia",
+      "filename": "ligeia.txt"
+    },
+    {
+      "book_id": 18,
+      "title": "pym",
+      "filename": "pym.txt"
+    },
+    {
+      "book_id": 19,
+      "title": "hans pfaal",
+      "filename": "hans pfaal.txt"
+    },
+    {
+      "book_id": 20,
+      "title": "the time machine",
+      "filename": "thetimemachine.txt"
+    },
+    {
+      "book_id": 21,
+      "title": "the secret garden",
+      "filename": "thesecretgarden.txt"
+    },
+    {
+      "book_id": 22,
+      "title": "monte cristo i",
+      "filename": "montecristo1.txt"
+    },
+    {
+      "book_id": 23,
+      "title": "monte cristo ii",
+      "filename": "montecristo2.txt"
+    },
+    {
+      "book_id": 24,
+      "title": "monte cristo iii",
+      "filename": "montecristo3.txt"
+    },
+    {
+      "book_id": 25,
+      "title": "monte cristo iv",
+      "filename": "montecristo4.txt"
+    },
+    {
+      "book_id": 26,
+      "title": "monte cristo v",
+      "filename": "montecristo5.txt"
+    },
+    {
+      "book_id": 27,
+      "title": "monte cristo vi",
+      "filename": "montecristo6.txt"
+    },
+    {
+      "book_id": 28,
+      "title": "neverending notebook",
+      "filename": "notebook.txt"
+    },
+    {
+      "book_id": 29,
+      "title": "Poes Poems",
+      "filename": "poespoems.txt"
+    },
+    {
+      "book_id": 30,
+      "title": "mosscarpet",
+      "filename": "mosscarpet.txt"
+    },
+    {
+      "book_id": 31,
+      "title": "The Wind In The Willows",
+      "filename": "windinthewillows.txt"
+    },
+    {
+      "book_id": 32,
+      "title": "King Pest",
+      "filename": "king pest.txt"
+    },
+    {
+      "book_id": 33,
+      "title": "dream days",
+      "filename": "dreamdays.txt"
+    },
+    {
+      "book_id": 34,
+      "title": "The Golden Age",
+      "filename": "thegoldenage.txt"
+    },
+    {
+      "book_id": 35,
+      "title": "The House On The Borderland",
+      "filename": "houseontheborderland.txt"
+    },
+    {
+      "book_id": 36,
+      "title": "The Door In The Wall",
+      "filename": "doorinthewall.txt"
+    },
+    {
+      "book_id": 37,
+      "title": "the sleeper awakes",
+      "filename": "thesleeperawakes.txt"
+    },
+    {
+      "book_id": 38,
+      "title": "In The Fog",
+      "filename": "inthefog.txt"
+    },
+    {
+      "book_id": 39,
+      "title": "The Anatomy Of Melancholy",
+      "filename": "anatomyofmelancholy.txt"
+    }
+  ],
+  "eternity_spawns": [
+    {
+      "prefab": "Pferdekopf_halls",
+      "item_key": "WIIHAHAHAHAH&234",
+      "amount": 1
+    },
+    {
+      "prefab": "Pferdekopf_halls",
+      "item_key": "WIIHAHAHAHAH&234",
+      "amount": 1
+    },
+    {
+      "prefab": "book_halls 1",
+      "item_key": "B00BZ",
+      "amount": 1
+    },
+    {
+      "prefab": "book_halls 2",
+      "item_key": "B00BZ",
+      "amount": 1
+    },
+    {
+      "prefab": "book_halls 3",
+      "item_key": "B00BZ",
+      "amount": 1
+    },
+    {
+      "prefab": "papier_halls 1",
+      "item_key": "P4H_FFT",
+      "amount": 1
+    },
+    {
+      "prefab": "papier_halls 1",
+      "item_key": "P4H_FFT",
+      "amount": 1
+    },
+    {
+      "prefab": "papier_halls 2",
+      "item_key": "P4H_FFT",
+      "amount": 1
+    },
+    {
+      "prefab": "papier_halls 3",
+      "item_key": "P4H_FFT",
+      "amount": 1
+    },
+    {
+      "prefab": "papier_halls 4",
+      "item_key": "P4H_FFT",
+      "amount": 1
+    },
+    {
+      "prefab": "teppich_halls 2",
+      "item_key": "T33PCHZWO",
+      "amount": 1
+    },
+    {
+      "prefab": "teppich_halls 2",
+      "item_key": "T33PCHZWO",
+      "amount": 1
+    },
+    {
+      "prefab": "teppich_halls 3",
+      "item_key": "T33PCHIERD",
+      "amount": 1
+    },
+    {
+      "prefab": "teppich_halls 3",
+      "item_key": "T33PCHIERD",
+      "amount": 1
+    },
+    {
+      "prefab": "vorhang_halls",
+      "item_key": "VROHG",
+      "amount": 1
+    },
+    {
+      "prefab": "vorhang_halls",
+      "item_key": "VROHG",
+      "amount": 1
+    }
+  ],
+  "gates_and_events": [
+    {
+      "scene_index": 3,
+      "scene": "king",
+      "region": "kings_hall",
+      "class": "Interactable_King",
+      "go_name": "KING",
+      "progress_uid": "theking_01",
+      "duration_seconds": 34560000
+    },
+    {
+      "scene_index": 4,
+      "scene": "home",
+      "region": "shades_home",
+      "class": "InteractableOutcome_HackIntoWall",
+      "go_name": "moveableHackable",
+      "progress_uid": "debug_home_hackWall_1_223",
+      "duration_seconds": 685
+    },
+    {
+      "scene_index": 4,
+      "scene": "home",
+      "region": "shades_home",
+      "class": "InteractableOutcome_HackIntoWall",
+      "go_name": "moveableHackable",
+      "progress_uid": "debug_home_hackWall_2_213",
+      "duration_seconds": 485
+    },
+    {
+      "scene_index": 4,
+      "scene": "home",
+      "region": "shades_home",
+      "class": "InteractableOutcome_HackIntoWall",
+      "go_name": "moveableHackable",
+      "progress_uid": "debug_home_hackWall_3_212",
+      "duration_seconds": 660
+    },
+    {
+      "scene_index": 4,
+      "scene": "home",
+      "region": "shades_home",
+      "class": "InteractableOutcome_HackIntoWall",
+      "go_name": "moveableHackable",
+      "progress_uid": "debug_home_hackWall_4_21",
+      "duration_seconds": 480
+    },
+    {
+      "scene_index": 4,
+      "scene": "home",
+      "region": "shades_home",
+      "class": "InteractableOutcome_HackIntoWall",
+      "go_name": "moveableHackable",
+      "progress_uid": "debug_home_hackWall_5_21",
+      "duration_seconds": 510
+    },
+    {
+      "scene_index": 4,
+      "scene": "home",
+      "region": "shades_home",
+      "class": "InteractableOutcome_HackIntoWall",
+      "go_name": "moveableHackable",
+      "progress_uid": "debug_home_hackWall_6_21",
+      "duration_seconds": 270
+    },
+    {
+      "scene_index": 4,
+      "scene": "home",
+      "region": "shades_home",
+      "class": "InteractableOutcome_HackIntoWall",
+      "go_name": "moveableHackable",
+      "progress_uid": "debug_home_hackWall_7_25",
+      "duration_seconds": 280
+    },
+    {
+      "scene_index": 4,
+      "scene": "home",
+      "region": "shades_home",
+      "class": "Interactable_Home_BuildBed",
+      "go_name": "Bed",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 4,
+      "scene": "home",
+      "region": "shades_home",
+      "class": "Interactable_Home_Draw",
+      "go_name": "StartDrawing",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 4,
+      "scene": "home",
+      "region": "shades_home",
+      "class": "Interactable_Home_Kamin",
+      "go_name": "Kamin",
+      "progress_uid": "home_kamin_feuer_10",
+      "duration_seconds": 14400
+    },
+    {
+      "scene_index": 4,
+      "scene": "home",
+      "region": "shades_home",
+      "class": "Interactable_Home_KaminSulfur",
+      "go_name": "SulfurFire",
+      "progress_uid": "sulfur_smellyfire_5",
+      "duration_seconds": 7200
+    },
+    {
+      "scene_index": 4,
+      "scene": "home",
+      "region": "shades_home",
+      "class": "Interactable_Home_Music",
+      "go_name": "Music",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 4,
+      "scene": "home",
+      "region": "shades_home",
+      "class": "Interactable_Home_Read",
+      "go_name": "StartReading",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 4,
+      "scene": "home",
+      "region": "shades_home",
+      "class": "Interactable_Home_SleepBed",
+      "go_name": "Bed-Sleeping",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 4,
+      "scene": "home",
+      "region": "shades_home",
+      "class": "Interactable_NeedsMattock",
+      "go_name": "DialogueOnAction",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 4,
+      "scene": "home",
+      "region": "shades_home",
+      "class": "Interactable_NeedsMattock",
+      "go_name": "DialogueOnAction (1)",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 4,
+      "scene": "home",
+      "region": "shades_home",
+      "class": "Interactable_NeedsMattock",
+      "go_name": "DialogueOnAction (2)",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 4,
+      "scene": "home",
+      "region": "shades_home",
+      "class": "Interactable_NeedsMattock",
+      "go_name": "EndDrawing",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 4,
+      "scene": "home",
+      "region": "shades_home",
+      "class": "Interactable_Sanduhr",
+      "go_name": "Sanduhr",
+      "progress_uid": "H0UrG1455",
+      "duration_seconds": 60
+    },
+    {
+      "scene_index": 6,
+      "scene": "king_stairs",
+      "region": "kings_hall",
+      "class": "Interactable_DoorOpening_KingStairs",
+      "go_name": "DoorOpening_LoadLevelInteractable (1)",
+      "progress_uid": "door_anim_king_stairs_04",
+      "duration_seconds": 60
+    },
+    {
+      "scene_index": 7,
+      "scene": "entrance_hall",
+      "region": "kings_hall",
+      "class": "InteractableOutcome_HackIntoMine",
+      "go_name": "rosakristall_01_0001",
+      "progress_uid": "rosa-kristall-entrance-hall-A106z",
+      "duration_seconds": 600
+    },
+    {
+      "scene_index": 7,
+      "scene": "entrance_hall",
+      "region": "kings_hall",
+      "class": "InteractableOutcome_HackIntoMine",
+      "go_name": "rosakristall_01_0001",
+      "progress_uid": "rosa-kristall-entrance-hall-A107ts",
+      "duration_seconds": 600
+    },
+    {
+      "scene_index": 7,
+      "scene": "entrance_hall",
+      "region": "kings_hall",
+      "class": "InteractableOutcome_HackIntoMine",
+      "go_name": "rosakristall_01_0001",
+      "progress_uid": "rosa-kristall-entrance-hall-A108s",
+      "duration_seconds": 600
+    },
+    {
+      "scene_index": 7,
+      "scene": "entrance_hall",
+      "region": "kings_hall",
+      "class": "InteractableOutcome_HackIntoMine",
+      "go_name": "rosakristall_01_0001",
+      "progress_uid": "rosa-kristall-entrance-hall-A109",
+      "duration_seconds": 600
+    },
+    {
+      "scene_index": 8,
+      "scene": "treasury",
+      "region": "kings_hall",
+      "class": "InteractableOutcome_Treasury",
+      "go_name": "Treasury",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 8,
+      "scene": "treasury",
+      "region": "kings_hall",
+      "class": "Interactable_NeedsMattock",
+      "go_name": "treasure floor",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 8,
+      "scene": "treasury",
+      "region": "kings_hall",
+      "class": "Interactable_NeedsMattockFreeze",
+      "go_name": "Treasury",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 9,
+      "scene": "hall_R_02",
+      "region": "great_cave",
+      "class": "Interactable_DoorOpening_Mystery",
+      "go_name": "DoorOpening_LoadLevelInteractable 2",
+      "progress_uid": "secret_door_uID_05",
+      "duration_seconds": 3
+    },
+    {
+      "scene_index": 9,
+      "scene": "hall_R_02",
+      "region": "great_cave",
+      "class": "Interactable_MysteryDoor",
+      "go_name": "Mysterydoor",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 11,
+      "scene": "hall_R_03",
+      "region": "great_cave",
+      "class": "Interactable_DoorOpening_Mystery",
+      "go_name": "DoorOpening_LoadLevelInteractable 2",
+      "progress_uid": "secret_door_uID_05",
+      "duration_seconds": 3
+    },
+    {
+      "scene_index": 11,
+      "scene": "hall_R_03",
+      "region": "great_cave",
+      "class": "Interactable_MysteryDoor",
+      "go_name": "Mysterydoor",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "class": "InteractableOutcome_HackIntoMine",
+      "go_name": "whitekristall_01_0001",
+      "progress_uid": "white_kristall_moss_cliff_A101bb",
+      "duration_seconds": 600
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "class": "InteractableOutcome_HackIntoMine",
+      "go_name": "whitekristall_02_0001",
+      "progress_uid": "white_kristall_moss_cliff_A102",
+      "duration_seconds": 600
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "class": "InteractableOutcome_HackIntoMine",
+      "go_name": "whitekristall_02_0001",
+      "progress_uid": "white_kristall_moss_cliff_A103",
+      "duration_seconds": 600
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "class": "InteractableOutcome_HackIntoMine",
+      "go_name": "whitekristall_02_0001",
+      "progress_uid": "white_kristall_moss_cliff_A104",
+      "duration_seconds": 600
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "class": "InteractableOutcome_HackIntoMine",
+      "go_name": "whitekristall_02_0001",
+      "progress_uid": "white_kristall_moss_cliff_A105",
+      "duration_seconds": 600
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "class": "InteractableOutcome_HackIntoMine",
+      "go_name": "whitekristall_02_0001",
+      "progress_uid": "white_kristall_moss_cliff_A106",
+      "duration_seconds": 600
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "class": "Interactable_MosscliffFall",
+      "go_name": "Fall-Down-Moss-Cliff",
+      "progress_uid": "fall-down-moss-cliff11",
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 12,
+      "scene": "moss_cliff",
+      "region": "great_cave",
+      "class": "Interactable_Present",
+      "go_name": "Present",
+      "progress_uid": "KASBDklasdi_87",
+      "duration_seconds": 31536000
+    },
+    {
+      "scene_index": 14,
+      "scene": "labyrinth 11A",
+      "region": "halls_eternity",
+      "class": "InteractableOutcome_HackIntoMine",
+      "go_name": "blackkristall_01_0001",
+      "progress_uid": "black-kristall-labyrinth-A101",
+      "duration_seconds": 4
+    },
+    {
+      "scene_index": 16,
+      "scene": "hall_R_05",
+      "region": "great_cave",
+      "class": "Interactable_Stalagtit",
+      "go_name": "Stalagtit",
+      "progress_uid": "hall05_stalagtit_01",
+      "duration_seconds": 604800
+    },
+    {
+      "scene_index": 17,
+      "scene": "face",
+      "region": "great_cave",
+      "class": "InteractableOutcome_HackIntoMine",
+      "go_name": "bluekristall_01_0001",
+      "progress_uid": "blue_kristall_face_A101b",
+      "duration_seconds": 600
+    },
+    {
+      "scene_index": 17,
+      "scene": "face",
+      "region": "great_cave",
+      "class": "InteractableOutcome_HackIntoMine",
+      "go_name": "bluekristall_01_0001",
+      "progress_uid": "blue_kristall_face_A103",
+      "duration_seconds": 600
+    },
+    {
+      "scene_index": 17,
+      "scene": "face",
+      "region": "great_cave",
+      "class": "Interactable_Face",
+      "go_name": "DialogueFace",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 21,
+      "scene": "entrancehall2",
+      "region": "kings_hall",
+      "class": "Interactable_DoorOpening_Mystery",
+      "go_name": "DoorOpening_LoadLevelInteractable 2",
+      "progress_uid": "secret_door_uID_05",
+      "duration_seconds": 3
+    },
+    {
+      "scene_index": 21,
+      "scene": "entrancehall2",
+      "region": "kings_hall",
+      "class": "Interactable_MysteryDoor",
+      "go_name": "Mysterydoor",
+      "progress_uid": "mysterdoor_3_01",
+      "duration_seconds": 3600
+    },
+    {
+      "scene_index": 25,
+      "scene": "hall_L_02",
+      "region": "great_cave",
+      "class": "Interactable_DoorOpening_Mystery",
+      "go_name": "DoorOpening_LoadLevelInteractable 2",
+      "progress_uid": "secret_door_uID_05",
+      "duration_seconds": 3
+    },
+    {
+      "scene_index": 25,
+      "scene": "hall_L_02",
+      "region": "great_cave",
+      "class": "Interactable_MysteryDoor",
+      "go_name": "Mysterydoor",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 26,
+      "scene": "hall_L_03",
+      "region": "great_cave",
+      "class": "Interactable_DoorOpening_Mystery",
+      "go_name": "DoorOpening_LoadLevelInteractable 2",
+      "progress_uid": "secret_door_uID_05",
+      "duration_seconds": 3
+    },
+    {
+      "scene_index": 26,
+      "scene": "hall_L_03",
+      "region": "great_cave",
+      "class": "Interactable_MysteryDoor",
+      "go_name": "Mysterydoor",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 28,
+      "scene": "labyrinth_01",
+      "region": "halls_eternity",
+      "class": "Interactable_DoorOpening_Mystery",
+      "go_name": "DoorOpening_LoadLevelInteractable 2",
+      "progress_uid": "secret_door_uID_05",
+      "duration_seconds": 3
+    },
+    {
+      "scene_index": 28,
+      "scene": "labyrinth_01",
+      "region": "halls_eternity",
+      "class": "Interactable_MysteryDoor",
+      "go_name": "Mysterydoor",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 38,
+      "scene": "labyrinth_11",
+      "region": "halls_eternity",
+      "class": "InteractableOutcome_HackIntoMine",
+      "go_name": "blackkristall_01_0001",
+      "progress_uid": "black-kristall-labyrinth-A101",
+      "duration_seconds": 60
+    },
+    {
+      "scene_index": 49,
+      "scene": "grotto_02",
+      "region": "great_cave",
+      "class": "Interactable_RisingWater",
+      "go_name": "RisingWater",
+      "progress_uid": "rising_water_final095",
+      "duration_seconds": 2592001
+    },
+    {
+      "scene_index": 50,
+      "scene": "entrance_library",
+      "region": "library",
+      "class": "Interactable_DoorOpening_Library",
+      "go_name": "doorOpening_LoadLevelInteractable 1",
+      "progress_uid": "door_library_26",
+      "duration_seconds": 13
+    },
+    {
+      "scene_index": 54,
+      "scene": "entrancehall3",
+      "region": "kings_hall",
+      "class": "InteractableOutcome_MapReveal",
+      "go_name": "MapReveal",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 54,
+      "scene": "entrancehall3",
+      "region": "kings_hall",
+      "class": "Interactable_MysteryDoor",
+      "go_name": "shown doors",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 61,
+      "scene": "up_07",
+      "region": "great_cave",
+      "class": "Interactable_DoorOpening_Up07",
+      "go_name": "DoorOpening_Up07",
+      "progress_uid": "door_anim_UP07_14",
+      "duration_seconds": 7000
+    },
+    {
+      "scene_index": 65,
+      "scene": "mine_03",
+      "region": "crystal_cavern",
+      "class": "InteractableOutcome_HackIntoMine",
+      "go_name": "Schwefel 1",
+      "progress_uid": "schwefel_mine03_01",
+      "duration_seconds": 60
+    },
+    {
+      "scene_index": 65,
+      "scene": "mine_03",
+      "region": "crystal_cavern",
+      "class": "InteractableOutcome_HackIntoMine",
+      "go_name": "Schwefel 1",
+      "progress_uid": "schwefel_mine03_02",
+      "duration_seconds": 60
+    },
+    {
+      "scene_index": 66,
+      "scene": "mine_04",
+      "region": "crystal_cavern",
+      "class": "InteractableOutcome_HackIntoMine",
+      "go_name": "KOHLE_1",
+      "progress_uid": "KOHLE_mine04_023",
+      "duration_seconds": 600
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "class": "InteractableOutcome_HackIntoMine",
+      "go_name": "purplekristall_01_0001",
+      "progress_uid": "purple-kristall-great_cave-A101",
+      "duration_seconds": 600
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "class": "InteractableOutcome_HackIntoWall",
+      "go_name": "moveableHackable",
+      "progress_uid": "debug_greatcave_hack_linksunten_1",
+      "duration_seconds": 200
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "class": "InteractableOutcome_HackIntoWall",
+      "go_name": "moveableHackable",
+      "progress_uid": "debug_greatcave_hackdurchbruch_1",
+      "duration_seconds": 270
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "class": "InteractableOutcome_HackIntoWall",
+      "go_name": "moveableHackable",
+      "progress_uid": "debug_greatcave_hacklinksoben_1",
+      "duration_seconds": 300
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "class": "InteractableOutcome_HackIntoWall",
+      "go_name": "moveableHackable",
+      "progress_uid": "debug_greatcave_hackrechtsunten_8",
+      "duration_seconds": 260
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "class": "Interactable_DoorOpening_Mystery",
+      "go_name": "DoorOpening_LoadLevelInteractable 2",
+      "progress_uid": "secret_door_uID_05",
+      "duration_seconds": 3
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "class": "Interactable_Flower",
+      "go_name": "Flower",
+      "progress_uid": "spiderflower_01",
+      "duration_seconds": 432000
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "class": "Interactable_Monster",
+      "go_name": "Monster",
+      "progress_uid": "monster_great_cave_final01",
+      "duration_seconds": 4
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "class": "Interactable_MysteryDoor",
+      "go_name": "Mysterydoor",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "class": "Interactable_NeedsMattock",
+      "go_name": "DialogueOnAction",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "class": "Interactable_NeedsMattock",
+      "go_name": "DialogueOnAction (1)",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "class": "Interactable_NeedsMattock",
+      "go_name": "DialogueOnAction (2)",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "class": "Interactable_NeedsMattockFreeze",
+      "go_name": "LastWallTrigger",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "class": "Interactable_NeedsMattockFreeze",
+      "go_name": "LastWallTriggerOLD",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "class": "Interactable_SpiderNet",
+      "go_name": "SpiderNet_AlwaysClimbableDown",
+      "progress_uid": "great_cave_spidernet_alwayClimbableDown_final01",
+      "duration_seconds": 1
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "class": "Interactable_SpiderNet",
+      "go_name": "SpiderNet_RiddleAlwaysClimbableDown (1)",
+      "progress_uid": "great_cave_spidernet_alwayClimbableRiddle_final01",
+      "duration_seconds": 1
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "class": "Interactable_SpiderNet",
+      "go_name": "SpiderNet_AlwaysClimbable",
+      "progress_uid": "great_cave_spidernet_alwayClimbable_final01",
+      "duration_seconds": 1
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "class": "Interactable_SpiderNet",
+      "go_name": "Spider-Riddle_Falling",
+      "progress_uid": "great_cave_spidernet_falling_final25",
+      "duration_seconds": 1
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "class": "Interactable_SpiderNet",
+      "go_name": "Spider-Riddle",
+      "progress_uid": "great_cave_spidernet_webbing_final04",
+      "duration_seconds": 120000
+    },
+    {
+      "scene_index": 67,
+      "scene": "greatCave_complete",
+      "region": "mushroom_groves",
+      "class": "Interactable_Suicide",
+      "go_name": "SuicideCliff",
+      "progress_uid": null,
+      "duration_seconds": 0
+    },
+    {
+      "scene_index": 72,
+      "scene": "hall_L_05",
+      "region": "great_cave",
+      "class": "Interactable_DoorOpening_Mystery",
+      "go_name": "DoorOpening_LoadLevelInteractable 2",
+      "progress_uid": "secret_door_uID_05",
+      "duration_seconds": 3
+    },
+    {
+      "scene_index": 72,
+      "scene": "hall_L_05",
+      "region": "great_cave",
+      "class": "Interactable_MysteryDoor",
+      "go_name": "Mysterydoor",
+      "progress_uid": null,
+      "duration_seconds": 0
+    }
+  ]
+}

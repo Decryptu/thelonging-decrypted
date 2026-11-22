@@ -5,6 +5,8 @@ import {
   CAVERN_REGIONS,
   type CavernRegion,
   type CheckCategory,
+  formatCheckRequirements,
+  getRegionChecks,
 } from "./data/mapData";
 import {
   type CountdownLength,
@@ -22,6 +24,7 @@ import {
 import { type InstallMethod, type PlayerRole, getSetupSteps } from "./data/setupSteps";
 
 const STORAGE_KEY_SETUP = "thelonging_decrypted_setup_v1";
+const STORAGE_KEY_TRACKER = "thelonging_decrypted_tracker_v1";
 const SVG_NS = "http://www.w3.org/2000/svg";
 const SCREENS = ["menu", "yaml", "map", "setup"] as const;
 type ScreenId = (typeof SCREENS)[number];
@@ -172,12 +175,16 @@ function initYamlGenerator(): void {
   const shuffleComfort = byId<HTMLInputElement>("shuffle-comfort");
   const shuffleInstruments = byId<HTMLInputElement>("shuffle-instruments");
   const shuffleCoal = byId<HTMLInputElement>("shuffle-coal");
+  const requiredCrystalsInput = byId<HTMLInputElement>("required-crystals");
+  const requiredBooksInput = byId<HTMLInputElement>("required-books");
+  const huntTargetsRow = byId<HTMLElement>("hunt-targets-row");
   const trapDensitySelect = byId<HTMLSelectElement>("trap-density-select");
   const deathLink = byId<HTMLInputElement>("death-link");
 
   const validationEl = byId<HTMLElement>("yaml-validation");
   const previewEl = byId<HTMLElement>("yaml-preview");
   const filenameEl = byId<HTMLElement>("yaml-filename");
+  const checkCountEl = byId<HTMLElement>("yaml-check-count");
   const statusEl = byId<HTMLElement>("yaml-status");
   const downloadBtn = byId<HTMLButtonElement>("download-yaml-btn");
   const copyBtn = byId<HTMLButtonElement>("copy-yaml-btn");
@@ -212,6 +219,9 @@ function initYamlGenerator(): void {
     shuffleComfort.checked = state.shuffleHomeComfort;
     shuffleInstruments.checked = state.shuffleInstrumentParts;
     shuffleCoal.checked = state.shuffleCoalAndSulfur;
+    requiredCrystalsInput.value = String(state.requiredCrystals);
+    requiredBooksInput.value = String(state.requiredBooks);
+    huntTargetsRow.hidden = state.goal !== "crystal_book_hunt";
     trapDensitySelect.value = state.trapDensity;
     deathLink.checked = state.deathLink;
   };
@@ -258,6 +268,7 @@ function initYamlGenerator(): void {
 
     previewEl.textContent = serializeYaml(state);
     filenameEl.textContent = makeYamlFilename(state.playerName);
+    checkCountEl.textContent = `GENERATED FILE (${validation.enabledChecks} CHECKS)`;
     downloadBtn.disabled = !validation.valid;
   };
 
@@ -277,9 +288,12 @@ function initYamlGenerator(): void {
       shuffleHomeComfort: shuffleComfort.checked,
       shuffleInstrumentParts: shuffleInstruments.checked,
       shuffleCoalAndSulfur: shuffleCoal.checked,
+      requiredCrystals: Number(requiredCrystalsInput.value),
+      requiredBooks: Number(requiredBooksInput.value),
       trapDensity: trapDensitySelect.value as TrapDensity,
       deathLink: deathLink.checked,
     };
+    huntTargetsRow.hidden = state.goal !== "crystal_book_hunt";
     timeRateValue.textContent = `${state.startingTimeRate}x`;
     renderPresets();
     renderYaml();
@@ -336,6 +350,30 @@ function initYamlGenerator(): void {
    4. UNDERGROUND KINGDOM MAP
    ========================================================================== */
 
+function loadCheckedIds(): Set<number> {
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY_TRACKER);
+    if (!raw) {
+      return new Set<number>();
+    }
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) {
+      return new Set<number>(parsed.filter((v): v is number => typeof v === "number"));
+    }
+  } catch {
+    // Ignore storage errors in private contexts.
+  }
+  return new Set<number>();
+}
+
+function saveCheckedIds(ids: Set<number>): void {
+  try {
+    window.localStorage.setItem(STORAGE_KEY_TRACKER, JSON.stringify(Array.from(ids)));
+  } catch {
+    // Ignore storage errors in private contexts.
+  }
+}
+
 function initCavernMap(): void {
   const passagesLayer = document.getElementById("map-passages-layer");
   const nodesLayer = document.getElementById("map-nodes-layer");
@@ -349,14 +387,22 @@ function initCavernMap(): void {
   const regionSummary = byId<HTMLElement>("region-summary");
   const regionGates = byId<HTMLElement>("region-gates");
   const regionChecks = byId<HTMLElement>("region-checks");
+  const regionChecksHeading = byId<HTMLElement>("region-checks-heading");
+  const toggleSpoilersBtn = byId<HTMLButtonElement>("toggle-spoilers-btn");
   const jumpList = byId<HTMLElement>("region-jump-list");
 
   const regionById = new Map<string, CavernRegion>(CAVERN_REGIONS.map((r) => [r.id, r]));
+  const checkedIds = loadCheckedIds();
   let activeFilter: "all" | CheckCategory = "all";
   let selectedId = "shades_home";
+  let showSpoilers = true;
 
   const renderDrawer = (region: CavernRegion): void => {
-    regionDepth.textContent = region.depthLabel;
+    const allRegionChecks = getRegionChecks(region.id, "all");
+    const visibleChecks = getRegionChecks(region.id, activeFilter);
+    const foundCount = allRegionChecks.filter((c) => checkedIds.has(c.id)).length;
+
+    regionDepth.textContent = `${region.depthLabel} · ${foundCount}/${allRegionChecks.length} found`;
     regionName.textContent = region.name;
     regionSummary.textContent = region.summary;
 
@@ -367,21 +413,84 @@ function initCavernMap(): void {
       regionGates.appendChild(li);
     }
 
+    regionChecksHeading.textContent = `Cataloged Checks (${visibleChecks.length})`;
+    toggleSpoilersBtn.textContent = showSpoilers ? "HIDE SPOILERS" : "SHOW SPOILERS";
+
     regionChecks.replaceChildren();
-    for (const check of region.checks) {
+    if (!showSpoilers) {
       const li = document.createElement("li");
-      li.textContent = check;
+      li.textContent = `${visibleChecks.length} checks hidden (spoilers off). Toggle Show Spoilers to inspect names and logic.`;
       regionChecks.appendChild(li);
+    } else if (visibleChecks.length === 0 && region.endingNotes.length === 0) {
+      const li = document.createElement("li");
+      li.textContent = "No checks in this region match the current filter.";
+      regionChecks.appendChild(li);
+    } else {
+      for (const ending of region.endingNotes) {
+        if (activeFilter === "all" || activeFilter === "endings") {
+          const li = document.createElement("li");
+          li.textContent = `[Goal] ${ending}`;
+          regionChecks.appendChild(li);
+        }
+      }
+      for (const check of visibleChecks) {
+        const li = document.createElement("li");
+        const label = document.createElement("label");
+        label.style.display = "flex";
+        label.style.alignItems = "flex-start";
+        label.style.gap = "0.45rem";
+        label.style.cursor = "pointer";
+
+        const box = document.createElement("input");
+        box.type = "checkbox";
+        box.checked = checkedIds.has(check.id);
+        box.addEventListener("change", () => {
+          if (box.checked) {
+            checkedIds.add(check.id);
+          } else {
+            checkedIds.delete(check.id);
+          }
+          saveCheckedIds(checkedIds);
+          renderDrawer(region);
+          renderJumpList();
+        });
+
+        const textSpan = document.createElement("span");
+        const reqSuffix =
+          check.requires.length > 0 ? ` [${formatCheckRequirements(check.requires)}]` : "";
+        textSpan.textContent = `${check.name}${reqSuffix}`;
+        if (box.checked) {
+          textSpan.style.textDecoration = "line-through";
+          textSpan.style.opacity = "0.65";
+        }
+
+        label.appendChild(box);
+        label.appendChild(textSpan);
+        li.appendChild(label);
+        regionChecks.appendChild(li);
+      }
     }
   };
+
+  toggleSpoilersBtn.addEventListener("click", () => {
+    showSpoilers = !showSpoilers;
+    const active = regionById.get(selectedId);
+    if (active) {
+      renderDrawer(active);
+    }
+  });
 
   const renderJumpList = (): void => {
     jumpList.replaceChildren();
     for (const region of CAVERN_REGIONS) {
+      const regionTotal = getRegionChecks(region.id, "all").length;
+      const regionFound = getRegionChecks(region.id, "all").filter((c) =>
+        checkedIds.has(c.id),
+      ).length;
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = `region-jump-btn${region.id === selectedId ? " is-active" : ""}`;
-      btn.textContent = region.name;
+      btn.textContent = `${region.name} (${regionFound}/${regionTotal})`;
       btn.addEventListener("click", () => {
         selectedId = region.id;
         renderMap();

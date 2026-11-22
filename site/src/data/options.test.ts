@@ -1,14 +1,16 @@
 import { describe, expect, it } from "vitest";
+import { getRegionChecks } from "./mapData";
 import {
   DEFAULT_CONFIG,
   PRESETS,
+  countEnabledChecks,
   makeYamlFilename,
   serializeYaml,
   validateConfig,
 } from "./options";
 
 describe("YAML generator options", () => {
-  it("serializes default options into a valid Archipelago player scroll", () => {
+  it("serializes default options into a valid Archipelago 0.6.8+ player scroll", () => {
     const yaml = serializeYaml(DEFAULT_CONFIG);
     expect(yaml).toContain("name: Shade");
     expect(yaml).toContain("game: The Longing");
@@ -16,6 +18,8 @@ describe("YAML generator options", () => {
     expect(yaml).toContain("countdown_length: 6_hours");
     expect(yaml).toContain("starting_time_rate: 12");
     expect(yaml).toContain("shuffle_crystals: full");
+    expect(yaml).toContain("required_crystals: 8");
+    expect(yaml).toContain("required_books: 12");
   });
 
   it("quotes YAML-reserved or punctuated player names safely", () => {
@@ -41,10 +45,31 @@ describe("YAML generator options", () => {
     expect(result.warnings.length).toBeGreaterThan(0);
   });
 
+  it("warns when crystal_book_hunt requirements exceed shuffled pool size", () => {
+    const result = validateConfig({
+      ...DEFAULT_CONFIG,
+      goal: "crystal_book_hunt",
+      shuffleCrystals: "progression",
+      requiredCrystals: 12,
+    });
+    expect(result.valid).toBe(true);
+    expect(result.warnings.some((w) => w.includes("clamp required_crystals"))).toBe(true);
+  });
+
+  it("computes real enabled check counts from the synced cavern catalog", () => {
+    const fullPreset = PRESETS.find((p) => p.id === "full_cavern");
+    expect(fullPreset).toBeDefined();
+    if (fullPreset) {
+      expect(countEnabledChecks({ playerName: "Shade", ...fullPreset.config })).toBe(145);
+    }
+    expect(getRegionChecks("library", "books").length).toBe(19);
+  });
+
   it("validates every built-in preset cleanly", () => {
     for (const preset of PRESETS) {
       const result = validateConfig({ playerName: "Shade", ...preset.config });
       expect(result.valid).toBe(true);
+      expect(result.enabledChecks).toBeGreaterThanOrEqual(12);
     }
   });
 
