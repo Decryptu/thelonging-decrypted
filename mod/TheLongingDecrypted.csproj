@@ -18,11 +18,18 @@
 
   <ItemGroup>
     <PackageReference Include="BepInEx.Core" Version="5.4.21" PrivateAssets="all" />
-    <PackageReference Include="Archipelago.MultiClient.Net" Version="6.7.0" />
+    <PackageReference Include="Archipelago.MultiClient.Net" Version="6.7.0" GeneratePathProperty="true" ExcludeAssets="compile;runtime" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Archipelago.MultiClient.Net">
+      <HintPath>$(PkgArchipelago_MultiClient_Net)/lib/net45/Archipelago.MultiClient.Net.dll</HintPath>
+    </Reference>
+    <!-- The net45 JSON build needs System.Runtime.Serialization, which the game does not ship. -->
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(PkgArchipelago_MultiClient_Net)/lib/net35/Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>$(LongingManagedDir)\Assembly-CSharp.dll</HintPath>
       <Private>false</Private>

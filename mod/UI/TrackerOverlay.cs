@@ -140,7 +140,7 @@ namespace TheLongingDecrypted.UI
                 if (GUILayout.Button("Home")) SceneManager.LoadScene(4);
                 if (GUILayout.Button("King")) SceneManager.LoadScene(3);
                 if (GUILayout.Button("Entrance")) SceneManager.LoadScene(7);
-                if (GUILayout.Button("Library")) SceneManager.LoadScene(46);
+                if (GUILayout.Button("Library") && ProgressionPatches.CanEnterLibrary()) SceneManager.LoadScene(46);
                 GUILayout.EndHorizontal();
 
                 GUILayout.Space(4f);

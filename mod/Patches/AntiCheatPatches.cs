@@ -9,6 +9,14 @@ namespace TheLongingDecrypted.Patches
     /// </summary>
     internal static class AntiCheatPatches
     {
+        [HarmonyPatch(typeof(SplashScreen), "Awake")]
+        [HarmonyPrefix]
+        private static void SkipSplashDetectorStartup(ref bool ___BCBOGFCDFGP)
+        {
+            // Use the game's detector-free startup branch, which still initializes the save crypto key.
+            ___BCBOGFCDFGP = false;
+        }
+
         [HarmonyPatch(typeof(SpeedHackDetector), "StartDetectionInternal")]
         [HarmonyPrefix]
         private static bool SkipSpeedHackDetector()

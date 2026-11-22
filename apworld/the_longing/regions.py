@@ -62,7 +62,8 @@ def create_regions(world: LongingWorld) -> list[dict[str, object]]:
     secret_ending = LongingLocation(world.player, "Reach the Secret Ending", None, regions["Secret Tower"])
     regions["Secret Tower"].locations.append(secret_ending)
 
-    hunt_complete = LongingLocation(world.player, "Complete Crystal & Book Collection", None, regions["Shade's Home"])
-    regions["Shade's Home"].locations.append(hunt_complete)
+    if world.options.goal.value == world.options.goal.option_crystal_book_hunt:
+        hunt_complete = LongingLocation(world.player, "Complete Crystal & Book Collection", None, regions["Shade's Home"])
+        regions["Shade's Home"].locations.append(hunt_complete)
 
     return enabled_locations

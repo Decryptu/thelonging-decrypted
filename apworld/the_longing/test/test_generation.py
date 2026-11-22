@@ -106,6 +106,7 @@ class TestLongingWorldGeneration(unittest.TestCase):
                     mw.can_beat_game(CollectionState(mw)),
                     f"Goal {goal} must be logically beatable from empty starting state",
                 )
+                self.assertTrue(mw.fulfills_accessibility())
                 slot = mw.worlds[1].fill_slot_data()
                 self.assertEqual(slot["goal"], goal)
                 self.assertGreater(len(slot["enabled_location_ids"]), 0)

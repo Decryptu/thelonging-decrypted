@@ -118,27 +118,6 @@ def set_rules(world: LongingWorld, enabled_locations: list[dict[str, object]]) -
     secret_loc.place_locked_item(LongingItem("Victory: Secret Ending", ItemClassification.progression, None, player))
     set_rule(secret_loc, lambda state: _has_secret_key(state, world))
 
-    hunt_loc = multiworld.get_location("Complete Crystal & Book Collection", player)
-    hunt_loc.place_locked_item(LongingItem("Victory: Crystal & Book Hunt", ItemClassification.progression, None, player))
-    req_crystals = world.effective_required_crystals
-    req_books = world.effective_required_books
-
-    def _hunt_rule(state: CollectionState) -> bool:
-        if req_crystals > 0 and not state.has_group("Crystals", player, req_crystals):
-            return False
-        if req_books > 0 and not state.has_group("Books", player, req_books):
-            return False
-        if req_crystals == 0 and req_books == 0:
-            # Both pools set to vanilla: require reaching the Library and Crystal Cavern
-            return (
-                state.can_reach_region("The Library", player)
-                and state.can_reach_region("Crystal Cavern & Mines", player)
-                and _has_mattocks(state, world, 1)
-            )
-        return True
-
-    set_rule(hunt_loc, _hunt_rule)
-
     # Set multiworld completion condition according to selected goal
     goal_val = opts.goal.value
     if goal_val == opts.goal.option_wake_the_king:
@@ -148,6 +127,24 @@ def set_rules(world: LongingWorld, enabled_locations: list[dict[str, object]]) -
     elif goal_val == opts.goal.option_secret_ending:
         multiworld.completion_condition[player] = lambda state: state.has("Victory: Secret Ending", player)
     elif goal_val == opts.goal.option_crystal_book_hunt:
+        hunt_loc = multiworld.get_location("Complete Crystal & Book Collection", player)
+        hunt_loc.place_locked_item(LongingItem("Victory: Crystal & Book Hunt", ItemClassification.progression, None, player))
+        req_crystals = world.effective_required_crystals
+        req_books = world.effective_required_books
+
+        def hunt_rule(state: CollectionState) -> bool:
+            if req_crystals == 0 and req_books == 0:
+                return (
+                    state.can_reach_region("The Library", player)
+                    and state.can_reach_region("Crystal Cavern & Mines", player)
+                    and _has_mattocks(state, world, 1)
+                )
+            return (
+                state.has_group("Crystals", player, req_crystals)
+                and state.has_group("Books", player, req_books)
+            )
+
+        set_rule(hunt_loc, hunt_rule)
         multiworld.completion_condition[player] = lambda state: state.has("Victory: Crystal & Book Hunt", player)
     else:
         multiworld.completion_condition[player] = lambda state: (

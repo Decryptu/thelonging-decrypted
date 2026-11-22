@@ -77,6 +77,8 @@ python tools/build_apworld.py --output dist/the_longing.apworld
 dotnet build mod/TheLongingDecrypted.csproj -c Release
 ```
 
+For local playtesting, copy `TheLongingDecrypted.dll`, `Archipelago.MultiClient.Net.dll`, and `Newtonsoft.Json.dll` from `mod/bin/Release/net472/` into `BepInEx/plugins/TheLongingDecrypted/`. Use disposable slots and leave the vanilla save untouched. When inspecting a slot with `python tools/decode_save.py <save-path> --filter AP_`, look for `AP_CLOCK_OFFSET_SECONDS` in the save under `Archipelago/<seed>_<slot>/`.
+
 ## Player hub (`site/`)
 
 The player hub is a Vite + TypeScript static application in `site/`, built with pnpm and deployed to GitHub Pages by `.github/workflows/pages.yml`.

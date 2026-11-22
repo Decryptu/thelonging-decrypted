@@ -62,6 +62,7 @@ namespace TheLongingDecrypted
             _harmony.PatchAll(typeof(AntiCheatPatches));
             _harmony.PatchAll(typeof(TimeAndMovementPatches));
             _harmony.PatchAll(typeof(LocationCheckPatches));
+            _harmony.PatchAll(typeof(ProgressionPatches));
 
             SceneManager.sceneLoaded += LocationCheckPatches.OnSceneLoaded;
 

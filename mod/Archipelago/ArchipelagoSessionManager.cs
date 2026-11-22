@@ -8,6 +8,8 @@ using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Helpers;
 using Archipelago.MultiClient.Net.Models;
 using TheLongingDecrypted.Generated;
+using TheLongingDecrypted.Patches;
+using UnityEngine.SceneManagement;
 
 namespace TheLongingDecrypted.Archipelago
 {
@@ -24,6 +26,9 @@ namespace TheLongingDecrypted.Archipelago
 
         private ArchipelagoSession _session;
         private DeathLinkService _deathLinkService;
+        private bool _initialSyncPending;
+        private bool _initialCountdownPending;
+        private DeathLink _pendingDeathLink;
 
         public bool IsConnected => _session != null && _session.Socket != null && _session.Socket.Connected;
         public string StatusMessage { get; private set; } = "Disconnected";
@@ -47,6 +52,8 @@ namespace TheLongingDecrypted.Archipelago
             {
                 StatusMessage = $"Connecting to {host}:{port}...";
                 var session = ArchipelagoSessionFactory.CreateSession(host, port);
+                session.Socket.ErrorReceived += (error, message) =>
+                    Plugin.Log.LogWarning($"Archipelago socket: {message} {error}");
                 var result = session.TryConnectAndLogin(
                     GameName,
                     slotName,
@@ -63,6 +70,7 @@ namespace TheLongingDecrypted.Archipelago
                     var failure = (LoginFailure)result;
                     StatusMessage = "Login failed: " + string.Join("; ", failure.Errors);
                     Plugin.Log.LogError(StatusMessage);
+                    _ = session.Socket.DisconnectAsync();
                     return false;
                 }
 
@@ -89,6 +97,10 @@ namespace TheLongingDecrypted.Archipelago
                 {
                     _mainThreadQueue.Enqueue(() =>
                     {
+                        if (_session != session)
+                        {
+                            return;
+                        }
                         StatusMessage = $"Disconnected ({reason})";
                         _delivery.PushNotification(StatusMessage);
                     });
@@ -101,15 +113,19 @@ namespace TheLongingDecrypted.Archipelago
                     _deathLinkService.EnableDeathLink();
                     _deathLinkService.OnDeathLinkReceived += dl =>
                     {
-                        _mainThreadQueue.Enqueue(() => OnDeathLinkReceived(dl));
+                        _mainThreadQueue.Enqueue(() =>
+                        {
+                            if (_session == session && IsConnected)
+                            {
+                                _pendingDeathLink = dl;
+                            }
+                        });
                     };
                 }
 
-                // Apply initial countdown length once per fresh randomizer slot
-                ApplyInitialCountdownIfNeeded();
-
-                // Replay any unapplied items already sent by the server
-                DrainReceivedItems(session.Items, replaySilent: true);
+                _initialSyncPending = true;
+                _initialCountdownPending = true;
+                SyncSlotWhenWritable();
 
                 StatusMessage = $"Connected ({slotName} @ {host}:{port})";
                 _delivery.PushNotification($"Connected to Archipelago! Goal: {ActiveConfig.Goal}");
@@ -125,6 +141,9 @@ namespace TheLongingDecrypted.Archipelago
 
         public void Disconnect()
         {
+            _initialSyncPending = false;
+            _initialCountdownPending = false;
+            _pendingDeathLink = null;
             if (_session != null)
             {
                 try
@@ -144,6 +163,14 @@ namespace TheLongingDecrypted.Archipelago
 
         public void PumpMainThread()
         {
+            // The game suppresses writes during loading and scripted sequences.
+            if (FileBasedPrefs.BlockNewSaves)
+            {
+                return;
+            }
+
+            SyncSlotWhenWritable();
+            ApplyInitialCountdownIfReady();
             while (_mainThreadQueue.TryDequeue(out var action))
             {
                 try
@@ -156,6 +183,7 @@ namespace TheLongingDecrypted.Archipelago
                 }
             }
 
+            ApplyPendingDeathLink();
             if (IsConnected && !GoalSent)
             {
                 CheckPassiveGoalCompletion();
@@ -251,7 +279,26 @@ namespace TheLongingDecrypted.Archipelago
 
         private void OnItemReceived(IReceivedItemsHelper helper)
         {
-            _mainThreadQueue.Enqueue(() => DrainReceivedItems(helper, replaySilent: false));
+            _mainThreadQueue.Enqueue(() =>
+            {
+                if (_session?.Items == helper && IsConnected)
+                {
+                    DrainReceivedItems(helper, replaySilent: false);
+                }
+            });
+        }
+
+        private void SyncSlotWhenWritable()
+        {
+            if (!_initialSyncPending || !IsConnected || FileBasedPrefs.BlockNewSaves)
+            {
+                return;
+            }
+
+            SaveIsolationPatches.EnsureSlotSaveExists();
+            ApplyInitialCountdownIfReady();
+            DrainReceivedItems(_session.Items, replaySilent: true);
+            _initialSyncPending = false;
         }
 
         private void DrainReceivedItems(IReceivedItemsHelper helper, bool replaySilent)
@@ -265,34 +312,67 @@ namespace TheLongingDecrypted.Archipelago
                 _delivery.DeliverItem(info.ItemId, sender, replaySilent);
                 appliedIndex++;
                 FileBasedPrefs.SetInt(ReceivedIndexPrefKey, appliedIndex);
+                FileBasedPrefs.ManualySave();
             }
-            FileBasedPrefs.ManualySave();
         }
 
-        private void ApplyInitialCountdownIfNeeded()
+        private void ApplyInitialCountdownIfReady()
         {
-            if (FileBasedPrefs.GetInt(CountdownAppliedPrefKey, 0) > 0)
+            if (!_initialCountdownPending || !IsConnected || FileBasedPrefs.BlockNewSaves)
             {
                 return;
             }
+
+            // SetTimeFirstGameStart resets the elapsed clock at the end of the intro.
+            if (FileBasedPrefs.GetInt("FIRSTFIRSTGAMESTART", 0) == 0)
+            {
+                return;
+            }
+            bool previouslyInitialized = FileBasedPrefs.GetInt(CountdownAppliedPrefKey, 0) > 0;
+            if (SaveIsolationPatches.TryRestoreClock()
+                || (previouslyInitialized && !Plugin.IsolateSavesConfig.Value))
+            {
+                _initialCountdownPending = false;
+                return;
+            }
+
             const long fourHundredDays = 34_560_000L;
             long targetSeconds = Math.Max(60L, Math.Min(fourHundredDays, ActiveConfig.CountdownSeconds));
             long initialAdvance = fourHundredDays - targetSeconds;
-            if (initialAdvance > 0)
+            if (previouslyInitialized)
+            {
+                // A legacy save has no checkpoint and the in-memory clock may belong to another slot.
+                initialAdvance -= TMan.GetOverallTime();
+            }
+            if (initialAdvance != 0)
             {
                 TMan.AddInstaTime(initialAdvance);
                 TMan.SaveValues();
             }
             FileBasedPrefs.SetInt(CountdownAppliedPrefKey, 1);
+            SaveIsolationPatches.EnableClockSaving();
             FileBasedPrefs.ManualySave();
+            _initialCountdownPending = false;
         }
 
-        private void OnDeathLinkReceived(DeathLink dl)
+        private void ApplyPendingDeathLink()
         {
+            if (_pendingDeathLink == null || !IsConnected || SceneManager.GetActiveScene().buildIndex < 3)
+            {
+                return;
+            }
+
+            var game = UnityEngine.Object.FindObjectOfType<GameManagerScript>();
+            if (game == null)
+            {
+                return;
+            }
+
+            var dl = _pendingDeathLink;
+            _pendingDeathLink = null;
             var cause = string.IsNullOrEmpty(dl.Cause) ? $"{dl.Source} succumbed" : dl.Cause;
             _delivery.PushNotification($"DeathLink from {dl.Source}: {cause} (returning Shade Home)");
-            // Gently warp the Shade back to Home (scene index 4) rather than bricking the save
-            UnityEngine.SceneManagement.SceneManager.LoadScene(4);
+            game.LoadNewScene(4);
         }
     }
 }

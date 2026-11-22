@@ -75,8 +75,6 @@ namespace TheLongingDecrypted.Archipelago
                 FileBasedPrefs.SetInt(ReceivedBooksPrefKey, ReceivedBooks + entry.Amount);
             }
 
-            FileBasedPrefs.ManualySave();
-
             if (!replaySilent)
             {
                 var from = string.IsNullOrEmpty(senderName) ? "Multiworld" : senderName;
