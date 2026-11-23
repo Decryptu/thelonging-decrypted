@@ -165,6 +165,8 @@ function initYamlGenerator(): void {
   const countdownSelect = byId<HTMLSelectElement>("countdown-select");
   const timeRateRange = byId<HTMLInputElement>("time-rate-range");
   const timeRateValue = byId<HTMLElement>("time-rate-value");
+  const walkSpeedRange = byId<HTMLInputElement>("walk-speed-range");
+  const walkSpeedValue = byId<HTMLElement>("walk-speed-value");
   const timeSkipItems = byId<HTMLInputElement>("time-skip-items");
   const shuffleMattocks = byId<HTMLInputElement>("shuffle-mattocks");
   const booksSelect = byId<HTMLSelectElement>("books-select");
@@ -173,6 +175,10 @@ function initYamlGenerator(): void {
   const shuffleComfort = byId<HTMLInputElement>("shuffle-comfort");
   const shuffleInstruments = byId<HTMLInputElement>("shuffle-instruments");
   const shuffleCoal = byId<HTMLInputElement>("shuffle-coal");
+  const shuffleShop = byId<HTMLInputElement>("shuffle-shop");
+  const customItems = byId<HTMLInputElement>("custom-items");
+  const ao3FanficBooks = byId<HTMLInputElement>("ao3-fanfic-books");
+  const autoHints = byId<HTMLInputElement>("auto-hints");
   const requiredCrystalsInput = byId<HTMLInputElement>("required-crystals");
   const requiredBooksInput = byId<HTMLInputElement>("required-books");
   const huntTargetsRow = byId<HTMLElement>("hunt-targets-row");
@@ -208,6 +214,8 @@ function initYamlGenerator(): void {
     countdownSelect.value = state.countdownLength;
     timeRateRange.value = String(state.startingTimeRate);
     timeRateValue.textContent = `${state.startingTimeRate}x`;
+    walkSpeedRange.value = String(state.startingWalkSpeed);
+    walkSpeedValue.textContent = `${state.startingWalkSpeed} / 4`;
     timeSkipItems.checked = state.timeSkipItems;
     shuffleMattocks.checked = state.shuffleMattocksAndKeys;
     booksSelect.value = state.shuffleBooks;
@@ -216,6 +224,10 @@ function initYamlGenerator(): void {
     shuffleComfort.checked = state.shuffleHomeComfort;
     shuffleInstruments.checked = state.shuffleInstrumentParts;
     shuffleCoal.checked = state.shuffleCoalAndSulfur;
+    shuffleShop.checked = state.shuffleShop;
+    customItems.checked = state.customItems;
+    ao3FanficBooks.checked = state.ao3FanficBooks;
+    autoHints.checked = state.autoHints;
     requiredCrystalsInput.value = String(state.requiredCrystals);
     requiredBooksInput.value = String(state.requiredBooks);
     huntTargetsRow.hidden = state.goal !== "crystal_book_hunt";
@@ -277,6 +289,7 @@ function initYamlGenerator(): void {
       countdownLength: countdownSelect.value as CountdownLength,
       startingTimeRate: Number(timeRateRange.value),
       timeSkipItems: timeSkipItems.checked,
+      startingWalkSpeed: Number(walkSpeedRange.value),
       shuffleMattocksAndKeys: shuffleMattocks.checked,
       shuffleBooks: booksSelect.value as ShuffleDepth,
       shuffleCrystals: crystalsSelect.value as ShuffleDepth,
@@ -284,6 +297,10 @@ function initYamlGenerator(): void {
       shuffleHomeComfort: shuffleComfort.checked,
       shuffleInstrumentParts: shuffleInstruments.checked,
       shuffleCoalAndSulfur: shuffleCoal.checked,
+      shuffleShop: shuffleShop.checked,
+      customItems: customItems.checked,
+      ao3FanficBooks: ao3FanficBooks.checked,
+      autoHints: autoHints.checked,
       requiredCrystals: Number(requiredCrystalsInput.value),
       requiredBooks: Number(requiredBooksInput.value),
       trapDensity: trapDensitySelect.value as TrapDensity,
@@ -291,6 +308,7 @@ function initYamlGenerator(): void {
     };
     huntTargetsRow.hidden = state.goal !== "crystal_book_hunt";
     timeRateValue.textContent = `${state.startingTimeRate}x`;
+    walkSpeedValue.textContent = `${state.startingWalkSpeed} / 4`;
     renderPresets();
     renderYaml();
   };

@@ -71,6 +71,7 @@ class LongingWorld(World):
             "countdown_length",
             "starting_time_rate",
             "time_skip_items",
+            "starting_walk_speed",
             "shuffle_mattocks_and_keys",
             "shuffle_books",
             "shuffle_crystals",
@@ -78,6 +79,10 @@ class LongingWorld(World):
             "shuffle_home_comfort",
             "shuffle_instrument_parts",
             "shuffle_coal_and_sulfur",
+            "shuffle_shop",
+            "custom_items",
+            "ao3_fanfic_books",
+            "auto_hints",
             "required_crystals",
             "required_books",
             "trap_density",
@@ -134,17 +139,12 @@ class LongingWorld(World):
         return create_item(self, name)
 
     def get_filler_item_name(self) -> str:
+        candidates: list[str] = ["Coal", "Wood", "Quiet Reflection"]
         if self.options.time_skip_items:
-            return self.random.choice(
-                (
-                    "Time Skip (15 Minutes)",
-                    "Time Skip (15 Minutes)",
-                    "Coal",
-                    "Wood",
-                    "Quiet Reflection",
-                )
-            )
-        return self.random.choice(("Coal", "Wood", "Quiet Reflection"))
+            candidates.extend(("Time Skip (15 Minutes)", "Time Skip (15 Minutes)"))
+        if getattr(self.options, "custom_items", True):
+            candidates.append("Double Espresso")
+        return self.random.choice(tuple(candidates))
 
     def create_items(self) -> None:
         total_locations = len(self.enabled_locations)
@@ -168,12 +168,13 @@ class LongingWorld(World):
 
     def fill_slot_data(self) -> dict[str, Any]:
         return {
-            "world_version": "1.0.0",
+            "world_version": "1.1.0",
             "goal": self.options.goal.current_key,
             "countdown_length": self.options.countdown_length.current_key,
             "countdown_seconds": self.options.countdown_length.to_seconds(),
             "starting_time_rate": self.options.starting_time_rate.value,
             "time_skip_items": bool(self.options.time_skip_items.value),
+            "starting_walk_speed": int(self.options.starting_walk_speed.value),
             "shuffle_mattocks_and_keys": bool(self.options.shuffle_mattocks_and_keys.value),
             "shuffle_books": self.options.shuffle_books.current_key,
             "shuffle_crystals": self.options.shuffle_crystals.current_key,
@@ -181,6 +182,10 @@ class LongingWorld(World):
             "shuffle_home_comfort": bool(self.options.shuffle_home_comfort.value),
             "shuffle_instrument_parts": bool(self.options.shuffle_instrument_parts.value),
             "shuffle_coal_and_sulfur": bool(self.options.shuffle_coal_and_sulfur.value),
+            "shuffle_shop": bool(self.options.shuffle_shop.value),
+            "custom_items": bool(self.options.custom_items.value),
+            "ao3_fanfic_books": bool(self.options.ao3_fanfic_books.value),
+            "auto_hints": bool(self.options.auto_hints.value),
             "required_crystals": self.effective_required_crystals,
             "required_books": self.effective_required_books,
             "trap_density": self.options.trap_density.current_key,

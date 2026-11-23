@@ -13,6 +13,11 @@ A complete, approachable Archipelago multiworld and randomizer for *The Longing*
 ## Post-1.0 Ideas
 
 - Community balance and quality-of-life refinements based on multiworld feedback (for example, additional pacing presets or optional hint/cosmetic toggles).
+- **Native Game Asset UI & Outer Frame Slots:**
+  - Replace all remaining Unity IMGUI popups with interfaces built strictly from native game assets (`HUD.png` outer frame, `shade_dialoge_notext_01` talking cards, `dialogbutton_0001` strips, foldout cards, and the game's woodcut/serif typography).
+  - Use the empty carved squares along the bottom of the outer UI frame as native inventory slots for custom multiworld items (icon-only with no text titles underneath, and a World of Warcraft-style 360-degree clockwise radial clock-sweep dark cooldown overlay when activated).
+  - Use the empty carved squares along the left and right sides of the outer UI frame for unlocked wardrobe hats and companion pets (click a square directly to equip or unequip).
+  - Full native Shopkeeper UI and all text/dialogue prompts rendered with the game's talking cards and interaction assets rather than standard Unity windows.
 - Keep compatibility aligned with future Archipelago releases as needed.
 
 ## Decisions

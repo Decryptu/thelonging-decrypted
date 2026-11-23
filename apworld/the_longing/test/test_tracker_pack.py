@@ -134,6 +134,8 @@ class PopTrackerSimulator:
             self.toggles["opt_shuffle_instrument_parts"] = bool(slot_data["shuffle_instrument_parts"])
         if "shuffle_coal_and_sulfur" in slot_data:
             self.toggles["opt_shuffle_coal_and_sulfur"] = bool(slot_data["shuffle_coal_and_sulfur"])
+        if "shuffle_shop" in slot_data:
+            self.toggles["opt_shuffle_shop"] = bool(slot_data["shuffle_shop"])
         if "required_crystals" in slot_data:
             self.counts["opt_required_crystals"] = int(slot_data["required_crystals"])
         if "required_books" in slot_data:
@@ -265,6 +267,8 @@ class PopTrackerSimulator:
                 ok = self.toggles["opt_shuffle_instrument_parts"]
             elif pool == "coal_sulfur":
                 ok = self.toggles["opt_shuffle_coal_and_sulfur"]
+            elif pool == "shop":
+                ok = self.toggles["opt_shuffle_shop"]
             if ok:
                 enabled.add(loc_id)
         if len(enabled) < 10:

@@ -151,6 +151,9 @@ local function apply_slot_data(slot_data)
     if slot_data["shuffle_coal_and_sulfur"] ~= nil then
         set_toggle("opt_shuffle_coal_and_sulfur", slot_data["shuffle_coal_and_sulfur"])
     end
+    if slot_data["shuffle_shop"] ~= nil then
+        set_toggle("opt_shuffle_shop", slot_data["shuffle_shop"])
+    end
     if slot_data["required_crystals"] ~= nil then
         set_count("opt_required_crystals", tonumber(slot_data["required_crystals"]) or 0)
     end

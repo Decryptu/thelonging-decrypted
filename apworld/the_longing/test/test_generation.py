@@ -270,7 +270,38 @@ The Longing:
         slot = mw.worlds[1].fill_slot_data()
         self.assertEqual(slot["required_crystals"], 10)
         self.assertEqual(slot["required_books"], 18)
-        self.assertEqual(len(slot["enabled_location_ids"]), 152)
+        self.assertEqual(len(slot["enabled_location_ids"]), 160)
+
+    def test_shop_custom_items_and_new_pacing_options(self) -> None:
+        mw = _build_multiworld(
+            [
+                {
+                    "goal": "wake_the_king",
+                    "countdown_length": "30_minutes",
+                    "starting_walk_speed": 2,
+                    "shuffle_shop": True,
+                    "custom_items": True,
+                    "ao3_fanfic_books": True,
+                    "auto_hints": True,
+                }
+            ],
+            seed=600600,
+        )
+        self.assertTrue(mw.can_beat_game(CollectionState(mw)))
+        slot = mw.worlds[1].fill_slot_data()
+        self.assertEqual(slot["countdown_length"], "30_minutes")
+        self.assertEqual(slot["countdown_seconds"], 1800)
+        self.assertEqual(slot["starting_walk_speed"], 2)
+        self.assertTrue(slot["shuffle_shop"])
+        self.assertTrue(slot["custom_items"])
+        self.assertTrue(slot["ao3_fanfic_books"])
+        self.assertTrue(slot["auto_hints"])
+        precollected_names = [it.name for it in mw.precollected_items[1]]
+        self.assertEqual(precollected_names.count("Progressive Walk Speed"), 2)
+        pool_names = [loc.item.name for loc in mw.get_filled_locations(1) if loc.item is not None]
+        self.assertEqual(pool_names.count("Progressive Walk Speed"), 2)
+        self.assertIn("Shade's Lantern", pool_names)
+        self.assertIn("Chisel of Efficiency", pool_names)
 
 
 if __name__ == "__main__":

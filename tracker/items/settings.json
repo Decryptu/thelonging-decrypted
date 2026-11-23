@@ -130,6 +130,13 @@
     "codes": "opt_shuffle_coal_and_sulfur"
   },
   {
+    "name": "Shuffle Cavern Peddler Shop",
+    "type": "toggle",
+    "img": "images/items/opt_comfort.png",
+    "initial_active_state": true,
+    "codes": "opt_shuffle_shop"
+  },
+  {
     "name": "Required Crystals (Hunt Goal)",
     "type": "consumable",
     "img": "images/items/req_crystals.png",

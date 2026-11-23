@@ -18,6 +18,7 @@
           "opt_shuffle_home_comfort",
           "opt_shuffle_instrument_parts",
           "opt_shuffle_coal_and_sulfur",
+          "opt_shuffle_shop",
           "opt_required_crystals",
           "opt_required_books"
         ]

@@ -183,6 +183,66 @@
         ]
       },
       {
+        "name": "Cavern Peddler - Bargain Relic #1",
+        "visibility_rules": [
+          "$loc_enabled|400401152"
+        ]
+      },
+      {
+        "name": "Cavern Peddler - Bargain Relic #2",
+        "visibility_rules": [
+          "$loc_enabled|400401153"
+        ]
+      },
+      {
+        "name": "Cavern Peddler - Bargain Relic #3",
+        "visibility_rules": [
+          "$loc_enabled|400401154"
+        ]
+      },
+      {
+        "name": "Cavern Peddler - Bargain Relic #4",
+        "visibility_rules": [
+          "$loc_enabled|400401155"
+        ]
+      },
+      {
+        "name": "Cavern Peddler - Bargain Relic #5",
+        "visibility_rules": [
+          "$loc_enabled|400401156"
+        ],
+        "access_rules": [
+          "$has_mattocks|1"
+        ]
+      },
+      {
+        "name": "Cavern Peddler - Bargain Relic #6",
+        "visibility_rules": [
+          "$loc_enabled|400401157"
+        ],
+        "access_rules": [
+          "$has_mattocks|1"
+        ]
+      },
+      {
+        "name": "Cavern Peddler - Bargain Relic #7",
+        "visibility_rules": [
+          "$loc_enabled|400401158"
+        ],
+        "access_rules": [
+          "$has_mattocks|1"
+        ]
+      },
+      {
+        "name": "Cavern Peddler - Bargain Relic #8",
+        "visibility_rules": [
+          "$loc_enabled|400401159"
+        ],
+        "access_rules": [
+          "$has_mattocks|1"
+        ]
+      },
+      {
         "name": "Wake the Sleeping King",
         "access_rules": [
           "$can_wake_king"

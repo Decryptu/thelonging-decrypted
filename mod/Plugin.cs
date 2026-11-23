@@ -61,8 +61,12 @@ namespace TheLongingDecrypted
             _harmony.PatchAll(typeof(LocationCheckPatches));
             _harmony.PatchAll(typeof(ProgressionPatches));
             _harmony.PatchAll(typeof(WaypointRecallPatches));
+            _harmony.PatchAll(typeof(CavernShopPatches));
+            _harmony.PatchAll(typeof(CosmeticAndCustomItemPatches));
+            _harmony.PatchAll(typeof(FanficBookPatches));
 
             SceneManager.sceneLoaded += LocationCheckPatches.OnSceneLoaded;
+            SceneManager.sceneLoaded += CavernShopPatches.OnSceneLoaded;
 
             var overlayGo = new GameObject("TheLongingDecryptedOverlay");
             DontDestroyOnLoad(overlayGo);
@@ -74,6 +78,7 @@ namespace TheLongingDecrypted
         private void OnDestroy()
         {
             SceneManager.sceneLoaded -= LocationCheckPatches.OnSceneLoaded;
+            SceneManager.sceneLoaded -= CavernShopPatches.OnSceneLoaded;
             Session?.Disconnect();
             _harmony?.UnpatchSelf();
         }

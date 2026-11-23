@@ -56,4 +56,5 @@ ITEM_MAPPING = {
     [400400074] = {"books", "consumable"}, -- Book: The Anatomy of Melancholy
     [400400075] = {"progressive_walk_speed", "progressive"}, -- Progressive Walk Speed
     [400400076] = {"progressive_waypoint_recall", "progressive"}, -- Progressive Waypoint Recall
+    [400400082] = {"time_skips", "consumable"}, -- King's Snooze Button
 }

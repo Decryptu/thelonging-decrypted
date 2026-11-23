@@ -261,9 +261,13 @@
                   <label class="ink-field">
                     <span>Countdown Length</span>
                     <select id="countdown-select" name="countdownLength">
+                      <option value="30_minutes">30 Minutes (Lunch Blitz)</option>
                       <option value="1_hour">1 Hour (Quick Sync)</option>
+                      <option value="2_hours">2 Hours (Short Session)</option>
                       <option value="6_hours">6 Hours (Multiworld Evening)</option>
+                      <option value="12_hours">12 Hours (Half-Day Run)</option>
                       <option value="24_hours">24 Hours (Weekend Run)</option>
+                      <option value="7_days">7 Days (Weeklong Async)</option>
                       <option value="40_days">40 Days (Compact Async)</option>
                       <option value="400_days">400 Days (Original Wait)</option>
                     </select>
@@ -348,6 +352,12 @@
                       <span class="check-box" aria-hidden="true"></span>
                       <span><strong>Coal &amp; Sulfur</strong><small>Adds every cavern lump to the check pool.</small></span>
                     </label>
+
+                    <label class="ink-check">
+                      <input type="checkbox" id="shuffle-shop" name="shuffleShop" checked>
+                      <span class="check-box" aria-hidden="true"></span>
+                      <span><strong>Cavern Peddler Shop</strong><small>8 multiworld relic checks in the Pillared Gallery bought with farmable Coal.</small></span>
+                    </label>
                   </div>
                 </div>
 
@@ -371,6 +381,23 @@
                     <small>Base countdown speed before home comforts and fireplace bonuses.</small>
                   </label>
 
+                  <label class="ink-field">
+                    <span class="range-label-row">
+                      <span>Starting Walk Speed Tiers</span>
+                      <strong id="walk-speed-value">0 / 4</strong>
+                    </span>
+                    <input
+                      id="walk-speed-range"
+                      name="startingWalkSpeed"
+                      type="range"
+                      min="0"
+                      max="4"
+                      step="1"
+                      value="0"
+                    >
+                    <small>Pre-collect 0 to 4 Progressive Walk Speed tiers from the start of the run.</small>
+                  </label>
+
                   <p>Walking pace and waypoint recall improve as you receive mobility upgrades.</p>
 
                   <div class="ink-checks">
@@ -383,7 +410,7 @@
                 </div>
 
                 <div class="yaml-tab-panel" data-yaml-panel="extra">
-                  <h3 class="sheet-heading">Multiworld Modifiers</h3>
+                  <h3 class="sheet-heading">Multiworld Modifiers &amp; Extras</h3>
 
                   <label class="ink-field">
                     <span>Trap Density</span>
@@ -396,6 +423,24 @@
                   </label>
 
                   <div class="ink-checks">
+                    <label class="ink-check">
+                      <input type="checkbox" id="custom-items" name="customItems" checked>
+                      <span class="check-box" aria-hidden="true"></span>
+                      <span><strong>Custom Items &amp; Cosmetics</strong><small>Shade's Lantern, 2x Chisel, Echoing Conch, Double Espresso, plus unlockable hats &amp; pets.</small></span>
+                    </label>
+
+                    <label class="ink-check">
+                      <input type="checkbox" id="ao3-fanfic-books" name="ao3FanficBooks">
+                      <span class="check-box" aria-hidden="true"></span>
+                      <span><strong>AO3 Fanfiction Book Mode</strong><small>Replaces the bookshelf titles, covers, and pages with romantic/soft-NSFW cavern fanfictions.</small></span>
+                    </label>
+
+                    <label class="ink-check">
+                      <input type="checkbox" id="auto-hints" name="autoHints" checked>
+                      <span class="check-box" aria-hidden="true"></span>
+                      <span><strong>Shop Previews &amp; Conch Hints</strong><small>Scouts and previews what item &amp; player each Cavern Peddler shop slot unlocks.</small></span>
+                    </label>
+
                     <label class="ink-check">
                       <input type="checkbox" id="death-link" name="deathLink">
                       <span class="check-box" aria-hidden="true"></span>

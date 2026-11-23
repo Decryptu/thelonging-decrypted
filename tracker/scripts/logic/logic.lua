@@ -273,6 +273,8 @@ local function is_pool_enabled(meta)
         return opt_bool("opt_shuffle_instrument_parts")
     elseif pool == "coal_sulfur" then
         return opt_bool("opt_shuffle_coal_and_sulfur")
+    elseif pool == "shop" then
+        return opt_bool("opt_shuffle_shop")
     end
     return false
 end

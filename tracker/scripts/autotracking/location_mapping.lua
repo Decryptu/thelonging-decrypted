@@ -153,6 +153,14 @@ LOCATION_MAPPING = {
     [400401149] = {"@Discovery (Ring 2): Moss Cliff/Discover Moss Cliff"},
     [400401150] = {"@Discovery (Ring 2): Library Vestibule/Discover Library Vestibule"},
     [400401151] = {"@Discovery (Ring 3): Great Cave/Discover Great Cave"},
+    [400401152] = {"@The King's Hall/Cavern Peddler - Bargain Relic #1"},
+    [400401153] = {"@The King's Hall/Cavern Peddler - Bargain Relic #2"},
+    [400401154] = {"@The King's Hall/Cavern Peddler - Bargain Relic #3"},
+    [400401155] = {"@The King's Hall/Cavern Peddler - Bargain Relic #4"},
+    [400401156] = {"@The King's Hall/Cavern Peddler - Bargain Relic #5"},
+    [400401157] = {"@The King's Hall/Cavern Peddler - Bargain Relic #6"},
+    [400401158] = {"@The King's Hall/Cavern Peddler - Bargain Relic #7"},
+    [400401159] = {"@The King's Hall/Cavern Peddler - Bargain Relic #8"},
 }
 
 LOCATION_METADATA = {
@@ -308,6 +316,14 @@ LOCATION_METADATA = {
     [400401149] = { pool = "mobility", depth = "core", ap_region = "The Great Halls", scene = "moss_cliff" },
     [400401150] = { pool = "mobility", depth = "core", ap_region = "The Great Halls", scene = "entrance_library" },
     [400401151] = { pool = "mobility", depth = "core", ap_region = "Mushroom Groves", scene = "greatCave_complete" },
+    [400401152] = { pool = "shop", depth = "core", ap_region = "The King's Hall", scene = "gallery" },
+    [400401153] = { pool = "shop", depth = "core", ap_region = "The King's Hall", scene = "gallery" },
+    [400401154] = { pool = "shop", depth = "core", ap_region = "The King's Hall", scene = "gallery" },
+    [400401155] = { pool = "shop", depth = "core", ap_region = "The King's Hall", scene = "gallery" },
+    [400401156] = { pool = "shop", depth = "core", ap_region = "The King's Hall", scene = "gallery" },
+    [400401157] = { pool = "shop", depth = "core", ap_region = "The King's Hall", scene = "gallery" },
+    [400401158] = { pool = "shop", depth = "core", ap_region = "The King's Hall", scene = "gallery" },
+    [400401159] = { pool = "shop", depth = "core", ap_region = "The King's Hall", scene = "gallery" },
 }
 
 LOCATION_ORDER = {
@@ -463,4 +479,12 @@ LOCATION_ORDER = {
     400401149,
     400401150,
     400401151,
+    400401152,
+    400401153,
+    400401154,
+    400401155,
+    400401156,
+    400401157,
+    400401158,
+    400401159,
 }

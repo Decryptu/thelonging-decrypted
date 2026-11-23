@@ -11,6 +11,7 @@ namespace TheLongingDecrypted.Archipelago
         public long CountdownSeconds { get; set; } = 21_600;
         public int StartingTimeRate { get; set; } = 12;
         public bool TimeSkipItems { get; set; } = true;
+        public int StartingWalkSpeed { get; set; } = 0;
         public bool ShuffleMattocksAndKeys { get; set; } = true;
         public string ShuffleBooks { get; set; } = "progression";
         public string ShuffleCrystals { get; set; } = "full";
@@ -18,6 +19,10 @@ namespace TheLongingDecrypted.Archipelago
         public bool ShuffleHomeComfort { get; set; } = true;
         public bool ShuffleInstrumentParts { get; set; } = true;
         public bool ShuffleCoalAndSulfur { get; set; } = false;
+        public bool ShuffleShop { get; set; } = true;
+        public bool CustomItems { get; set; } = true;
+        public bool Ao3FanficBooks { get; set; } = false;
+        public bool AutoHints { get; set; } = true;
         public int RequiredCrystals { get; set; } = 8;
         public int RequiredBooks { get; set; } = 12;
         public string TrapDensity { get; set; } = "light";
@@ -38,6 +43,7 @@ namespace TheLongingDecrypted.Archipelago
             cfg.CountdownSeconds = GetLong(slotData, "countdown_seconds", cfg.CountdownSeconds);
             cfg.StartingTimeRate = (int)GetLong(slotData, "starting_time_rate", cfg.StartingTimeRate);
             cfg.TimeSkipItems = GetBool(slotData, "time_skip_items", cfg.TimeSkipItems);
+            cfg.StartingWalkSpeed = (int)GetLong(slotData, "starting_walk_speed", cfg.StartingWalkSpeed);
             cfg.ShuffleMattocksAndKeys = GetBool(slotData, "shuffle_mattocks_and_keys", cfg.ShuffleMattocksAndKeys);
             cfg.ShuffleBooks = GetString(slotData, "shuffle_books", cfg.ShuffleBooks);
             cfg.ShuffleCrystals = GetString(slotData, "shuffle_crystals", cfg.ShuffleCrystals);
@@ -45,6 +51,10 @@ namespace TheLongingDecrypted.Archipelago
             cfg.ShuffleHomeComfort = GetBool(slotData, "shuffle_home_comfort", cfg.ShuffleHomeComfort);
             cfg.ShuffleInstrumentParts = GetBool(slotData, "shuffle_instrument_parts", cfg.ShuffleInstrumentParts);
             cfg.ShuffleCoalAndSulfur = GetBool(slotData, "shuffle_coal_and_sulfur", cfg.ShuffleCoalAndSulfur);
+            cfg.ShuffleShop = GetBool(slotData, "shuffle_shop", cfg.ShuffleShop);
+            cfg.CustomItems = GetBool(slotData, "custom_items", cfg.CustomItems);
+            cfg.Ao3FanficBooks = GetBool(slotData, "ao3_fanfic_books", cfg.Ao3FanficBooks);
+            cfg.AutoHints = GetBool(slotData, "auto_hints", cfg.AutoHints);
             cfg.RequiredCrystals = (int)GetLong(slotData, "required_crystals", cfg.RequiredCrystals);
             cfg.RequiredBooks = (int)GetLong(slotData, "required_books", cfg.RequiredBooks);
             cfg.TrapDensity = GetString(slotData, "trap_density", cfg.TrapDensity);

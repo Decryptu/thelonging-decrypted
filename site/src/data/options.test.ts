@@ -17,7 +17,11 @@ describe("YAML generator options", () => {
     expect(yaml).toContain("goal: wake_the_king");
     expect(yaml).toContain("countdown_length: 6_hours");
     expect(yaml).toContain("starting_time_rate: 12");
-    expect(yaml).not.toContain("walk_speed:");
+    expect(yaml).toContain("starting_walk_speed: 0");
+    expect(yaml).toContain("shuffle_shop: true");
+    expect(yaml).toContain("custom_items: true");
+    expect(yaml).toContain("ao3_fanfic_books: false");
+    expect(yaml).toContain("auto_hints: true");
     expect(yaml).toContain("shuffle_crystals: full");
     expect(yaml).toContain("required_crystals: 8");
     expect(yaml).toContain("required_books: 12");
@@ -61,9 +65,10 @@ describe("YAML generator options", () => {
     const fullPreset = PRESETS.find((p) => p.id === "full_cavern");
     expect(fullPreset).toBeDefined();
     if (fullPreset) {
-      expect(countEnabledChecks({ playerName: "Shade", ...fullPreset.config })).toBe(152);
+      expect(countEnabledChecks({ playerName: "Shade", ...fullPreset.config })).toBe(160);
     }
     expect(getRegionChecks("library", "books").length).toBe(19);
+    expect(getRegionChecks("kings_hall", "tools").length).toBeGreaterThanOrEqual(8);
   });
 
   it("validates every built-in preset cleanly", () => {

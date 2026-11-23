@@ -35,13 +35,21 @@ class CountdownLength(Choice):
     option_24_hours = 2
     option_40_days = 3
     option_400_days = 4
+    option_30_minutes = 5
+    option_2_hours = 6
+    option_12_hours = 7
+    option_7_days = 8
     default = 1
 
     def to_seconds(self) -> int:
         return {
+            self.option_30_minutes: 1_800,
             self.option_1_hour: 3_600,
+            self.option_2_hours: 7_200,
             self.option_6_hours: 21_600,
+            self.option_12_hours: 43_200,
             self.option_24_hours: 86_400,
+            self.option_7_days: 7 * 86_400,
             self.option_40_days: 40 * 86_400,
             self.option_400_days: 400 * 86_400,
         }[self.value]
@@ -122,6 +130,39 @@ class ShuffleCoalAndSulfur(Toggle):
     display_name = "Shuffle Coal and Sulfur"
 
 
+class ShuffleShop(DefaultOnToggle):
+    """Enable the Cavern Peddler shop in the Pillared Gallery with 8 multiworld relic checks purchased using farmable Coal."""
+
+    display_name = "Shuffle Cavern Peddler Shop"
+
+
+class CustomItemsAndCosmetics(DefaultOnToggle):
+    """Include custom utility upgrades (Shade's Lantern, Chisel of Efficiency, Echoing Conch, Double Espresso) and unlockable hats/pets in the item pool."""
+
+    display_name = "Custom Items and Cosmetics"
+
+
+class Ao3FanficBooks(Toggle):
+    """Replace the Shade's classic library books, titles, and shelf covers with romantic/soft-NSFW cavern parody fanfictions."""
+
+    display_name = "AO3 Fanfiction Book Mode"
+
+
+class StartingWalkSpeed(Range):
+    """Number of Progressive Walk Speed tiers (0 to 4) unlocked from the start of the run."""
+
+    display_name = "Starting Walk Speed Tiers"
+    range_start = 0
+    range_end = 4
+    default = 0
+
+
+class AutoHints(DefaultOnToggle):
+    """Automatically scout and preview multiworld items on the Cavern Peddler's shop shelves and enable Echoing Conch hints."""
+
+    display_name = "Shop Previews and Conch Hints"
+
+
 class RequiredCrystals(Range):
     """Number of Crystals required when Goal is set to Crystal & Book Hunt."""
 
@@ -165,6 +206,7 @@ class LongingOptions(PerGameCommonOptions):
     countdown_length: CountdownLength
     starting_time_rate: StartingTimeRate
     time_skip_items: TimeSkipItems
+    starting_walk_speed: StartingWalkSpeed
     shuffle_mattocks_and_keys: ShuffleMattocksAndKeys
     shuffle_books: ShuffleBooks
     shuffle_crystals: ShuffleCrystals
@@ -172,6 +214,10 @@ class LongingOptions(PerGameCommonOptions):
     shuffle_home_comfort: ShuffleHomeComfort
     shuffle_instrument_parts: ShuffleInstrumentParts
     shuffle_coal_and_sulfur: ShuffleCoalAndSulfur
+    shuffle_shop: ShuffleShop
+    custom_items: CustomItemsAndCosmetics
+    ao3_fanfic_books: Ao3FanficBooks
+    auto_hints: AutoHints
     required_crystals: RequiredCrystals
     required_books: RequiredBooks
     trap_density: TrapDensity
@@ -186,6 +232,7 @@ OPTION_GROUPS = [
             CountdownLength,
             StartingTimeRate,
             TimeSkipItems,
+            StartingWalkSpeed,
             RequiredCrystals,
             RequiredBooks,
         ],
@@ -200,11 +247,15 @@ OPTION_GROUPS = [
             ShuffleHomeComfort,
             ShuffleInstrumentParts,
             ShuffleCoalAndSulfur,
+            ShuffleShop,
         ],
     ),
     OptionGroup(
-        "Multiworld Modifiers",
+        "Multiworld Modifiers & Extras",
         [
+            CustomItemsAndCosmetics,
+            Ao3FanficBooks,
+            AutoHints,
             TrapDensity,
             DeathLink,
         ],
@@ -216,7 +267,7 @@ def export_option_schema() -> dict[str, Any]:
     """Export canonical option metadata for syncing the player hub YAML generator."""
     return {
         "game": "The Longing",
-        "world_version": "1.0.0",
+        "world_version": "1.1.0",
         "options": {
             "goal": {
                 "type": "choice",
@@ -231,7 +282,17 @@ def export_option_schema() -> dict[str, Any]:
             },
             "countdown_length": {
                 "type": "choice",
-                "values": ["1_hour", "6_hours", "24_hours", "40_days", "400_days"],
+                "values": [
+                    "30_minutes",
+                    "1_hour",
+                    "2_hours",
+                    "6_hours",
+                    "12_hours",
+                    "24_hours",
+                    "7_days",
+                    "40_days",
+                    "400_days",
+                ],
                 "default": "6_hours",
             },
             "starting_time_rate": {
@@ -241,6 +302,7 @@ def export_option_schema() -> dict[str, Any]:
                 "default": 12,
             },
             "time_skip_items": {"type": "toggle", "default": True},
+            "starting_walk_speed": {"type": "range", "min": 0, "max": 4, "default": 0},
             "shuffle_mattocks_and_keys": {"type": "toggle", "default": True},
             "shuffle_books": {
                 "type": "choice",
@@ -256,6 +318,10 @@ def export_option_schema() -> dict[str, Any]:
             "shuffle_home_comfort": {"type": "toggle", "default": True},
             "shuffle_instrument_parts": {"type": "toggle", "default": True},
             "shuffle_coal_and_sulfur": {"type": "toggle", "default": False},
+            "shuffle_shop": {"type": "toggle", "default": True},
+            "custom_items": {"type": "toggle", "default": True},
+            "ao3_fanfic_books": {"type": "toggle", "default": False},
+            "auto_hints": {"type": "toggle", "default": True},
             "required_crystals": {"type": "range", "min": 1, "max": 16, "default": 8},
             "required_books": {"type": "range", "min": 1, "max": 30, "default": 12},
             "trap_density": {

@@ -62,6 +62,9 @@ def get_enabled_locations(world: LongingWorld) -> list[dict[str, object]]:
         elif pool == "coal_sulfur":
             if opts.shuffle_coal_and_sulfur:
                 enabled.append(entry)
+        elif pool == "shop":
+            if opts.shuffle_shop:
+                enabled.append(entry)
 
     # Guarantee at least the core tool/milestone checks if every single pool was toggled off
     if len(enabled) < 10:

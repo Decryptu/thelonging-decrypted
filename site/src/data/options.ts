@@ -7,7 +7,16 @@ export type GoalOption =
   | "crystal_book_hunt"
   | "any_ending";
 
-export type CountdownLength = "1_hour" | "6_hours" | "24_hours" | "40_days" | "400_days";
+export type CountdownLength =
+  | "30_minutes"
+  | "1_hour"
+  | "2_hours"
+  | "6_hours"
+  | "12_hours"
+  | "24_hours"
+  | "7_days"
+  | "40_days"
+  | "400_days";
 
 export type ShuffleDepth = "vanilla" | "progression" | "full";
 
@@ -19,6 +28,7 @@ export interface LongingYamlConfig {
   countdownLength: CountdownLength;
   startingTimeRate: number;
   timeSkipItems: boolean;
+  startingWalkSpeed: number;
   shuffleMattocksAndKeys: boolean;
   shuffleBooks: ShuffleDepth;
   shuffleCrystals: ShuffleDepth;
@@ -26,6 +36,10 @@ export interface LongingYamlConfig {
   shuffleHomeComfort: boolean;
   shuffleInstrumentParts: boolean;
   shuffleCoalAndSulfur: boolean;
+  shuffleShop: boolean;
+  customItems: boolean;
+  ao3FanficBooks: boolean;
+  autoHints: boolean;
   requiredCrystals: number;
   requiredBooks: number;
   trapDensity: TrapDensity;
@@ -47,6 +61,7 @@ export const DEFAULT_CONFIG: LongingYamlConfig = {
   countdownLength: "6_hours",
   startingTimeRate: 12,
   timeSkipItems: true,
+  startingWalkSpeed: 0,
   shuffleMattocksAndKeys: true,
   shuffleBooks: "progression",
   shuffleCrystals: "full",
@@ -54,6 +69,10 @@ export const DEFAULT_CONFIG: LongingYamlConfig = {
   shuffleHomeComfort: true,
   shuffleInstrumentParts: true,
   shuffleCoalAndSulfur: false,
+  shuffleShop: true,
+  customItems: true,
+  ao3FanficBooks: false,
+  autoHints: true,
   requiredCrystals: 8,
   requiredBooks: 12,
   trapDensity: "light",
@@ -64,12 +83,13 @@ export const PRESETS: readonly PresetDefinition[] = [
   {
     id: "multiworld_evening",
     label: "Multiworld Evening",
-    summary: "6-hour clock, time-skip items, brisk Shade, core checks shuffled.",
+    summary: "6-hour clock, Cavern Peddler shop, custom items, core checks shuffled.",
     config: {
       goal: "wake_the_king",
       countdownLength: "6_hours",
       startingTimeRate: 12,
       timeSkipItems: true,
+      startingWalkSpeed: 0,
       shuffleMattocksAndKeys: true,
       shuffleBooks: "progression",
       shuffleCrystals: "full",
@@ -77,6 +97,10 @@ export const PRESETS: readonly PresetDefinition[] = [
       shuffleHomeComfort: true,
       shuffleInstrumentParts: true,
       shuffleCoalAndSulfur: false,
+      shuffleShop: true,
+      customItems: true,
+      ao3FanficBooks: false,
+      autoHints: true,
       requiredCrystals: 8,
       requiredBooks: 12,
       trapDensity: "light",
@@ -92,6 +116,7 @@ export const PRESETS: readonly PresetDefinition[] = [
       countdownLength: "1_hour",
       startingTimeRate: 24,
       timeSkipItems: true,
+      startingWalkSpeed: 1,
       shuffleMattocksAndKeys: true,
       shuffleBooks: "vanilla",
       shuffleCrystals: "progression",
@@ -99,6 +124,10 @@ export const PRESETS: readonly PresetDefinition[] = [
       shuffleHomeComfort: true,
       shuffleInstrumentParts: false,
       shuffleCoalAndSulfur: false,
+      shuffleShop: true,
+      customItems: true,
+      ao3FanficBooks: false,
+      autoHints: true,
       requiredCrystals: 7,
       requiredBooks: 12,
       trapDensity: "none",
@@ -106,14 +135,42 @@ export const PRESETS: readonly PresetDefinition[] = [
     },
   },
   {
+    id: "lunch_blitz",
+    label: "30m Blitz",
+    summary: "Fast 30-minute countdown with 2 starting walk speed tiers and shop active.",
+    config: {
+      goal: "any_ending",
+      countdownLength: "30_minutes",
+      startingTimeRate: 30,
+      timeSkipItems: true,
+      startingWalkSpeed: 2,
+      shuffleMattocksAndKeys: true,
+      shuffleBooks: "progression",
+      shuffleCrystals: "progression",
+      shuffleMushroomsAndMoss: true,
+      shuffleHomeComfort: true,
+      shuffleInstrumentParts: false,
+      shuffleCoalAndSulfur: false,
+      shuffleShop: true,
+      customItems: true,
+      ao3FanficBooks: false,
+      autoHints: true,
+      requiredCrystals: 6,
+      requiredBooks: 8,
+      trapDensity: "light",
+      deathLink: false,
+    },
+  },
+  {
     id: "full_cavern",
     label: "Full Cavern",
-    summary: "Every book, crystal, mushroom, lump of coal, and comfort shuffled.",
+    summary: "Every book, crystal, mushroom, lump of coal, shop relic, and comfort shuffled.",
     config: {
       goal: "crystal_book_hunt",
       countdownLength: "24_hours",
       startingTimeRate: 16,
       timeSkipItems: true,
+      startingWalkSpeed: 0,
       shuffleMattocksAndKeys: true,
       shuffleBooks: "full",
       shuffleCrystals: "full",
@@ -121,8 +178,39 @@ export const PRESETS: readonly PresetDefinition[] = [
       shuffleHomeComfort: true,
       shuffleInstrumentParts: true,
       shuffleCoalAndSulfur: true,
+      shuffleShop: true,
+      customItems: true,
+      ao3FanficBooks: false,
+      autoHints: true,
       requiredCrystals: 10,
       requiredBooks: 18,
+      trapDensity: "moderate",
+      deathLink: false,
+    },
+  },
+  {
+    id: "fanfic_fiesta",
+    label: "AO3 Fanfic Fiesta",
+    summary: "Soft-NSFW cavern romance books, custom hats & pets, shop bazaar, and comedic traps.",
+    config: {
+      goal: "crystal_book_hunt",
+      countdownLength: "2_hours",
+      startingTimeRate: 20,
+      timeSkipItems: true,
+      startingWalkSpeed: 1,
+      shuffleMattocksAndKeys: true,
+      shuffleBooks: "full",
+      shuffleCrystals: "full",
+      shuffleMushroomsAndMoss: true,
+      shuffleHomeComfort: true,
+      shuffleInstrumentParts: true,
+      shuffleCoalAndSulfur: false,
+      shuffleShop: true,
+      customItems: true,
+      ao3FanficBooks: true,
+      autoHints: true,
+      requiredCrystals: 8,
+      requiredBooks: 12,
       trapDensity: "moderate",
       deathLink: false,
     },
@@ -136,6 +224,7 @@ export const PRESETS: readonly PresetDefinition[] = [
       countdownLength: "400_days",
       startingTimeRate: 1,
       timeSkipItems: true,
+      startingWalkSpeed: 0,
       shuffleMattocksAndKeys: true,
       shuffleBooks: "full",
       shuffleCrystals: "full",
@@ -143,6 +232,10 @@ export const PRESETS: readonly PresetDefinition[] = [
       shuffleHomeComfort: true,
       shuffleInstrumentParts: true,
       shuffleCoalAndSulfur: true,
+      shuffleShop: true,
+      customItems: true,
+      ao3FanficBooks: false,
+      autoHints: true,
       requiredCrystals: 8,
       requiredBooks: 12,
       trapDensity: "light",
@@ -185,6 +278,8 @@ export function countEnabledChecks(config: LongingYamlConfig): number {
       count += 1;
     } else if (check.pool === "coal_sulfur" && config.shuffleCoalAndSulfur) {
       count += 1;
+    } else if (check.pool === "shop" && config.shuffleShop) {
+      count += 1;
     }
   }
   const discoveries = WORLD_CATALOG.checks.filter((check) => check.pool === "mobility").length;
@@ -207,6 +302,10 @@ export function validateConfig(config: LongingYamlConfig): ValidationResult {
 
   if (config.startingTimeRate < 1 || config.startingTimeRate > 100) {
     errors.push("Starting time rate must stay between 1x and 100x.");
+  }
+
+  if (config.startingWalkSpeed < 0 || config.startingWalkSpeed > 4) {
+    errors.push("Starting walk speed tiers must stay between 0 and 4.");
   }
 
   if (config.requiredCrystals < 1 || config.requiredCrystals > 16) {
@@ -259,7 +358,8 @@ export function validateConfig(config: LongingYamlConfig): ValidationResult {
     !config.shuffleMushroomsAndMoss &&
     !config.shuffleHomeComfort &&
     !config.shuffleInstrumentParts &&
-    !config.shuffleCoalAndSulfur
+    !config.shuffleCoalAndSulfur &&
+    !config.shuffleShop
   ) {
     warnings.push(
       "All check pools are off; the APWorld will enable 12 fallback tool and comfort checks.",
@@ -299,6 +399,7 @@ export function serializeYaml(config: LongingYamlConfig): string {
     `  countdown_length: ${config.countdownLength}`,
     `  starting_time_rate: ${Math.round(config.startingTimeRate)}`,
     `  time_skip_items: ${config.timeSkipItems ? "true" : "false"}`,
+    `  starting_walk_speed: ${Math.round(config.startingWalkSpeed)}`,
     `  required_crystals: ${Math.round(config.requiredCrystals)}`,
     `  required_books: ${Math.round(config.requiredBooks)}`,
     "",
@@ -310,8 +411,12 @@ export function serializeYaml(config: LongingYamlConfig): string {
     `  shuffle_home_comfort: ${config.shuffleHomeComfort ? "true" : "false"}`,
     `  shuffle_instrument_parts: ${config.shuffleInstrumentParts ? "true" : "false"}`,
     `  shuffle_coal_and_sulfur: ${config.shuffleCoalAndSulfur ? "true" : "false"}`,
+    `  shuffle_shop: ${config.shuffleShop ? "true" : "false"}`,
     "",
-    "  # Multiworld modifiers",
+    "  # Multiworld modifiers & extras",
+    `  custom_items: ${config.customItems ? "true" : "false"}`,
+    `  ao3_fanfic_books: ${config.ao3FanficBooks ? "true" : "false"}`,
+    `  auto_hints: ${config.autoHints ? "true" : "false"}`,
     `  trap_density: ${config.trapDensity}`,
     `  death_link: ${config.deathLink ? "true" : "false"}`,
     "",

@@ -125,6 +125,28 @@ namespace TheLongingDecrypted.Generated
             [400400074L] = new ItemRegistryEntry(400400074L, "Book: The Anatomy of Melancholy", "books", "B00BZ", null, 1, "item"),
             [400400075L] = new ItemRegistryEntry(400400075L, "Progressive Walk Speed", "mobility", "AP_WALK_SPEED", null, 1, "unlock"),
             [400400076L] = new ItemRegistryEntry(400400076L, "Progressive Waypoint Recall", "mobility", "AP_WAYPOINT_RECALL", null, 1, "unlock"),
+            [400400077L] = new ItemRegistryEntry(400400077L, "Shade's Lantern", "custom", "AP_CUSTOM_LANTERN", null, 1, "unlock"),
+            [400400078L] = new ItemRegistryEntry(400400078L, "Chisel of Efficiency", "custom", "AP_CUSTOM_CHISEL", null, 1, "unlock"),
+            [400400079L] = new ItemRegistryEntry(400400079L, "Bottomless Moss Sack", "custom", "AP_CUSTOM_MOSS_SACK", null, 1, "unlock"),
+            [400400080L] = new ItemRegistryEntry(400400080L, "Echoing Conch", "custom", "AP_ECHOING_CONCH", null, 1, "conch"),
+            [400400081L] = new ItemRegistryEntry(400400081L, "Mushroom Fertilizer", "custom", "AP_MUSHROOM_FERTILIZER", null, 1, "fertilizer"),
+            [400400082L] = new ItemRegistryEntry(400400082L, "King's Snooze Button", "time", "TIME_SKIP_43200", null, 43200, "time_skip"),
+            [400400083L] = new ItemRegistryEntry(400400083L, "Double Espresso", "custom", "AP_BUFF_ESPRESSO", null, 180, "buff"),
+            [400400084L] = new ItemRegistryEntry(400400084L, "Cosmetic: King's Tiny Crown", "cosmetic", "AP_HAT_CROWN", null, 1, "cosmetic"),
+            [400400085L] = new ItemRegistryEntry(400400085L, "Cosmetic: Spelunker Helmet", "cosmetic", "AP_HAT_HELMET", null, 1, "cosmetic"),
+            [400400086L] = new ItemRegistryEntry(400400086L, "Cosmetic: Mushroom Cap Beret", "cosmetic", "AP_HAT_MUSHROOM", null, 1, "cosmetic"),
+            [400400087L] = new ItemRegistryEntry(400400087L, "Cosmetic: Miffy Beanie Hat", "cosmetic", "AP_HAT_MIFFY", null, 1, "cosmetic"),
+            [400400088L] = new ItemRegistryEntry(400400088L, "Cosmetic: Mossy Top Hat", "cosmetic", "AP_HAT_TOPHAT", null, 1, "cosmetic"),
+            [400400089L] = new ItemRegistryEntry(400400089L, "Cosmetic: Spider Best Friend", "cosmetic", "AP_HAT_SPIDER", null, 1, "cosmetic"),
+            [400400090L] = new ItemRegistryEntry(400400090L, "Cosmetic: Flower Crown", "cosmetic", "AP_HAT_FLOWER", null, 1, "cosmetic"),
+            [400400091L] = new ItemRegistryEntry(400400091L, "Cosmetic: Nightcap of 400 Dreams", "cosmetic", "AP_HAT_NIGHTCAP", null, 1, "cosmetic"),
+            [400400092L] = new ItemRegistryEntry(400400092L, "Cosmetic: Pet Rock", "cosmetic", "AP_PET_ROCK", null, 1, "cosmetic"),
+            [400400093L] = new ItemRegistryEntry(400400093L, "Cosmetic: Baby Cave Spider", "cosmetic", "AP_PET_SPIDER", null, 1, "cosmetic"),
+            [400400094L] = new ItemRegistryEntry(400400094L, "Existential Crisis Trap", "trap", "TRAP_EXISTENTIAL", null, 12, "trap"),
+            [400400095L] = new ItemRegistryEntry(400400095L, "Hiccup Trap", "trap", "TRAP_HICCUP", null, 20, "trap"),
+            [400400096L] = new ItemRegistryEntry(400400096L, "Spider Jump-Scare Trap", "trap", "TRAP_SPIDER_SCARE", null, 6, "trap"),
+            [400400097L] = new ItemRegistryEntry(400400097L, "False Alarm Trap", "trap", "TRAP_FALSE_WAKE", null, 8, "trap"),
+            [400400098L] = new ItemRegistryEntry(400400098L, "Tiny Shade Trap", "trap", "TRAP_TINY_SHADE", null, 25, "trap"),
         };
 
         public static readonly IReadOnlyDictionary<string, LocationRegistryEntry> LocationsByUid = new Dictionary<string, LocationRegistryEntry>
@@ -281,6 +303,14 @@ namespace TheLongingDecrypted.Generated
             ["discover:moss_cliff"] = new LocationRegistryEntry(400401149L, "Discover Moss Cliff", "discover:moss_cliff", "moss_cliff", "mobility"),
             ["discover:entrance_library"] = new LocationRegistryEntry(400401150L, "Discover Library Vestibule", "discover:entrance_library", "entrance_library", "mobility"),
             ["discover:greatCave_complete"] = new LocationRegistryEntry(400401151L, "Discover Great Cave", "discover:greatCave_complete", "greatCave_complete", "mobility"),
+            ["shop:peddler_1"] = new LocationRegistryEntry(400401152L, "Cavern Peddler - Bargain Relic #1", "shop:peddler_1", "gallery", "shop"),
+            ["shop:peddler_2"] = new LocationRegistryEntry(400401153L, "Cavern Peddler - Bargain Relic #2", "shop:peddler_2", "gallery", "shop"),
+            ["shop:peddler_3"] = new LocationRegistryEntry(400401154L, "Cavern Peddler - Bargain Relic #3", "shop:peddler_3", "gallery", "shop"),
+            ["shop:peddler_4"] = new LocationRegistryEntry(400401155L, "Cavern Peddler - Bargain Relic #4", "shop:peddler_4", "gallery", "shop"),
+            ["shop:peddler_5"] = new LocationRegistryEntry(400401156L, "Cavern Peddler - Bargain Relic #5", "shop:peddler_5", "gallery", "shop"),
+            ["shop:peddler_6"] = new LocationRegistryEntry(400401157L, "Cavern Peddler - Bargain Relic #6", "shop:peddler_6", "gallery", "shop"),
+            ["shop:peddler_7"] = new LocationRegistryEntry(400401158L, "Cavern Peddler - Bargain Relic #7", "shop:peddler_7", "gallery", "shop"),
+            ["shop:peddler_8"] = new LocationRegistryEntry(400401159L, "Cavern Peddler - Bargain Relic #8", "shop:peddler_8", "gallery", "shop"),
         };
 
         public static readonly IReadOnlyDictionary<long, LocationRegistryEntry> LocationsById = new Dictionary<long, LocationRegistryEntry>
@@ -437,6 +467,14 @@ namespace TheLongingDecrypted.Generated
             [400401149L] = new LocationRegistryEntry(400401149L, "Discover Moss Cliff", "discover:moss_cliff", "moss_cliff", "mobility"),
             [400401150L] = new LocationRegistryEntry(400401150L, "Discover Library Vestibule", "discover:entrance_library", "entrance_library", "mobility"),
             [400401151L] = new LocationRegistryEntry(400401151L, "Discover Great Cave", "discover:greatCave_complete", "greatCave_complete", "mobility"),
+            [400401152L] = new LocationRegistryEntry(400401152L, "Cavern Peddler - Bargain Relic #1", "shop:peddler_1", "gallery", "shop"),
+            [400401153L] = new LocationRegistryEntry(400401153L, "Cavern Peddler - Bargain Relic #2", "shop:peddler_2", "gallery", "shop"),
+            [400401154L] = new LocationRegistryEntry(400401154L, "Cavern Peddler - Bargain Relic #3", "shop:peddler_3", "gallery", "shop"),
+            [400401155L] = new LocationRegistryEntry(400401155L, "Cavern Peddler - Bargain Relic #4", "shop:peddler_4", "gallery", "shop"),
+            [400401156L] = new LocationRegistryEntry(400401156L, "Cavern Peddler - Bargain Relic #5", "shop:peddler_5", "gallery", "shop"),
+            [400401157L] = new LocationRegistryEntry(400401157L, "Cavern Peddler - Bargain Relic #6", "shop:peddler_6", "gallery", "shop"),
+            [400401158L] = new LocationRegistryEntry(400401158L, "Cavern Peddler - Bargain Relic #7", "shop:peddler_7", "gallery", "shop"),
+            [400401159L] = new LocationRegistryEntry(400401159L, "Cavern Peddler - Bargain Relic #8", "shop:peddler_8", "gallery", "shop"),
         };
     }
 }

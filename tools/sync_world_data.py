@@ -426,6 +426,37 @@ def build_registries(catalog: dict[str, object]) -> tuple[list[dict[str, object]
         })
         next_item_id += 1
 
+    post_release_items: list[dict[str, object]] = [
+        # Custom items & comforts
+        {"name": "Shade's Lantern", "classification": "useful", "category": "custom", "game_key": "AP_CUSTOM_LANTERN", "secondary_key": None, "amount": 1, "action": "unlock"},
+        {"name": "Chisel of Efficiency", "classification": "useful", "category": "custom", "game_key": "AP_CUSTOM_CHISEL", "secondary_key": None, "amount": 1, "action": "unlock"},
+        {"name": "Bottomless Moss Sack", "classification": "useful", "category": "custom", "game_key": "AP_CUSTOM_MOSS_SACK", "secondary_key": None, "amount": 1, "action": "unlock"},
+        {"name": "Echoing Conch", "classification": "useful", "category": "custom", "game_key": "AP_ECHOING_CONCH", "secondary_key": None, "amount": 1, "action": "conch"},
+        {"name": "Mushroom Fertilizer", "classification": "useful", "category": "custom", "game_key": "AP_MUSHROOM_FERTILIZER", "secondary_key": None, "amount": 1, "action": "fertilizer"},
+        {"name": "King's Snooze Button", "classification": "useful", "category": "time", "game_key": "TIME_SKIP_43200", "secondary_key": None, "amount": 43200, "action": "time_skip"},
+        {"name": "Double Espresso", "classification": "useful", "category": "custom", "game_key": "AP_BUFF_ESPRESSO", "secondary_key": None, "amount": 180, "action": "buff"},
+        # Cosmetics: Hats & companions
+        {"name": "Cosmetic: King's Tiny Crown", "classification": "filler", "category": "cosmetic", "game_key": "AP_HAT_CROWN", "secondary_key": None, "amount": 1, "action": "cosmetic"},
+        {"name": "Cosmetic: Spelunker Helmet", "classification": "filler", "category": "cosmetic", "game_key": "AP_HAT_HELMET", "secondary_key": None, "amount": 1, "action": "cosmetic"},
+        {"name": "Cosmetic: Mushroom Cap Beret", "classification": "filler", "category": "cosmetic", "game_key": "AP_HAT_MUSHROOM", "secondary_key": None, "amount": 1, "action": "cosmetic"},
+        {"name": "Cosmetic: Miffy Beanie Hat", "classification": "filler", "category": "cosmetic", "game_key": "AP_HAT_MIFFY", "secondary_key": None, "amount": 1, "action": "cosmetic"},
+        {"name": "Cosmetic: Mossy Top Hat", "classification": "filler", "category": "cosmetic", "game_key": "AP_HAT_TOPHAT", "secondary_key": None, "amount": 1, "action": "cosmetic"},
+        {"name": "Cosmetic: Spider Best Friend", "classification": "filler", "category": "cosmetic", "game_key": "AP_HAT_SPIDER", "secondary_key": None, "amount": 1, "action": "cosmetic"},
+        {"name": "Cosmetic: Flower Crown", "classification": "filler", "category": "cosmetic", "game_key": "AP_HAT_FLOWER", "secondary_key": None, "amount": 1, "action": "cosmetic"},
+        {"name": "Cosmetic: Nightcap of 400 Dreams", "classification": "filler", "category": "cosmetic", "game_key": "AP_HAT_NIGHTCAP", "secondary_key": None, "amount": 1, "action": "cosmetic"},
+        {"name": "Cosmetic: Pet Rock", "classification": "filler", "category": "cosmetic", "game_key": "AP_PET_ROCK", "secondary_key": None, "amount": 1, "action": "cosmetic"},
+        {"name": "Cosmetic: Baby Cave Spider", "classification": "filler", "category": "cosmetic", "game_key": "AP_PET_SPIDER", "secondary_key": None, "amount": 1, "action": "cosmetic"},
+        # Extra comedic traps
+        {"name": "Existential Crisis Trap", "classification": "trap", "category": "trap", "game_key": "TRAP_EXISTENTIAL", "secondary_key": None, "amount": 12, "action": "trap"},
+        {"name": "Hiccup Trap", "classification": "trap", "category": "trap", "game_key": "TRAP_HICCUP", "secondary_key": None, "amount": 20, "action": "trap"},
+        {"name": "Spider Jump-Scare Trap", "classification": "trap", "category": "trap", "game_key": "TRAP_SPIDER_SCARE", "secondary_key": None, "amount": 6, "action": "trap"},
+        {"name": "False Alarm Trap", "classification": "trap", "category": "trap", "game_key": "TRAP_FALSE_WAKE", "secondary_key": None, "amount": 8, "action": "trap"},
+        {"name": "Tiny Shade Trap", "classification": "trap", "category": "trap", "game_key": "TRAP_TINY_SHADE", "secondary_key": None, "amount": 25, "action": "trap"},
+    ]
+    for entry in post_release_items:
+        items_out.append({"id": next_item_id, **entry})
+        next_item_id += 1
+
     item_keys = catalog["item_keys"]
     assert isinstance(item_keys, dict)
     pickups = catalog["pickups"]
@@ -522,6 +553,37 @@ def build_registries(catalog: dict[str, object]) -> tuple[list[dict[str, object]
                 "depth": m["depth"],
                 "vanilla_item_key": None,
                 "requires": list(m["requires"]),
+            }
+        )
+        next_loc_id += 1
+
+    shop_locations = [
+        {
+            "name": f"Cavern Peddler - Bargain Relic #{slot}",
+            "game_uid": f"shop:peddler_{slot}",
+            "scene": "gallery",
+            "map_region": "kings_hall",
+            "ap_region": "The King's Hall",
+            "pool": "shop",
+            "depth": "core",
+            "requires": [] if slot <= 4 else ["mattock_1"],
+        }
+        for slot in range(1, 9)
+    ]
+    for s in shop_locations:
+        locations_out.append(
+            {
+                "id": next_loc_id,
+                "name": s["name"],
+                "game_uid": s["game_uid"],
+                "scene": s["scene"],
+                "alias_scenes": [],
+                "map_region": s["map_region"],
+                "ap_region": s["ap_region"],
+                "pool": s["pool"],
+                "depth": s["depth"],
+                "vanilla_item_key": None,
+                "requires": list(s["requires"]),
             }
         )
         next_loc_id += 1
@@ -668,6 +730,7 @@ def write_site_catalog(catalog: dict[str, object], items: list[dict[str, object]
         "instrument": "comfort",
         "coal_sulfur": "comfort",
         "mobility": "tools",
+        "shop": "tools",
     }
     summary = catalog["summary"]
     assert isinstance(summary, dict)

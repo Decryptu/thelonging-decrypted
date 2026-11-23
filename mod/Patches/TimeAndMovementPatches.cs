@@ -89,7 +89,12 @@ namespace TheLongingDecrypted.Patches
             {
                 return speed;
             }
-            return speed * (Plugin.Delivery.IsSlownessTrapActive ? 0.65f : UnlockedWalkMultiplier);
+            float mult = Plugin.Delivery.IsSlownessTrapActive ? 0.65f : UnlockedWalkMultiplier;
+            if (Plugin.Delivery.IsEspressoBuffActive)
+            {
+                mult *= 1.85f;
+            }
+            return speed * mult;
         }
     }
 }

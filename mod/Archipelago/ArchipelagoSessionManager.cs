@@ -23,6 +23,8 @@ namespace TheLongingDecrypted.Archipelago
         private readonly ItemDeliveryService _delivery;
         private readonly ConcurrentQueue<Action> _mainThreadQueue = new ConcurrentQueue<Action>();
         private readonly HashSet<long> _checkedLocations = new HashSet<long>();
+        private readonly ConcurrentDictionary<long, string> _scoutedShopOffers = new ConcurrentDictionary<long, string>();
+        private readonly List<string> _conchHints = new List<string>();
 
         private ArchipelagoSession _session;
         private DeathLinkService _deathLinkService;
@@ -39,6 +41,14 @@ namespace TheLongingDecrypted.Archipelago
         public int CheckedCount => _checkedLocations.Count;
         public int TotalLocations => ActiveConfig.EnabledLocationIds.Count;
         public bool GoalSent => FileBasedPrefs.GetInt(GoalSentPrefKey, 0) > 0;
+        public IReadOnlyList<string> ConchHints => _conchHints;
+
+        public bool IsLocationChecked(long locationId) => _checkedLocations.Contains(locationId);
+
+        public string GetScoutedShopOffer(long locationId)
+        {
+            return _scoutedShopOffers.TryGetValue(locationId, out var offer) ? offer : null;
+        }
 
         public ArchipelagoSessionManager(ItemDeliveryService delivery)
         {
@@ -142,6 +152,10 @@ namespace TheLongingDecrypted.Archipelago
                 _initialSyncPending = true;
                 _initialCountdownPending = true;
                 SyncSlotWhenWritable();
+                if (ActiveConfig.AutoHints)
+                {
+                    ScoutShopLocationsAsync();
+                }
 
                 StatusMessage = $"Connected ({slotName} @ {host}:{port})";
                 _delivery.PushNotification($"Connected to Archipelago! Goal: {ActiveConfig.Goal}");
@@ -391,6 +405,92 @@ namespace TheLongingDecrypted.Archipelago
             var cause = string.IsNullOrEmpty(dl.Cause) ? $"{dl.Source} succumbed" : dl.Cause;
             _delivery.PushNotification($"DeathLink from {dl.Source}: {cause} (returning Shade Home)");
             game.LoadNewScene(4);
+        }
+
+        public void ScoutShopLocationsAsync()
+        {
+            if (!IsConnected || _session == null)
+            {
+                return;
+            }
+            var shopIds = WorldRegistryData.LocationsById.Values
+                .Where(e => e.Pool == "shop" && ActiveConfig.EnabledLocationIds.Contains(e.Id))
+                .Select(e => e.Id)
+                .ToArray();
+            if (shopIds.Length == 0)
+            {
+                return;
+            }
+            try
+            {
+                _session.Locations.ScoutLocationsAsync(shopIds).ContinueWith(task =>
+                {
+                    if (task.IsFaulted || task.IsCanceled || task.Result == null)
+                    {
+                        return;
+                    }
+                    foreach (var kv in task.Result)
+                    {
+                        var info = kv.Value;
+                        string playerName = _session?.Players?.GetPlayerName(info.Player) ?? $"Player {info.Player}";
+                        string itemName = info.ItemDisplayName ?? info.ItemName ?? $"Item #{info.ItemId}";
+                        string gameName = info.Player != null ? info.Player.Game : string.Empty;
+                        string suffix = !string.IsNullOrEmpty(gameName) ? $" ({playerName} - {gameName})" : $" ({playerName})";
+                        _scoutedShopOffers[kv.Key] = $"{itemName}{suffix}";
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Plugin.Log.LogWarning($"Shop scouting failed: {ex.Message}");
+            }
+        }
+
+        public void ScoutRandomUncheckedLocation(string sourceLabel = "Echoing Conch")
+        {
+            if (!IsConnected || _session == null)
+            {
+                _delivery.PushNotification($"{sourceLabel}: Connect to Archipelago to hear multiworld echoes.");
+                return;
+            }
+            var uncheckedIds = ActiveConfig.EnabledLocationIds
+                .Where(id => !_checkedLocations.Contains(id))
+                .ToList();
+            if (uncheckedIds.Count == 0)
+            {
+                _delivery.PushNotification($"{sourceLabel}: All cavern locations have been checked!");
+                return;
+            }
+            long targetId = uncheckedIds[UnityEngine.Random.Range(0, uncheckedIds.Count)];
+            string locName = WorldRegistryData.LocationsById.TryGetValue(targetId, out var locEntry)
+                ? locEntry.Name
+                : $"Location #{targetId}";
+            try
+            {
+                _session.Locations.ScoutLocationsAsync(new[] { targetId }).ContinueWith(task =>
+                {
+                    if (task.IsFaulted || task.IsCanceled || task.Result == null || !task.Result.TryGetValue(targetId, out var info))
+                    {
+                        return;
+                    }
+                    string playerName = _session?.Players?.GetPlayerName(info.Player) ?? $"Player {info.Player}";
+                    string itemName = info.ItemDisplayName ?? info.ItemName ?? $"Item #{info.ItemId}";
+                    string hint = $"{locName} holds {itemName} for {playerName}";
+                    _mainThreadQueue.Enqueue(() =>
+                    {
+                        _conchHints.Insert(0, hint);
+                        if (_conchHints.Count > 12)
+                        {
+                            _conchHints.RemoveAt(_conchHints.Count - 1);
+                        }
+                        _delivery.PushNotification($"{sourceLabel}: {hint}");
+                    });
+                });
+            }
+            catch (Exception ex)
+            {
+                Plugin.Log.LogWarning($"Conch scouting failed: {ex.Message}");
+            }
         }
     }
 }

@@ -31,6 +31,12 @@ BOOK_ITEM_NAMES: tuple[str, ...] = tuple(
 TRAP_ITEM_NAMES: tuple[str, ...] = tuple(
     str(entry["name"]) for entry in ITEM_DEFINITIONS if entry["category"] == "trap"
 )
+CUSTOM_ITEM_NAMES: tuple[str, ...] = tuple(
+    str(entry["name"]) for entry in ITEM_DEFINITIONS if entry["category"] == "custom"
+)
+COSMETIC_ITEM_NAMES: tuple[str, ...] = tuple(
+    str(entry["name"]) for entry in ITEM_DEFINITIONS if entry["category"] == "cosmetic"
+)
 
 ITEM_NAME_GROUPS: dict[str, set[str]] = {
     "Tools": {"Mattock", "Secret Key", "Library Door Pass", "Surface Gate Pass", "Giant Mushroom Spores", "Cavern Map"},
@@ -42,9 +48,12 @@ ITEM_NAME_GROUPS: dict[str, set[str]] = {
         "Time Skip (6 Hours)",
         "Time Skip (1 Day)",
         "Time Rate Boost (+2x)",
+        "King's Snooze Button",
     },
     "Traps": set(TRAP_ITEM_NAMES),
     "Mobility": {"Progressive Walk Speed", "Progressive Waypoint Recall"},
+    "Custom": set(CUSTOM_ITEM_NAMES),
+    "Cosmetics": set(COSMETIC_ITEM_NAMES),
 }
 
 MOBILITY_ITEMS = (("Progressive Walk Speed", 4), ("Progressive Waypoint Recall", 3))
@@ -76,7 +85,15 @@ def build_item_pool(world: LongingWorld, total_locations: int) -> tuple[list[Lon
     """
     opts = world.options
     pool: list[LongingItem] = []
-    mobility = [create_item(world, name) for name, count in MOBILITY_ITEMS for _ in range(count)]
+    start_speed = max(0, min(4, int(getattr(opts, "starting_walk_speed", 0))))
+    for _ in range(start_speed):
+        world.multiworld.push_precollected(create_item(world, "Progressive Walk Speed"))
+
+    mobility: list[LongingItem] = []
+    for name, count in MOBILITY_ITEMS:
+        actual_count = max(0, count - start_speed) if name == "Progressive Walk Speed" else count
+        for _ in range(actual_count):
+            mobility.append(create_item(world, name))
     total_locations -= len(mobility)
 
     # 1. Core progression tools & passes
@@ -189,7 +206,31 @@ def build_item_pool(world: LongingWorld, total_locations: int) -> tuple[list[Lon
         for _ in range(6):
             pool.append(create_item(world, "Wood", ItemClassification.filler))
 
-    # 8. Time-skip & pacing items (if space permits and enabled)
+    # 8. Custom utility items & cosmetics (if enabled)
+    if getattr(opts, "custom_items", True):
+        custom_pack: list[tuple[str, int, ItemClassification]] = [
+            ("Shade's Lantern", 1, ItemClassification.useful),
+            ("Chisel of Efficiency", 1, ItemClassification.useful),
+            ("Bottomless Moss Sack", 1, ItemClassification.useful),
+            ("Echoing Conch", 2, ItemClassification.useful),
+            ("Mushroom Fertilizer", 2, ItemClassification.useful),
+            ("King's Snooze Button", 2, ItemClassification.useful),
+            ("Double Espresso", 2, ItemClassification.filler),
+        ]
+        for name, count, cls in custom_pack:
+            for _ in range(count):
+                if len(pool) >= total_locations:
+                    break
+                pool.append(create_item(world, name, cls))
+
+        cosmetics_shuffled = list(COSMETIC_ITEM_NAMES)
+        world.random.shuffle(cosmetics_shuffled)
+        for cos_name in cosmetics_shuffled:
+            if len(pool) >= total_locations:
+                break
+            pool.append(create_item(world, cos_name, ItemClassification.filler))
+
+    # 9. Time-skip & pacing items (if space permits and enabled)
     remaining = total_locations - len(pool)
     if opts.time_skip_items and remaining > 0:
         pacing_pack: list[tuple[str, int, ItemClassification]] = [

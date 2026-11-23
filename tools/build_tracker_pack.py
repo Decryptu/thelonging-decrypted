@@ -1236,6 +1236,13 @@ def build_settings_json() -> list[dict[str, Any]]:
             "codes": "opt_shuffle_coal_and_sulfur",
         },
         {
+            "name": "Shuffle Cavern Peddler Shop",
+            "type": "toggle",
+            "img": "images/items/opt_comfort.png",
+            "initial_active_state": True,
+            "codes": "opt_shuffle_shop",
+        },
+        {
             "name": "Required Crystals (Hunt Goal)",
             "type": "consumable",
             "img": "images/items/req_crystals.png",
@@ -1509,6 +1516,7 @@ def build_layouts() -> dict[str, dict[str, Any]]:
                         "opt_shuffle_home_comfort",
                         "opt_shuffle_instrument_parts",
                         "opt_shuffle_coal_and_sulfur",
+                        "opt_shuffle_shop",
                         "opt_required_crystals",
                         "opt_required_books",
                     ],
@@ -1662,6 +1670,7 @@ def build_item_mapping_lua(items: list[dict[str, Any]]) -> str:
         "Time Skip (1 Hour)": ("time_skips", "consumable"),
         "Time Skip (6 Hours)": ("time_skips", "consumable"),
         "Time Skip (1 Day)": ("time_skips", "consumable"),
+        "King's Snooze Button": ("time_skips", "consumable"),
         "Time Rate Boost (+2x)": ("time_rate_boost", "consumable"),
         "Progressive Walk Speed": ("progressive_walk_speed", "progressive"),
         "Progressive Waypoint Recall": ("progressive_waypoint_recall", "progressive"),
@@ -2000,6 +2009,8 @@ local function is_pool_enabled(meta)
         return opt_bool("opt_shuffle_instrument_parts")
     elseif pool == "coal_sulfur" then
         return opt_bool("opt_shuffle_coal_and_sulfur")
+    elseif pool == "shop" then
+        return opt_bool("opt_shuffle_shop")
     end
     return false
 end
@@ -2210,6 +2221,9 @@ local function apply_slot_data(slot_data)
     end
     if slot_data["shuffle_coal_and_sulfur"] ~= nil then
         set_toggle("opt_shuffle_coal_and_sulfur", slot_data["shuffle_coal_and_sulfur"])
+    end
+    if slot_data["shuffle_shop"] ~= nil then
+        set_toggle("opt_shuffle_shop", slot_data["shuffle_shop"])
     end
     if slot_data["required_crystals"] ~= nil then
         set_count("opt_required_crystals", tonumber(slot_data["required_crystals"]) or 0)
