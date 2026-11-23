@@ -6,7 +6,7 @@
     <AssemblyName>TheLongingDecrypted</AssemblyName>
     <RootNamespace>TheLongingDecrypted</RootNamespace>
     <Product>The Longing Decrypted</Product>
-    <Version>0.1.0</Version>
+    <Version>1.0.0</Version>
     <PlatformTarget>x86</PlatformTarget>
     <LangVersion>latest</LangVersion>
     <Nullable>disable</Nullable>

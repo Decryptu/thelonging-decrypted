@@ -11,9 +11,9 @@ export function getSetupSteps(role: PlayerRole, method: InstallMethod): SetupSte
   const steps: SetupStep[] = [
     {
       id: "own_game",
-      title: "Install The Longing on Steam (Windows)",
+      title: "Install The Longing on Steam (Windows) and back up your save",
       detail:
-        "Launch the game once so Steam finishes setup. The Windows build runs on 32-bit Unity 2018.4 (x86), so keep a backup of AppData\\LocalLow\\Studio Seufz\\The Longing before modding.",
+        "Launch once so Steam finishes setup. Copy %USERPROFILE%\\AppData\\LocalLow\\Studio Seufz\\The Longing somewhere safe first. Randomizer saves stay isolated under Archipelago\\<seed>_<slot>\\, leaving your vanilla 400-day save untouched.",
     },
   ];
 
@@ -21,15 +21,15 @@ export function getSetupSteps(role: PlayerRole, method: InstallMethod): SetupSte
     steps.push(
       {
         id: "manager_profile",
-        title: "Create a dedicated mod profile in r2modman or Gale",
+        title: "Create a dedicated BepInEx 5 x86 profile in r2modman or Gale",
         detail:
-          "Use a clean profile with BepInEx 5 x86 so your vanilla 400-day save stays untouched.",
+          "The Longing.exe is 32-bit Unity 2018.4 (x86). Use a clean BepInEx 5 x86 profile so your vanilla installation stays separate.",
       },
       {
         id: "manager_plugin",
-        title: "Install the The Longing Decrypted plugin package",
+        title: "Import TheLongingDecrypted-v1.0.0-BepInEx5-x86.zip",
         detail:
-          "Once the first plugin release ships, import the release package into your profile so BepInEx loads the Archipelago client automatically.",
+          "Download the v1.0.0 plugin zip from GitHub Releases and import it into your profile so TheLongingDecrypted.dll, Archipelago.MultiClient.Net.dll, and Newtonsoft.Json.dll load automatically.",
       },
     );
   } else {
@@ -38,13 +38,13 @@ export function getSetupSteps(role: PlayerRole, method: InstallMethod): SetupSte
         id: "manual_bepinex",
         title: "Extract BepInEx 5 (x86 / 32-bit) into the game folder",
         detail:
-          "Important: The Longing.exe is 32-bit x86. Copy winhttp.dll, doorstop_config.ini, and the BepInEx folder next to The Longing.exe, then launch once to generate BepInEx/plugins.",
+          "Important: The Longing.exe is 32-bit x86 (64-bit BepInEx will not load). Copy winhttp.dll, doorstop_config.ini, and BepInEx next to The Longing.exe, then launch once.",
       },
       {
         id: "manual_plugin",
-        title: "Drop the The Longing Decrypted plugin into BepInEx/plugins",
+        title: "Extract TheLongingDecrypted-v1.0.0-BepInEx5-x86.zip into the game folder",
         detail:
-          "Place the compiled plugin DLL and its Archipelago.MultiClient.Net dependency into BepInEx/plugins/TheLongingDecrypted/.",
+          "Download the v1.0.0 plugin archive from GitHub Releases and place TheLongingDecrypted.dll, Archipelago.MultiClient.Net.dll, and Newtonsoft.Json.dll inside BepInEx/plugins/TheLongingDecrypted/.",
       },
     );
   }
@@ -55,7 +55,7 @@ export function getSetupSteps(role: PlayerRole, method: InstallMethod): SetupSte
         id: "host_ap",
         title: "Install Archipelago 0.6.8+ and add the_longing.apworld",
         detail:
-          "Drop the matching the_longing.apworld into Archipelago's custom_worlds folder and restart the Archipelago Launcher.",
+          "Drop the matching v1.0.0 the_longing.apworld into Archipelago's custom_worlds folder and restart the Archipelago Launcher.",
       },
       {
         id: "host_yaml",
@@ -82,15 +82,21 @@ export function getSetupSteps(role: PlayerRole, method: InstallMethod): SetupSte
   steps.push(
     {
       id: "connect_room",
-      title: "Start a fresh randomizer slot and connect in-game",
+      title: "Connect from the title screen with F8",
       detail:
-        "Open the in-game Archipelago overlay, enter the host address, port, slot name, and optional password, and verify the connection banner turns lapis blue.",
+        "Press F8 on the title screen, enter host, port, slot name, and optional password, and connect. Each seed + slot gets its own isolated save and countdown checkpoint; return to the title screen before switching slots.",
     },
     {
       id: "first_check",
-      title: "Pick up your first check and confirm item delivery",
+      title: "Explore, mark waypoints, and Shift-click Go or Home to recall",
       detail:
-        "Grab a nearby home or cavern check to verify checks report to the room and received items or time skips apply cleanly.",
+        "Grab a cavern check or enter a discovery room to confirm live syncing. Record waypoints in the native waypoint panel and Shift-click Go or Home once Progressive Waypoint Recall unlocks.",
+    },
+    {
+      id: "tracker_optional",
+      title: "(Optional) Load PopTracker or Universal Tracker",
+      detail:
+        "Drop the_longing_poptracker.zip from GitHub Releases into PopTracker's packs folder, or use Universal Tracker directly with the_longing.apworld (no local YAML needed) to autotrack checks, mobility, and recall rings.",
     },
   );
 

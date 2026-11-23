@@ -689,7 +689,7 @@ def write_site_catalog(catalog: dict[str, object], items: list[dict[str, object]
         "}",
         "",
         "export const WORLD_CATALOG = {",
-        '  worldVersion: "0.1.0",',
+        '  worldVersion: "1.0.0",',
         '  archipelagoTarget: "0.6.8+",',
         "  summary: {",
     ]

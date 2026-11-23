@@ -216,7 +216,7 @@ def export_option_schema() -> dict[str, Any]:
     """Export canonical option metadata for syncing the player hub YAML generator."""
     return {
         "game": "The Longing",
-        "world_version": "0.1.0",
+        "world_version": "1.0.0",
         "options": {
             "goal": {
                 "type": "choice",

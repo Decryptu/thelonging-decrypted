@@ -1,7 +1,7 @@
 {
   "game": "The Longing",
   "minimum_ap_version": "0.6.8",
-  "world_version": "0.1.0",
+  "world_version": "1.0.0",
   "authors": ["Decrypt"],
   "compatible_version": 7,
   "version": 7

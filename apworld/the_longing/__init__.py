@@ -168,7 +168,7 @@ class LongingWorld(World):
 
     def fill_slot_data(self) -> dict[str, Any]:
         return {
-            "world_version": "0.1.0",
+            "world_version": "1.0.0",
             "goal": self.options.goal.current_key,
             "countdown_length": self.options.countdown_length.current_key,
             "countdown_seconds": self.options.countdown_length.to_seconds(),

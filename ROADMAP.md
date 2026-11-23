@@ -1,14 +1,19 @@
 # Roadmap
 
-What is in progress and planned for *The Longing Decrypted*. Finished work moves to git history.
+What is planned for *The Longing Decrypted* beyond `1.0.0`. Shipped work lives in git history and [GitHub Releases](https://github.com/Decryptu/thelonging-decrypted/releases).
 
 ## Goal
 
-A complete, approachable Archipelago multiworld and randomizer for *The Longing*: a playable `the_longing.apworld`, a BepInEx 5 x86 Unity mod with quality-of-life pacing tools, and a self-hosted player hub with a YAML generator and interactive cavern map.
+A complete, approachable Archipelago multiworld and randomizer for *The Longing*: a playable `the_longing.apworld`, a BepInEx 5 x86 Unity mod with quality-of-life pacing tools, autotracking PopTracker and Universal Tracker support, and a self-hosted player hub with a YAML generator and interactive cavern map.
 
-## Milestones
+## Current Status
 
-1. **1.0 release:** Publish the matched `TheLongingDecrypted` plugin, `the_longing.apworld`, and PopTracker pack at `1.0.0` with updated player setup and save recovery notes.
+- **`1.0.0` shipped:** Verified across live solo and cross-game multiworld playthroughs, with matched `TheLongingDecrypted` plugin, `the_longing.apworld` (Archipelago 0.6.8+ and Universal Tracker), `the_longing_poptracker.zip`, and updated player hub and save recovery documentation.
+
+## Post-1.0 Ideas
+
+- Community balance and quality-of-life refinements based on multiworld feedback (for example, additional pacing presets or optional hint/cosmetic toggles).
+- Keep compatibility aligned with future Archipelago releases as needed.
 
 ## Decisions
 

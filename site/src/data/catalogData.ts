@@ -14,7 +14,7 @@ export interface CatalogCheck {
 }
 
 export const WORLD_CATALOG = {
-  worldVersion: "0.1.0",
+  worldVersion: "1.0.0",
   archipelagoTarget: "0.6.8+",
   summary: {
     total_scenes: 81,

@@ -28,7 +28,7 @@ TRACKER_DIR = ROOT / "tracker"
 APWORLD_TRACKER_DIR = ROOT / "apworld" / "the_longing" / "tracker"
 APWORLD_MAPPING_PY = ROOT / "apworld" / "the_longing" / "tracker_mapping.py"
 
-WORLD_VERSION = "0.1.0"
+WORLD_VERSION = "1.0.0"
 GAME_NAME = "The Longing"
 PACK_NAME = "The Longing Decrypted"
 PACK_UID = "the_longing_decrypted_ap"

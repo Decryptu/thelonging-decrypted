@@ -15,7 +15,7 @@ namespace TheLongingDecrypted
     {
         public const string PluginGuid = "com.decrypt.thelongingdecrypted";
         public const string PluginName = "The Longing Decrypted";
-        public const string PluginVersion = "0.1.0";
+        public const string PluginVersion = "1.0.0";
 
         internal static ManualLogSource Log { get; private set; }
         internal static ItemDeliveryService Delivery { get; private set; }

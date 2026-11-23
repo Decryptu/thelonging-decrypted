@@ -6,7 +6,7 @@
 
 - **Mattocks, Secret Key, and Cavern Passes** for breaking weak walls, mining crystal veins, and unlocking the Library, Mystery Rooms, and Upper Cavern Gate.
 - **Progressive Walk Speed** begins at the vanilla pace. Four upgrades raise it to 1.25×, 1.5×, 1.75×, and 2×.
-- **Progressive Waypoint Recall** lets Shade return to saved waypoints. Open the game's waypoint panel to see your current pace and recall ring. Click to walk as usual, or Shift-click a marked waypoint to recall there. Three upgrades cover the inner kingdom, the middle caverns and Library, then the deep and upper caverns. Visit and mark a waypoint first. Home can be recalled after your first visit.
+- **Progressive Waypoint Recall** lets Shade return to saved waypoints. Open the game's waypoint panel to see your current pace and recall ring. Click to walk as usual, or Shift-click **Go** or **Home** to recall there. Three upgrades cover the inner kingdom, the middle caverns and Library, then the deep and upper caverns. Visit and mark a waypoint first. Home can be recalled after your first visit.
 - **Classic Literature Books** across the Library, Secret Tower, Entrance Hall, and Mystery Rooms.
 - **Cavern Crystals** (White, Rose, Blue, Purple, Black, and Giant Crystals).
 - **Moss & Giant Mushroom Spores** for building the Shade's bed and ascending to the Secret Tower and Well.
