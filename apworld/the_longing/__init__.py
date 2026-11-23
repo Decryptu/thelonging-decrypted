@@ -16,6 +16,7 @@ from .locations import LOCATION_NAME_GROUPS, LOCATION_NAME_TO_ID
 from .options import LongingOptions
 from .regions import create_regions
 from .rules import set_rules
+from .tracker_mapping import POPTRACKER_LOCATION_MAPPING
 from .web_world import LongingWebWorld
 
 
@@ -32,6 +33,15 @@ class LongingWorld(World):
     item_name_groups: ClassVar[dict[str, set[str]]] = ITEM_NAME_GROUPS
     location_name_groups: ClassVar[dict[str, set[str]]] = LOCATION_NAME_GROUPS
 
+    # Universal Tracker (UT) YAML-less regeneration & PopTracker map page integration
+    ut_can_gen_without_yaml: ClassVar[bool] = True
+    tracker_world: ClassVar[dict[str, Any]] = {
+        "map_page_folder": "tracker",
+        "map_page_maps": ["maps/maps.json"],
+        "map_page_locations": ["locations/locations.json"],
+        "poptracker_name_mapping": POPTRACKER_LOCATION_MAPPING,
+    }
+
     def __init__(self, multiworld: Any, player: int) -> None:
         super().__init__(multiworld, player)
         self.enabled_locations: list[dict[str, object]] = []
@@ -39,8 +49,57 @@ class LongingWorld(World):
         self.books_in_pool: int = 0
         self.effective_required_crystals: int = 0
         self.effective_required_books: int = 0
+        self.ut_enabled_location_ids: set[int] | None = None
+        self.ut_required_crystals: int | None = None
+        self.ut_required_books: int | None = None
+
+    @staticmethod
+    def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
+        """Pass server slot_data through to Universal Tracker regeneration."""
+        return dict(slot_data)
+
+    def _apply_ut_passthrough(self) -> dict[str, Any] | None:
+        passthrough = getattr(self.multiworld, "re_gen_passthrough", None)
+        if not isinstance(passthrough, dict) or self.game not in passthrough:
+            return None
+        slot_data = passthrough[self.game]
+        if not isinstance(slot_data, dict):
+            return None
+
+        option_keys = (
+            "goal",
+            "countdown_length",
+            "starting_time_rate",
+            "time_skip_items",
+            "shuffle_mattocks_and_keys",
+            "shuffle_books",
+            "shuffle_crystals",
+            "shuffle_mushrooms_and_moss",
+            "shuffle_home_comfort",
+            "shuffle_instrument_parts",
+            "shuffle_coal_and_sulfur",
+            "required_crystals",
+            "required_books",
+            "trap_density",
+            "death_link",
+        )
+        for key in option_keys:
+            if key in slot_data and key in LongingOptions.type_hints:
+                opt_cls = LongingOptions.type_hints[key]
+                raw = slot_data[key]
+                # Clamp range options safely if slot_data holds a 0 target (e.g. hunt with vanilla books)
+                if key in ("required_crystals", "required_books") and isinstance(raw, int) and raw < opt_cls.range_start:
+                    continue
+                setattr(self.options, key, opt_cls.from_any(raw))
+
+        raw_ids = slot_data.get("enabled_location_ids")
+        if isinstance(raw_ids, list):
+            self.ut_enabled_location_ids = {int(loc_id) for loc_id in raw_ids}
+        return slot_data
 
     def generate_early(self) -> None:
+        ut_slot_data = self._apply_ut_passthrough()
+
         # Compute effective crystal/book targets early so rules and slot_data always agree
         if self.options.shuffle_crystals.value == self.options.shuffle_crystals.option_full:
             self.crystals_in_pool = 16
@@ -56,8 +115,17 @@ class LongingWorld(World):
         else:
             self.books_in_pool = 0
 
-        self.effective_required_crystals = min(self.options.required_crystals.value, self.crystals_in_pool)
-        self.effective_required_books = min(self.options.required_books.value, self.books_in_pool)
+        if ut_slot_data is not None and "required_crystals" in ut_slot_data:
+            self.ut_required_crystals = int(ut_slot_data["required_crystals"])
+            self.effective_required_crystals = self.ut_required_crystals
+        else:
+            self.effective_required_crystals = min(self.options.required_crystals.value, self.crystals_in_pool)
+
+        if ut_slot_data is not None and "required_books" in ut_slot_data:
+            self.ut_required_books = int(ut_slot_data["required_books"])
+            self.effective_required_books = self.ut_required_books
+        else:
+            self.effective_required_books = min(self.options.required_books.value, self.books_in_pool)
 
     def create_regions(self) -> None:
         self.enabled_locations = create_regions(self)
@@ -83,8 +151,16 @@ class LongingWorld(World):
         pool, crystals_count, books_count = build_item_pool(self, total_locations)
         self.crystals_in_pool = crystals_count
         self.books_in_pool = books_count
-        self.effective_required_crystals = min(self.options.required_crystals.value, crystals_count)
-        self.effective_required_books = min(self.options.required_books.value, books_count)
+        self.effective_required_crystals = (
+            self.ut_required_crystals
+            if self.ut_required_crystals is not None
+            else min(self.options.required_crystals.value, crystals_count)
+        )
+        self.effective_required_books = (
+            self.ut_required_books
+            if self.ut_required_books is not None
+            else min(self.options.required_books.value, books_count)
+        )
         self.multiworld.itempool.extend(pool)
 
     def set_rules(self) -> None:

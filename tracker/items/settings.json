@@ -1,0 +1,154 @@
+[
+  {
+    "name": "Goal",
+    "type": "progressive",
+    "allow_disabled": false,
+    "loop": true,
+    "codes": "opt_goal",
+    "stages": [
+      {
+        "name": "Goal: Wake the King",
+        "img": "images/items/goal_wake_king.png",
+        "codes": "goal_wake_the_king",
+        "inherit_codes": false
+      },
+      {
+        "name": "Goal: Escape to the Surface",
+        "img": "images/items/goal_escape.png",
+        "codes": "goal_escape_surface",
+        "inherit_codes": false
+      },
+      {
+        "name": "Goal: Secret Ending",
+        "img": "images/items/goal_secret.png",
+        "codes": "goal_secret_ending",
+        "inherit_codes": false
+      },
+      {
+        "name": "Goal: Crystal & Book Hunt",
+        "img": "images/items/goal_hunt.png",
+        "codes": "goal_crystal_book_hunt",
+        "inherit_codes": false
+      },
+      {
+        "name": "Goal: Any Ending",
+        "img": "images/items/goal_any.png",
+        "codes": "goal_any_ending",
+        "inherit_codes": false
+      }
+    ]
+  },
+  {
+    "name": "Shuffle Mattocks & Keys",
+    "type": "toggle",
+    "img": "images/items/opt_tools.png",
+    "initial_active_state": true,
+    "codes": "opt_shuffle_mattocks_and_keys"
+  },
+  {
+    "name": "Shuffle Books",
+    "type": "progressive",
+    "allow_disabled": false,
+    "loop": true,
+    "initial_stage_idx": 1,
+    "codes": "opt_shuffle_books",
+    "stages": [
+      {
+        "name": "Shuffle Books: Vanilla",
+        "img": "images/items/opt_books_vanilla.png",
+        "codes": "books_vanilla",
+        "inherit_codes": false
+      },
+      {
+        "name": "Shuffle Books: Progression",
+        "img": "images/items/opt_books_prog.png",
+        "codes": "books_progression",
+        "inherit_codes": false
+      },
+      {
+        "name": "Shuffle Books: Full",
+        "img": "images/items/opt_books_full.png",
+        "codes": "books_full",
+        "inherit_codes": false
+      }
+    ]
+  },
+  {
+    "name": "Shuffle Crystals",
+    "type": "progressive",
+    "allow_disabled": false,
+    "loop": true,
+    "initial_stage_idx": 2,
+    "codes": "opt_shuffle_crystals",
+    "stages": [
+      {
+        "name": "Shuffle Crystals: Vanilla",
+        "img": "images/items/opt_crystals_vanilla.png",
+        "codes": "crystals_vanilla",
+        "inherit_codes": false
+      },
+      {
+        "name": "Shuffle Crystals: Progression",
+        "img": "images/items/opt_crystals_prog.png",
+        "codes": "crystals_progression",
+        "inherit_codes": false
+      },
+      {
+        "name": "Shuffle Crystals: Full",
+        "img": "images/items/opt_crystals_full.png",
+        "codes": "crystals_full",
+        "inherit_codes": false
+      }
+    ]
+  },
+  {
+    "name": "Shuffle Mushrooms & Moss",
+    "type": "toggle",
+    "img": "images/items/opt_moss.png",
+    "initial_active_state": true,
+    "codes": "opt_shuffle_mushrooms_and_moss"
+  },
+  {
+    "name": "Shuffle Home Comfort",
+    "type": "toggle",
+    "img": "images/items/opt_comfort.png",
+    "initial_active_state": true,
+    "codes": "opt_shuffle_home_comfort"
+  },
+  {
+    "name": "Shuffle Instrument Parts",
+    "type": "toggle",
+    "img": "images/items/opt_instrument.png",
+    "initial_active_state": true,
+    "codes": "opt_shuffle_instrument_parts"
+  },
+  {
+    "name": "Shuffle Coal & Sulfur",
+    "type": "toggle",
+    "img": "images/items/opt_coal.png",
+    "initial_active_state": false,
+    "codes": "opt_shuffle_coal_and_sulfur"
+  },
+  {
+    "name": "Required Crystals (Hunt Goal)",
+    "type": "consumable",
+    "img": "images/items/req_crystals.png",
+    "min_quantity": 0,
+    "max_quantity": 16,
+    "increment": 1,
+    "decrement": 1,
+    "initial_quantity": 8,
+    "codes": "opt_required_crystals"
+  },
+  {
+    "name": "Required Books (Hunt Goal)",
+    "type": "consumable",
+    "img": "images/items/req_books.png",
+    "min_quantity": 0,
+    "max_quantity": 30,
+    "increment": 1,
+    "decrement": 1,
+    "initial_quantity": 12,
+    "codes": "opt_required_books"
+  }
+]

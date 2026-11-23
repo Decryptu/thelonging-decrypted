@@ -14,7 +14,7 @@ Shuffle tools, keys, books, crystals, mushrooms, home comforts, and time boosts 
 
 ## Status
 
-Active development. The structured cavern catalog (66 playable rooms, 152 checks, 77 items), `the_longing.apworld` (Archipelago 0.6.8+), BepInEx 5 x86 client plugin (`mod/`), and option-synced player hub (`site/`) are implemented. See [ROADMAP.md](ROADMAP.md).
+Active development. The structured cavern catalog (66 playable rooms, 152 checks, 77 items), `the_longing.apworld` (Archipelago 0.6.8+ with Universal Tracker support), PopTracker pack (`tracker/`), BepInEx 5 x86 client plugin (`mod/`), and option-synced player hub (`site/`) are implemented. See [ROADMAP.md](ROADMAP.md).
 
 ## Goals
 

@@ -26,6 +26,10 @@ class LongingLocation(Location):
 
 def get_enabled_locations(world: LongingWorld) -> list[dict[str, object]]:
     """Return all locations enabled by the player's YAML shuffle options."""
+    ut_ids = getattr(world, "ut_enabled_location_ids", None)
+    if ut_ids is not None:
+        return [entry for entry in LOCATION_DEFINITIONS if int(entry["id"]) in ut_ids]
+
     opts = world.options
     enabled: list[dict[str, object]] = []
 

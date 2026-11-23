@@ -1,0 +1,31 @@
+{
+  "tracker_broadcast": {
+    "type": "container",
+    "background": "#110e0c",
+    "content": {
+      "type": "itemgrid",
+      "item_margin": "3,3",
+      "h_alignment": "left",
+      "rows": [
+        [
+          "mattock",
+          "secret_key",
+          "library_door_pass",
+          "surface_gate_pass",
+          "giant_mushroom_spores",
+          "crystals_total",
+          "books"
+        ],
+        [
+          "progressive_walk_speed",
+          "progressive_waypoint_recall",
+          "recall_ring_1",
+          "recall_ring_2",
+          "recall_ring_3",
+          "cavern_moss",
+          "musical_instrument_part"
+        ]
+      ]
+    }
+  }
+}

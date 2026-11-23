@@ -7,11 +7,12 @@ Everything a contributor needs to inspect *The Longing*, run the player hub loca
 | Path | Contents |
 | --- | --- |
 | `data/` | Structured world catalog (`world_catalog.json`) extracted from game scenes and assemblies |
-| `apworld/the_longing/` | Archipelago 0.6.8+ world package (options, items, locations, regions, rules, docs, generation tests) |
+| `apworld/the_longing/` | Archipelago 0.6.8+ world package (options, items, locations, regions, rules, Universal Tracker map page, docs, generation & tracker tests) |
+| `tracker/` | PopTracker pack (manifest, cavern map & icons, Lua logic & Archipelago autotracking for 152 checks, 7 discoveries, progressive mobility, and 3 recall rings) |
 | `mod/` | BepInEx 5 x86 C# client plugin (`net472`, Harmony patches, Archipelago client, IMGUI tracker HUD) |
 | `site/` | GitHub Pages player hub (Vite + TypeScript, option-synced YAML generator, interactive cavern tracker, branching setup checklist), deployed from `main` |
 | `assets/` | Project emblem (`logo.png`) |
-| `tools/` | Scripts: `extract_catalog.py`, `sync_world_data.py`, `build_apworld.py`, `decode_save.py`, `decompile.ps1`, `check_public_metadata.py` |
+| `tools/` | Scripts: `extract_catalog.py`, `sync_world_data.py`, `build_apworld.py`, `build_tracker_pack.py`, `decode_save.py`, `decompile.ps1`, `check_public_metadata.py` |
 | `.githooks/` | Publication metadata hooks (`commit-msg`, `pre-push`) |
 | `local/` | Ignored local directory for save backups, decompiled classes (`local/code/`), local NuGet cache, and extracted research assets |
 
@@ -67,8 +68,12 @@ Output lands in ignored `local/code/`. Never commit decompiled source or extract
 python tools/extract_catalog.py
 python tools/sync_world_data.py
 
-# Run Archipelago 0.6.8+ solo & multiworld generation tests
+# Run Archipelago 0.6.8+ solo & multiworld generation tests and tracker pack verification
 python apworld/the_longing/test/test_generation.py -v
+python apworld/the_longing/test/test_tracker_pack.py -v
+
+# Regenerate and package the PopTracker & Universal Tracker pack
+python tools/build_tracker_pack.py --output dist/the_longing_poptracker.zip
 
 # Package the_longing.apworld from tracked files
 python tools/build_apworld.py --output dist/the_longing.apworld

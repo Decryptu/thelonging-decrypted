@@ -1,0 +1,52 @@
+{
+  "tracker_default": {
+    "type": "container",
+    "background": "#110e0c",
+    "content": {
+      "type": "dock",
+      "dropshadow": true,
+      "content": [
+        {
+          "type": "dock",
+          "dock": "left",
+          "v_alignment": "stretch",
+          "content": [
+            {
+              "type": "tabbed",
+              "tabs": [
+                {
+                  "title": "Items & Mobility",
+                  "content": {
+                    "type": "layout",
+                    "key": "item_grid"
+                  }
+                },
+                {
+                  "title": "Options",
+                  "content": {
+                    "type": "layout",
+                    "key": "settings_grid"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "tabbed",
+          "tabs": [
+            {
+              "title": "Underground Kingdom",
+              "content": {
+                "type": "map",
+                "maps": [
+                  "cavern_map"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

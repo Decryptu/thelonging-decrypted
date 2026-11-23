@@ -1,0 +1,266 @@
+[
+  {
+    "name": "Mattock",
+    "type": "consumable",
+    "img": "images/items/mattock.png",
+    "max_quantity": 5,
+    "increment": 1,
+    "decrement": 1,
+    "initial_quantity": 0,
+    "codes": "mattock"
+  },
+  {
+    "name": "Secret Key",
+    "type": "toggle",
+    "img": "images/items/secret_key.png",
+    "codes": "secret_key"
+  },
+  {
+    "name": "Library Door Pass",
+    "type": "toggle",
+    "img": "images/items/library_pass.png",
+    "codes": "library_door_pass"
+  },
+  {
+    "name": "Surface Gate Pass",
+    "type": "toggle",
+    "img": "images/items/surface_gate_pass.png",
+    "codes": "surface_gate_pass"
+  },
+  {
+    "name": "Giant Mushroom Spores",
+    "type": "toggle",
+    "img": "images/items/giant_spores.png",
+    "codes": "giant_mushroom_spores"
+  },
+  {
+    "name": "Cavern Map",
+    "type": "toggle",
+    "img": "images/items/cavern_map.png",
+    "codes": "cavern_map"
+  },
+  {
+    "name": "Progressive Walk Speed",
+    "type": "progressive",
+    "allow_disabled": false,
+    "loop": false,
+    "codes": "progressive_walk_speed",
+    "stages": [
+      {
+        "name": "Walk Speed: 1× (Vanilla)",
+        "img": "images/items/walk_speed_0.png",
+        "codes": "walk_speed_100",
+        "inherit_codes": true
+      },
+      {
+        "name": "Walk Speed: 1.25× (1/4)",
+        "img": "images/items/walk_speed_1.png",
+        "codes": "walk_speed_125",
+        "inherit_codes": true
+      },
+      {
+        "name": "Walk Speed: 1.5× (2/4)",
+        "img": "images/items/walk_speed_2.png",
+        "codes": "walk_speed_150",
+        "inherit_codes": true
+      },
+      {
+        "name": "Walk Speed: 1.75× (3/4)",
+        "img": "images/items/walk_speed_3.png",
+        "codes": "walk_speed_175",
+        "inherit_codes": true
+      },
+      {
+        "name": "Walk Speed: 2× (4/4)",
+        "img": "images/items/walk_speed_4.png",
+        "codes": "walk_speed_200",
+        "inherit_codes": true
+      }
+    ]
+  },
+  {
+    "name": "Progressive Waypoint Recall",
+    "type": "progressive",
+    "allow_disabled": false,
+    "loop": false,
+    "codes": "progressive_waypoint_recall",
+    "stages": [
+      {
+        "name": "Waypoint Recall: Locked (0/3)",
+        "img": "images/items/recall_tier_0.png",
+        "codes": "recall_tier_0",
+        "inherit_codes": true
+      },
+      {
+        "name": "Waypoint Recall: Ring 1 — Inner Kingdom (1/3)",
+        "img": "images/items/recall_tier_1.png",
+        "codes": "recall_tier_1",
+        "inherit_codes": true
+      },
+      {
+        "name": "Waypoint Recall: Ring 2 — Middle Caverns & Library (2/3)",
+        "img": "images/items/recall_tier_2.png",
+        "codes": "recall_tier_2",
+        "inherit_codes": true
+      },
+      {
+        "name": "Waypoint Recall: Ring 3 — Deep & Upper Caverns (3/3)",
+        "img": "images/items/recall_tier_3.png",
+        "codes": "recall_tier_3",
+        "inherit_codes": true
+      }
+    ]
+  },
+  {
+    "name": "Ring 1: Inner Kingdom (Shade's Home, King's Chamber, King's Stairs, Entrance Halls, Treasury, Gallery)",
+    "type": "toggle",
+    "img": "images/items/ring_1.png",
+    "codes": "recall_ring_1"
+  },
+  {
+    "name": "Ring 2: Middle Caverns & Library (Great Halls, Moss Cliff, Moss Grottos, Face Chamber, Secret Hall, Library Vestibule, The Library)",
+    "type": "toggle",
+    "img": "images/items/ring_2.png",
+    "codes": "recall_ring_2"
+  },
+  {
+    "name": "Ring 3: Deep & Upper Caverns (Labyrinth, Halls of Eternity, Great Cave, Mines, Secret Tower, The Well)",
+    "type": "toggle",
+    "img": "images/items/ring_3.png",
+    "codes": "recall_ring_3"
+  },
+  {
+    "name": "Cavern Moss",
+    "type": "consumable",
+    "img": "images/items/cavern_moss.png",
+    "max_quantity": 15,
+    "increment": 1,
+    "decrement": 1,
+    "initial_quantity": 0,
+    "codes": "cavern_moss"
+  },
+  {
+    "name": "Musical Instrument Part",
+    "type": "consumable",
+    "img": "images/items/instrument_part.png",
+    "max_quantity": 3,
+    "increment": 1,
+    "decrement": 1,
+    "initial_quantity": 0,
+    "codes": "musical_instrument_part"
+  },
+  {
+    "name": "Drawing Paper",
+    "type": "consumable",
+    "img": "images/items/drawing_paper.png",
+    "max_quantity": 3,
+    "increment": 1,
+    "decrement": 1,
+    "initial_quantity": 0,
+    "codes": "drawing_paper"
+  },
+  {
+    "name": "Sulfur",
+    "type": "consumable",
+    "img": "images/items/sulfur.png",
+    "max_quantity": 2,
+    "increment": 1,
+    "decrement": 1,
+    "initial_quantity": 0,
+    "codes": "sulfur"
+  },
+  {
+    "name": "Classic Books",
+    "type": "consumable",
+    "img": "images/items/books.png",
+    "max_quantity": 31,
+    "increment": 1,
+    "decrement": 1,
+    "initial_quantity": 0,
+    "codes": "books"
+  },
+  {
+    "name": "Crystals Collected (Total)",
+    "type": "consumable",
+    "img": "images/items/crystals_total.png",
+    "max_quantity": 16,
+    "increment": 1,
+    "decrement": 1,
+    "initial_quantity": 0,
+    "codes": "crystals_total"
+  },
+  {
+    "name": "White Crystal",
+    "type": "consumable",
+    "img": "images/items/crystal_white.png",
+    "max_quantity": 6,
+    "increment": 1,
+    "decrement": 1,
+    "initial_quantity": 0,
+    "codes": "crystal_white"
+  },
+  {
+    "name": "Rose Crystal",
+    "type": "consumable",
+    "img": "images/items/crystal_rose.png",
+    "max_quantity": 4,
+    "increment": 1,
+    "decrement": 1,
+    "initial_quantity": 0,
+    "codes": "crystal_rose"
+  },
+  {
+    "name": "Blue Crystal",
+    "type": "consumable",
+    "img": "images/items/crystal_blue.png",
+    "max_quantity": 2,
+    "increment": 1,
+    "decrement": 1,
+    "initial_quantity": 0,
+    "codes": "crystal_blue"
+  },
+  {
+    "name": "Purple Crystal",
+    "type": "toggle",
+    "img": "images/items/crystal_purple.png",
+    "codes": "crystal_purple"
+  },
+  {
+    "name": "Black Crystal",
+    "type": "toggle",
+    "img": "images/items/crystal_black.png",
+    "codes": "crystal_black"
+  },
+  {
+    "name": "Great Hall Big Crystal",
+    "type": "toggle",
+    "img": "images/items/crystal_great_hall.png",
+    "codes": "crystal_great_hall"
+  },
+  {
+    "name": "Tower Big Crystal",
+    "type": "toggle",
+    "img": "images/items/crystal_tower.png",
+    "codes": "crystal_tower"
+  },
+  {
+    "name": "Time Rate Boost (+2x)",
+    "type": "consumable",
+    "img": "images/items/time_rate.png",
+    "max_quantity": 10,
+    "increment": 1,
+    "decrement": 1,
+    "initial_quantity": 0,
+    "codes": "time_rate_boost"
+  },
+  {
+    "name": "Time Skips Received",
+    "type": "consumable",
+    "img": "images/items/time_skip.png",
+    "max_quantity": 40,
+    "increment": 1,
+    "decrement": 1,
+    "initial_quantity": 0,
+    "codes": "time_skips"
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "name": "The Longing Decrypted",
+  "game_name": "The Longing",
+  "package_version": "0.1.0",
+  "package_uid": "the_longing_decrypted_ap",
+  "author": "Decrypt",
+  "min_poptracker_version": "0.25.9",
+  "target_poptracker_version": "0.31.0",
+  "variants": {
+    "standard": {
+      "display_name": "Cavern Map Tracker",
+      "flags": [
+        "ap"
+      ]
+    },
+    "var_itemsonly": {
+      "display_name": "Items Only",
+      "flags": [
+        "ap"
+      ]
+    }
+  }
+}

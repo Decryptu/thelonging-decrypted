@@ -1,0 +1,25 @@
+{
+  "tracker_default": {
+    "type": "container",
+    "background": "#110e0c",
+    "content": {
+      "type": "tabbed",
+      "tabs": [
+        {
+          "title": "Items & Mobility",
+          "content": {
+            "type": "layout",
+            "key": "item_grid"
+          }
+        },
+        {
+          "title": "Options",
+          "content": {
+            "type": "layout",
+            "key": "settings_grid"
+          }
+        }
+      ]
+    }
+  }
+}

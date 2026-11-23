@@ -1,0 +1,8 @@
+[
+  {
+    "name": "cavern_map",
+    "location_size": 22,
+    "location_border_thickness": 2,
+    "img": "images/maps/cavern_map.png"
+  }
+]

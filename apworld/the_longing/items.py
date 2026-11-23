@@ -56,7 +56,16 @@ class LongingItem(Item):
 
 def create_item(world: LongingWorld, name: str, classification: ItemClassification | None = None) -> LongingItem:
     entry = ITEM_BY_NAME[name]
-    cls = classification if classification is not None else CLASSIFICATION_MAP[str(entry["classification"])]
+    if classification is not None:
+        cls = classification
+    elif name == "Cavern Moss" and world.options.shuffle_mushrooms_and_moss and world.options.shuffle_home_comfort:
+        cls = ItemClassification.progression_skip_balancing
+    elif name == "Drawing Paper" and world.options.shuffle_home_comfort:
+        cls = ItemClassification.progression
+    elif name == "Sulfur" and world.options.shuffle_coal_and_sulfur and world.options.shuffle_home_comfort:
+        cls = ItemClassification.progression
+    else:
+        cls = CLASSIFICATION_MAP[str(entry["classification"])]
     return LongingItem(name, cls, int(entry["id"]), world.player)
 
 
@@ -124,13 +133,12 @@ def build_item_pool(world: LongingWorld, total_locations: int) -> tuple[list[Lon
 
     # 5. Mushrooms & Moss
     if opts.shuffle_mushrooms_and_moss:
-        for i in range(15):
-            # First 10 moss unlock Build the Bed when comfort checks are active
-            moss_cls = (
-                ItemClassification.progression_skip_balancing
-                if (i < 10 and opts.shuffle_home_comfort)
-                else ItemClassification.useful
-            )
+        moss_cls = (
+            ItemClassification.progression_skip_balancing
+            if opts.shuffle_home_comfort
+            else ItemClassification.useful
+        )
+        for _ in range(15):
             pool.append(create_item(world, "Cavern Moss", moss_cls))
         for _ in range(3):
             pool.append(create_item(world, "Green Mushroom", ItemClassification.useful))
@@ -156,14 +164,24 @@ def build_item_pool(world: LongingWorld, total_locations: int) -> tuple[list[Lon
         ]
         for name, count, cls in comfort_items:
             for idx in range(count):
-                item_cls = cls if idx == 0 else ItemClassification.useful
+                if cls == ItemClassification.progression:
+                    item_cls = cls if idx == 0 else ItemClassification.progression_skip_balancing
+                else:
+                    item_cls = cls
                 pool.append(create_item(world, name, item_cls))
 
     # 7. Coal, Wood, Flint & Sulfur
     if opts.shuffle_coal_and_sulfur:
-        sulfur_cls = ItemClassification.progression if opts.shuffle_home_comfort else ItemClassification.useful
         for idx in range(2):
-            pool.append(create_item(world, "Sulfur", sulfur_cls if idx == 0 else ItemClassification.useful))
+            if opts.shuffle_home_comfort:
+                sulfur_cls = (
+                    ItemClassification.progression
+                    if idx == 0
+                    else ItemClassification.progression_skip_balancing
+                )
+            else:
+                sulfur_cls = ItemClassification.useful
+            pool.append(create_item(world, "Sulfur", sulfur_cls))
         for _ in range(4):
             pool.append(create_item(world, "Flint", ItemClassification.useful))
         for _ in range(8):

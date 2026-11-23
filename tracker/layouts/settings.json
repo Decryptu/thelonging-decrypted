@@ -1,0 +1,27 @@
+{
+  "settings_grid": {
+    "type": "group",
+    "header": "Seed Options (Auto-Synced from Archipelago)",
+    "content": {
+      "type": "itemgrid",
+      "item_margin": "3,3",
+      "h_alignment": "left",
+      "rows": [
+        [
+          "opt_goal",
+          "opt_shuffle_mattocks_and_keys",
+          "opt_shuffle_books",
+          "opt_shuffle_crystals",
+          "opt_shuffle_mushrooms_and_moss"
+        ],
+        [
+          "opt_shuffle_home_comfort",
+          "opt_shuffle_instrument_parts",
+          "opt_shuffle_coal_and_sulfur",
+          "opt_required_crystals",
+          "opt_required_books"
+        ]
+      ]
+    }
+  }
+}

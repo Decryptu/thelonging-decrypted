@@ -1,0 +1,93 @@
+{
+  "item_grid": {
+    "type": "array",
+    "orientation": "vertical",
+    "margin": "0,0",
+    "content": [
+      {
+        "type": "group",
+        "header": "Cavern Tools & Passes",
+        "content": {
+          "type": "itemgrid",
+          "item_margin": "3,3",
+          "h_alignment": "left",
+          "rows": [
+            [
+              "mattock",
+              "secret_key",
+              "library_door_pass",
+              "surface_gate_pass",
+              "giant_mushroom_spores",
+              "cavern_map"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "group",
+        "header": "Progressive Mobility & Recall Rings",
+        "content": {
+          "type": "itemgrid",
+          "item_margin": "3,3",
+          "h_alignment": "left",
+          "rows": [
+            [
+              "progressive_walk_speed",
+              "progressive_waypoint_recall",
+              "",
+              "recall_ring_1",
+              "recall_ring_2",
+              "recall_ring_3"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "group",
+        "header": "Home Requirements & Pacing",
+        "content": {
+          "type": "itemgrid",
+          "item_margin": "3,3",
+          "h_alignment": "left",
+          "rows": [
+            [
+              "cavern_moss",
+              "musical_instrument_part",
+              "drawing_paper",
+              "sulfur",
+              "time_rate_boost",
+              "time_skips"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "group",
+        "header": "Crystals & Classic Books",
+        "content": {
+          "type": "itemgrid",
+          "item_margin": "3,3",
+          "h_alignment": "left",
+          "rows": [
+            [
+              "crystals_total",
+              "books",
+              "crystal_white",
+              "crystal_rose",
+              "crystal_blue",
+              "crystal_purple"
+            ],
+            [
+              "crystal_black",
+              "crystal_great_hall",
+              "crystal_tower",
+              "",
+              "",
+              ""
+            ]
+          ]
+        }
+      }
+    ]
+  }
+}

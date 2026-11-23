@@ -16,6 +16,7 @@
 *.svg text eol=lf
 *.cs text eol=lf
 *.csproj text eol=lf
+*.lua text eol=lf
 
 *.png binary
 *.webp binary
