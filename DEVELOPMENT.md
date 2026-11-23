@@ -79,6 +79,8 @@ dotnet build mod/TheLongingDecrypted.csproj -c Release
 
 For local playtesting, copy `TheLongingDecrypted.dll`, `Archipelago.MultiClient.Net.dll`, and `Newtonsoft.Json.dll` from `mod/bin/Release/net472/` into `BepInEx/plugins/TheLongingDecrypted/`. Use disposable slots and leave the vanilla save untouched. When inspecting a slot with `python tools/decode_save.py <save-path> --filter AP_`, look for `AP_CLOCK_OFFSET_SECONDS` in the save under `Archipelago/<seed>_<slot>/`.
 
+The first countdown checkpoint is written after the intro's timer reset settles. To verify restoration, finish the intro on two disposable slots with different countdowns and a 1× starting rate. Quit and relaunch, then reconnect to each slot and compare the overlay clock against the saved checkpoint minus elapsed time. Reconnect to the same slot to confirm the starting advance is only applied once.
+
 ## Player hub (`site/`)
 
 The player hub is a Vite + TypeScript static application in `site/`, built with pnpm and deployed to GitHub Pages by `.github/workflows/pages.yml`.

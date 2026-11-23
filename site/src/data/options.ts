@@ -9,8 +9,6 @@ export type GoalOption =
 
 export type CountdownLength = "1_hour" | "6_hours" | "24_hours" | "40_days" | "400_days";
 
-export type WalkSpeed = "vanilla" | "brisk" | "swift" | "hasty";
-
 export type ShuffleDepth = "vanilla" | "progression" | "full";
 
 export type TrapDensity = "none" | "light" | "moderate" | "heavy";
@@ -20,7 +18,6 @@ export interface LongingYamlConfig {
   goal: GoalOption;
   countdownLength: CountdownLength;
   startingTimeRate: number;
-  walkSpeed: WalkSpeed;
   timeSkipItems: boolean;
   shuffleMattocksAndKeys: boolean;
   shuffleBooks: ShuffleDepth;
@@ -49,7 +46,6 @@ export const DEFAULT_CONFIG: LongingYamlConfig = {
   goal: "wake_the_king",
   countdownLength: "6_hours",
   startingTimeRate: 12,
-  walkSpeed: "brisk",
   timeSkipItems: true,
   shuffleMattocksAndKeys: true,
   shuffleBooks: "progression",
@@ -73,7 +69,6 @@ export const PRESETS: readonly PresetDefinition[] = [
       goal: "wake_the_king",
       countdownLength: "6_hours",
       startingTimeRate: 12,
-      walkSpeed: "brisk",
       timeSkipItems: true,
       shuffleMattocksAndKeys: true,
       shuffleBooks: "progression",
@@ -96,7 +91,6 @@ export const PRESETS: readonly PresetDefinition[] = [
       goal: "escape_surface",
       countdownLength: "1_hour",
       startingTimeRate: 24,
-      walkSpeed: "swift",
       timeSkipItems: true,
       shuffleMattocksAndKeys: true,
       shuffleBooks: "vanilla",
@@ -119,7 +113,6 @@ export const PRESETS: readonly PresetDefinition[] = [
       goal: "crystal_book_hunt",
       countdownLength: "24_hours",
       startingTimeRate: 16,
-      walkSpeed: "swift",
       timeSkipItems: true,
       shuffleMattocksAndKeys: true,
       shuffleBooks: "full",
@@ -142,7 +135,6 @@ export const PRESETS: readonly PresetDefinition[] = [
       goal: "any_ending",
       countdownLength: "400_days",
       startingTimeRate: 1,
-      walkSpeed: "vanilla",
       timeSkipItems: true,
       shuffleMattocksAndKeys: true,
       shuffleBooks: "full",
@@ -195,7 +187,8 @@ export function countEnabledChecks(config: LongingYamlConfig): number {
       count += 1;
     }
   }
-  return count < 10 ? 12 : count;
+  const discoveries = WORLD_CATALOG.checks.filter((check) => check.pool === "mobility").length;
+  return (count < 10 ? 12 : count) + discoveries;
 }
 
 export function validateConfig(config: LongingYamlConfig): ValidationResult {
@@ -306,7 +299,6 @@ export function serializeYaml(config: LongingYamlConfig): string {
     `  countdown_length: ${config.countdownLength}`,
     `  starting_time_rate: ${Math.round(config.startingTimeRate)}`,
     `  time_skip_items: ${config.timeSkipItems ? "true" : "false"}`,
-    `  walk_speed: ${config.walkSpeed}`,
     `  required_crystals: ${Math.round(config.requiredCrystals)}`,
     `  required_books: ${Math.round(config.requiredBooks)}`,
     "",

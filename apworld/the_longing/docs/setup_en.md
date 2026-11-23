@@ -14,4 +14,6 @@
 3. Place `TheLongingDecrypted.dll`, `Archipelago.MultiClient.Net.dll`, and the bundled `Newtonsoft.Json.dll` inside `BepInEx/plugins/TheLongingDecrypted/`.
 4. For hosting/generating seeds, copy `the_longing.apworld` into Archipelago's `custom_worlds` directory.
 5. Generate your YAML scroll with the [Player Hub](https://decryptu.github.io/thelonging-decrypted/#yaml) and launch the game.
-6. Press `F8` in-game to open the Archipelago overlay, enter your server host, port, slot name, and optional password, and connect.
+6. At the title screen, press `F8` to open the Archipelago overlay, enter your server host, port, slot name, and optional password, and connect. Return to the title screen before switching slots or seeds.
+
+Use the matching plugin and APWorld when generating a seed with mobility upgrades. Existing seeds keep their original item pools. Leave save isolation enabled when playing more than one slot.

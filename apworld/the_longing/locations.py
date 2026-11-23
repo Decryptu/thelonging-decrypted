@@ -69,4 +69,5 @@ def get_enabled_locations(world: LongingWorld) -> list[dict[str, object]]:
             if len(enabled) >= 12:
                 break
 
+    enabled.extend(entry for entry in LOCATION_DEFINITIONS if entry["pool"] == "mobility")
     return enabled

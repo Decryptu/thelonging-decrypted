@@ -17,6 +17,7 @@ describe("YAML generator options", () => {
     expect(yaml).toContain("goal: wake_the_king");
     expect(yaml).toContain("countdown_length: 6_hours");
     expect(yaml).toContain("starting_time_rate: 12");
+    expect(yaml).not.toContain("walk_speed:");
     expect(yaml).toContain("shuffle_crystals: full");
     expect(yaml).toContain("required_crystals: 8");
     expect(yaml).toContain("required_books: 12");
@@ -60,7 +61,7 @@ describe("YAML generator options", () => {
     const fullPreset = PRESETS.find((p) => p.id === "full_cavern");
     expect(fullPreset).toBeDefined();
     if (fullPreset) {
-      expect(countEnabledChecks({ playerName: "Shade", ...fullPreset.config })).toBe(145);
+      expect(countEnabledChecks({ playerName: "Shade", ...fullPreset.config })).toBe(152);
     }
     expect(getRegionChecks("library", "books").length).toBe(19);
   });

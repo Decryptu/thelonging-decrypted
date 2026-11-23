@@ -11,8 +11,6 @@ namespace TheLongingDecrypted.Archipelago
         public long CountdownSeconds { get; set; } = 21_600;
         public int StartingTimeRate { get; set; } = 12;
         public bool TimeSkipItems { get; set; } = true;
-        public string WalkSpeed { get; set; } = "brisk";
-        public float WalkSpeedMultiplier { get; set; } = 1.75f;
         public bool ShuffleMattocksAndKeys { get; set; } = true;
         public string ShuffleBooks { get; set; } = "progression";
         public string ShuffleCrystals { get; set; } = "full";
@@ -40,8 +38,6 @@ namespace TheLongingDecrypted.Archipelago
             cfg.CountdownSeconds = GetLong(slotData, "countdown_seconds", cfg.CountdownSeconds);
             cfg.StartingTimeRate = (int)GetLong(slotData, "starting_time_rate", cfg.StartingTimeRate);
             cfg.TimeSkipItems = GetBool(slotData, "time_skip_items", cfg.TimeSkipItems);
-            cfg.WalkSpeed = GetString(slotData, "walk_speed", cfg.WalkSpeed);
-            cfg.WalkSpeedMultiplier = GetFloat(slotData, "walk_speed_multiplier", cfg.WalkSpeedMultiplier);
             cfg.ShuffleMattocksAndKeys = GetBool(slotData, "shuffle_mattocks_and_keys", cfg.ShuffleMattocksAndKeys);
             cfg.ShuffleBooks = GetString(slotData, "shuffle_books", cfg.ShuffleBooks);
             cfg.ShuffleCrystals = GetString(slotData, "shuffle_crystals", cfg.ShuffleCrystals);
@@ -76,16 +72,6 @@ namespace TheLongingDecrypted.Archipelago
         private static long GetLong(Dictionary<string, object> data, string key, long fallback)
         {
             if (data.TryGetValue(key, out var val) && val != null && long.TryParse(val.ToString(), out var parsed))
-            {
-                return parsed;
-            }
-            return fallback;
-        }
-
-        private static float GetFloat(Dictionary<string, object> data, string key, float fallback)
-        {
-            if (data.TryGetValue(key, out var val) && val != null &&
-                float.TryParse(val.ToString(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var parsed))
             {
                 return parsed;
             }

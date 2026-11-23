@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using TheLongingDecrypted.Generated;
@@ -15,6 +16,8 @@ namespace TheLongingDecrypted.Patches
     {
         private static readonly FieldInfo ProgressUidField = AccessTools.Field(typeof(ProgressClass), "ENMHNKMPDCI");
         private static readonly FieldInfo OutcomeItemKeyField = AccessTools.Field(typeof(InteractableOutcome_Item), "OPMCGHDHJHA");
+        private static readonly LocationRegistryEntry[] Discoveries = WorldRegistryData.LocationsById.Values
+            .Where(entry => entry.Pool == "mobility").ToArray();
 
         [HarmonyPatch(typeof(InteractableOutcome_Item), nameof(InteractableOutcome_Item.FullfillOutcome))]
         [HarmonyPrefix]
@@ -85,6 +88,7 @@ namespace TheLongingDecrypted.Patches
 
         public static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            RecordDiscovery(scene.name);
             if (Plugin.Session == null || !Plugin.Session.IsConnected)
             {
                 return;
@@ -109,9 +113,21 @@ namespace TheLongingDecrypted.Patches
 
         public static void PollMilestonePrefs()
         {
+            if (GameManagerScript.IsGameRunning())
+            {
+                RecordDiscovery(SceneManager.GetActiveScene().name);
+            }
             if (Plugin.Session == null || !Plugin.Session.IsConnected)
             {
                 return;
+            }
+
+            foreach (var discovery in Discoveries)
+            {
+                if (FileBasedPrefs.HasKey(discovery.GameUid))
+                {
+                    Plugin.Session.ReportLocation(discovery.Id, discovery.Name);
+                }
             }
 
             if (FileBasedPrefs.GetInt("home_kamin_feuer_10", 0) > 0 || FileBasedPrefs.HasKey("xv897_ASDf7home_kamin_feuer_10STS"))
@@ -137,6 +153,23 @@ namespace TheLongingDecrypted.Patches
             if (FileBasedPrefs.GetInt("musicNoteClicked", 0) > 0)
             {
                 Plugin.Session.ReportLocationByUid("event:home_music");
+            }
+        }
+
+        private static void RecordDiscovery(string scene)
+        {
+            var session = Plugin.Session;
+            if (string.IsNullOrEmpty(session?.ConnectedSlot) || FileBasedPrefs.BlockNewSaves)
+            {
+                return;
+            }
+
+            if (WorldRegistryData.LocationsByUid.TryGetValue($"discover:{scene}", out var discovery)
+                && session.ActiveConfig.EnabledLocationIds.Contains(discovery.Id)
+                && !FileBasedPrefs.HasKey(discovery.GameUid))
+            {
+                FileBasedPrefs.SetInt(discovery.GameUid, 1);
+                FileBasedPrefs.ManualySave();
             }
         }
 

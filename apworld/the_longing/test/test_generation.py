@@ -83,6 +83,26 @@ def _build_multiworld(player_configs: list[dict[str, object]], seed: int = 400) 
 
 
 class TestLongingWorldGeneration(unittest.TestCase):
+    def test_mobility_upgrades_have_room_when_other_shuffles_are_disabled(self) -> None:
+        settings = {
+            "shuffle_mattocks_and_keys": False,
+            "shuffle_books": "vanilla",
+            "shuffle_crystals": "vanilla",
+            "shuffle_mushrooms_and_moss": False,
+            "shuffle_home_comfort": False,
+            "shuffle_instrument_parts": False,
+            "shuffle_coal_and_sulfur": False,
+        }
+        mw = _build_multiworld([settings, settings], seed=28)
+        for player in (1, 2):
+            with self.subTest(player=player):
+                names = [location.item.name for location in mw.get_filled_locations()
+                         if location.item.player == player]
+                self.assertEqual(names.count("Progressive Walk Speed"), 4)
+                self.assertEqual(names.count("Progressive Waypoint Recall"), 3)
+                self.assertEqual(sum(entry["pool"] == "mobility" for entry in mw.worlds[player].enabled_locations), 7)
+        self.assertTrue(mw.can_beat_game(CollectionState(mw)))
+
     def test_unique_ids_and_groups(self) -> None:
         item_ids = list(LongingWorld.item_name_to_id.values())
         loc_ids = list(LongingWorld.location_name_to_id.values())
@@ -117,7 +137,6 @@ class TestLongingWorldGeneration(unittest.TestCase):
                 "goal": "wake_the_king",
                 "countdown_length": "6_hours",
                 "starting_time_rate": 12,
-                "walk_speed": "brisk",
                 "time_skip_items": True,
                 "shuffle_mattocks_and_keys": True,
                 "shuffle_books": "progression",
@@ -133,7 +152,6 @@ class TestLongingWorldGeneration(unittest.TestCase):
                 "goal": "escape_surface",
                 "countdown_length": "1_hour",
                 "starting_time_rate": 24,
-                "walk_speed": "swift",
                 "time_skip_items": True,
                 "shuffle_mattocks_and_keys": True,
                 "shuffle_books": "vanilla",
@@ -149,7 +167,6 @@ class TestLongingWorldGeneration(unittest.TestCase):
                 "goal": "crystal_book_hunt",
                 "countdown_length": "24_hours",
                 "starting_time_rate": 16,
-                "walk_speed": "swift",
                 "time_skip_items": True,
                 "shuffle_mattocks_and_keys": True,
                 "shuffle_books": "full",
@@ -165,7 +182,6 @@ class TestLongingWorldGeneration(unittest.TestCase):
                 "goal": "any_ending",
                 "countdown_length": "400_days",
                 "starting_time_rate": 1,
-                "walk_speed": "vanilla",
                 "time_skip_items": True,
                 "shuffle_mattocks_and_keys": True,
                 "shuffle_books": "full",
@@ -231,7 +247,6 @@ The Longing:
   countdown_length: 24_hours
   starting_time_rate: 16
   time_skip_items: true
-  walk_speed: swift
   required_crystals: 10
   required_books: 18
   shuffle_mattocks_and_keys: true
@@ -255,7 +270,7 @@ The Longing:
         slot = mw.worlds[1].fill_slot_data()
         self.assertEqual(slot["required_crystals"], 10)
         self.assertEqual(slot["required_books"], 18)
-        self.assertEqual(len(slot["enabled_location_ids"]), 145)
+        self.assertEqual(len(slot["enabled_location_ids"]), 152)
 
 
 if __name__ == "__main__":

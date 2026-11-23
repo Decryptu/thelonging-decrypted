@@ -83,6 +83,8 @@ ITEM_DEFINITIONS: tuple[dict[str, object], ...] = (
     {'id': 400400072, 'name': 'Book: King Pest', 'classification': 'progression_skip_balancing', 'category': 'books', 'game_key': 'B00BZ', 'secondary_key': None, 'amount': 1, 'action': 'item'},
     {'id': 400400073, 'name': 'Book: The House on the Borderland', 'classification': 'progression_skip_balancing', 'category': 'books', 'game_key': 'B00BZ', 'secondary_key': None, 'amount': 1, 'action': 'item'},
     {'id': 400400074, 'name': 'Book: The Anatomy of Melancholy', 'classification': 'progression_skip_balancing', 'category': 'books', 'game_key': 'B00BZ', 'secondary_key': None, 'amount': 1, 'action': 'item'},
+    {'id': 400400075, 'name': 'Progressive Walk Speed', 'classification': 'useful', 'category': 'mobility', 'game_key': 'AP_WALK_SPEED', 'secondary_key': None, 'amount': 1, 'action': 'unlock'},
+    {'id': 400400076, 'name': 'Progressive Waypoint Recall', 'classification': 'useful', 'category': 'mobility', 'game_key': 'AP_WAYPOINT_RECALL', 'secondary_key': None, 'amount': 1, 'action': 'unlock'},
 )
 
 LOCATION_DEFINITIONS: tuple[dict[str, object], ...] = (
@@ -231,4 +233,11 @@ LOCATION_DEFINITIONS: tuple[dict[str, object], ...] = (
     {'id': 400401142, 'name': 'Halls of Eternity - Eternal Carpet III', 'game_uid': 'eternity:T33PCHIERD', 'scene': 'halls_of_eternity', 'alias_scenes': [], 'map_region': 'halls_eternity', 'ap_region': 'Halls of Eternity', 'pool': 'comfort', 'depth': 'core', 'vanilla_item_key': None, 'requires': []},
     {'id': 400401143, 'name': 'Halls of Eternity - Eternal Curtain', 'game_uid': 'eternity:VROHG', 'scene': 'halls_of_eternity', 'alias_scenes': [], 'map_region': 'halls_eternity', 'ap_region': 'Halls of Eternity', 'pool': 'comfort', 'depth': 'core', 'vanilla_item_key': None, 'requires': []},
     {'id': 400401144, 'name': 'The Well - Reach the Well Shaft', 'game_uid': 'event:well_arrival', 'scene': 'brunnen', 'alias_scenes': [], 'map_region': 'surface_well', 'ap_region': 'The Well & Surface', 'pool': 'tools', 'depth': 'core', 'vanilla_item_key': None, 'requires': []},
+    {'id': 400401145, 'name': "Discover Shade's Home", 'game_uid': 'discover:home', 'scene': 'home', 'alias_scenes': [], 'map_region': 'shades_home', 'ap_region': "Shade's Home", 'pool': 'mobility', 'depth': 'core', 'vanilla_item_key': None, 'requires': []},
+    {'id': 400401146, 'name': "Discover King's Chamber", 'game_uid': 'discover:king', 'scene': 'king', 'alias_scenes': [], 'map_region': 'kings_hall', 'ap_region': "The King's Hall", 'pool': 'mobility', 'depth': 'core', 'vanilla_item_key': None, 'requires': []},
+    {'id': 400401147, 'name': 'Discover Entrance Hall', 'game_uid': 'discover:entrance_hall', 'scene': 'entrance_hall', 'alias_scenes': [], 'map_region': 'kings_hall', 'ap_region': "The King's Hall", 'pool': 'mobility', 'depth': 'core', 'vanilla_item_key': None, 'requires': []},
+    {'id': 400401148, 'name': "Discover King's Treasury", 'game_uid': 'discover:treasury', 'scene': 'treasury', 'alias_scenes': [], 'map_region': 'kings_hall', 'ap_region': "The King's Hall", 'pool': 'mobility', 'depth': 'core', 'vanilla_item_key': None, 'requires': []},
+    {'id': 400401149, 'name': 'Discover Moss Cliff', 'game_uid': 'discover:moss_cliff', 'scene': 'moss_cliff', 'alias_scenes': [], 'map_region': 'great_cave', 'ap_region': 'The Great Halls', 'pool': 'mobility', 'depth': 'core', 'vanilla_item_key': None, 'requires': []},
+    {'id': 400401150, 'name': 'Discover Library Vestibule', 'game_uid': 'discover:entrance_library', 'scene': 'entrance_library', 'alias_scenes': [], 'map_region': 'library', 'ap_region': 'The Great Halls', 'pool': 'mobility', 'depth': 'core', 'vanilla_item_key': None, 'requires': []},
+    {'id': 400401151, 'name': 'Discover Great Cave', 'game_uid': 'discover:greatCave_complete', 'scene': 'greatCave_complete', 'alias_scenes': [], 'map_region': 'mushroom_groves', 'ap_region': 'Mushroom Groves', 'pool': 'mobility', 'depth': 'core', 'vanilla_item_key': None, 'requires': []},
 )

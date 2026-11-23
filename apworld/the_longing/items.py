@@ -44,7 +44,10 @@ ITEM_NAME_GROUPS: dict[str, set[str]] = {
         "Time Rate Boost (+2x)",
     },
     "Traps": set(TRAP_ITEM_NAMES),
+    "Mobility": {"Progressive Walk Speed", "Progressive Waypoint Recall"},
 }
+
+MOBILITY_ITEMS = (("Progressive Walk Speed", 4), ("Progressive Waypoint Recall", 3))
 
 
 class LongingItem(Item):
@@ -64,6 +67,8 @@ def build_item_pool(world: LongingWorld, total_locations: int) -> tuple[list[Lon
     """
     opts = world.options
     pool: list[LongingItem] = []
+    mobility = [create_item(world, name) for name, count in MOBILITY_ITEMS for _ in range(count)]
+    total_locations -= len(mobility)
 
     # 1. Core progression tools & passes
     if opts.shuffle_mattocks_and_keys:
@@ -203,4 +208,4 @@ def build_item_pool(world: LongingWorld, total_locations: int) -> tuple[list[Lon
     while len(pool) < total_locations:
         pool.append(create_item(world, world.get_filler_item_name(), ItemClassification.filler))
 
-    return pool, crystals_in_pool, books_in_pool
+    return pool + mobility, crystals_in_pool, books_in_pool

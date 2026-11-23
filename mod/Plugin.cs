@@ -20,7 +20,6 @@ namespace TheLongingDecrypted
         internal static ManualLogSource Log { get; private set; }
         internal static ItemDeliveryService Delivery { get; private set; }
         internal static ArchipelagoSessionManager Session { get; private set; }
-        internal static float WalkSpeedOverrideMultiplier { get; set; } = -1f;
 
         internal static ConfigEntry<bool> IsolateSavesConfig { get; private set; }
         internal static ConfigEntry<string> DefaultHostConfig { get; private set; }
@@ -28,7 +27,6 @@ namespace TheLongingDecrypted
         internal static ConfigEntry<string> DefaultSlotConfig { get; private set; }
         internal static ConfigEntry<string> DefaultPasswordConfig { get; private set; }
         internal static ConfigEntry<int> FallbackTimeRateConfig { get; private set; }
-        internal static ConfigEntry<float> FallbackWalkMultiplierConfig { get; private set; }
 
         private Harmony _harmony;
 
@@ -47,7 +45,6 @@ namespace TheLongingDecrypted
             DefaultSlotConfig = Config.Bind("Archipelago", "SlotName", "Shade", "Player slot name from your YAML.");
             DefaultPasswordConfig = Config.Bind("Archipelago", "Password", "", "Optional room password.");
             FallbackTimeRateConfig = Config.Bind("Pacing", "OfflineTimeRate", 12, "Time multiplier before connecting to an Archipelago slot.");
-            FallbackWalkMultiplierConfig = Config.Bind("Pacing", "OfflineWalkMultiplier", 1.75f, "Shade walk speed multiplier before connecting.");
 
             if (IsolateSavesConfig.Value)
             {
@@ -63,6 +60,7 @@ namespace TheLongingDecrypted
             _harmony.PatchAll(typeof(TimeAndMovementPatches));
             _harmony.PatchAll(typeof(LocationCheckPatches));
             _harmony.PatchAll(typeof(ProgressionPatches));
+            _harmony.PatchAll(typeof(WaypointRecallPatches));
 
             SceneManager.sceneLoaded += LocationCheckPatches.OnSceneLoaded;
 

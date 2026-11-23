@@ -1,7 +1,8 @@
-using System;
-using System.Reflection;
+using System.Collections.Generic;
+using System.Reflection.Emit;
 using HarmonyLib;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace TheLongingDecrypted.Patches
 {
@@ -10,7 +11,9 @@ namespace TheLongingDecrypted.Patches
     /// </summary>
     internal static class TimeAndMovementPatches
     {
-        private static readonly FieldInfo BaseWalkSpeedField = AccessTools.Field(typeof(Movement), "PNCLPHAIAJJ");
+        private static readonly float[] WalkMultipliers = { 1f, 1.25f, 1.5f, 1.75f, 2f };
+        private static float? _lastAppliedTimeRate;
+        private static float _nativeTimeRate;
 
         public static float GetEffectiveTimeRate()
         {
@@ -20,33 +23,19 @@ namespace TheLongingDecrypted.Patches
             }
             int baseRate = Plugin.Session != null && Plugin.Session.IsConnected
                 ? Plugin.Session.ActiveConfig.StartingTimeRate
-                : Plugin.FallbackTimeRateConfig.Value;
+                : SceneManager.GetActiveScene().buildIndex >= 3 ? Plugin.FallbackTimeRateConfig.Value : 1;
             int bonusRate = Plugin.Delivery != null ? Plugin.Delivery.BonusTimeRate : 0;
             return Mathf.Clamp(baseRate + bonusRate, 1f, 120f);
         }
 
-        public static float GetEffectiveWalkMultiplier()
-        {
-            if (Plugin.Delivery != null && Plugin.Delivery.IsSlownessTrapActive)
-            {
-                return 0.65f;
-            }
-            if (Plugin.WalkSpeedOverrideMultiplier > 0f)
-            {
-                return Plugin.WalkSpeedOverrideMultiplier;
-            }
-            if (Plugin.Session != null && Plugin.Session.IsConnected)
-            {
-                return Plugin.Session.ActiveConfig.WalkSpeedMultiplier;
-            }
-            return Plugin.FallbackWalkMultiplierConfig.Value;
-        }
+        internal static int WalkSpeedTier => Mathf.Clamp(FileBasedPrefs.GetInt("AP_WALK_SPEED", 0), 0, WalkMultipliers.Length - 1);
+        internal static float UnlockedWalkMultiplier => WalkMultipliers[WalkSpeedTier];
 
         [HarmonyPatch(typeof(TMan), nameof(TMan.ResetTimeModificator))]
         [HarmonyPostfix]
         private static void KeepMinimumTimeRateOnReset()
         {
-            ApplyTimeRateFloor();
+            ApplyTimeRateFloor(timerReset: true);
         }
 
         [HarmonyPatch(typeof(TMan), "Update")]
@@ -56,41 +45,51 @@ namespace TheLongingDecrypted.Patches
             ApplyTimeRateFloor();
         }
 
-        private static void ApplyTimeRateFloor()
+        private static void ApplyTimeRateFloor(bool timerReset = false)
         {
-            float target = GetEffectiveTimeRate();
-            if ((float)TMan.DFMLPLGGPLG < target)
+            float current = TMan.DFMLPLGGPLG;
+            // Keep the game's rate separately so lowering the AP floor can take effect.
+            if (timerReset || current != _lastAppliedTimeRate)
             {
-                TMan.DFMLPLGGPLG = target;
+                _nativeTimeRate = current;
             }
-            else if (Plugin.Delivery != null && Plugin.Delivery.IsTimeStallTrapActive)
+
+            float effectiveRate = Plugin.Delivery != null && Plugin.Delivery.IsTimeStallTrapActive
+                ? 1f
+                : Mathf.Max(_nativeTimeRate, GetEffectiveTimeRate());
+            if (current != effectiveRate)
             {
-                TMan.DFMLPLGGPLG = 1f;
+                TMan.DFMLPLGGPLG = effectiveRate;
+            }
+            _lastAppliedTimeRate = effectiveRate;
+        }
+
+        [HarmonyPatch(typeof(Movement), "APJLCJOMOBM")]
+        [HarmonyTranspiler]
+        private static IEnumerable<CodeInstruction> ScaleWalkDisplacement(IEnumerable<CodeInstruction> instructions)
+        {
+            var speedField = AccessTools.Field(typeof(Movement), nameof(Movement.MPPKGMBHPAN));
+            var scaledSpeed = AccessTools.Method(typeof(TimeAndMovementPatches), nameof(GetWalkDisplacementSpeed));
+            foreach (var instruction in instructions)
+            {
+                if (instruction.LoadsField(speedField))
+                {
+                    instruction.opcode = OpCodes.Call;
+                    instruction.operand = scaledSpeed;
+                }
+                yield return instruction;
             }
         }
 
-        [HarmonyPatch(typeof(Movement), "Update")]
-        [HarmonyPrefix]
-        private static void ApplyWalkSpeedOverride(Movement __instance)
+        private static float GetWalkDisplacementSpeed(Movement movement)
         {
-            if (__instance == null || BaseWalkSpeedField == null)
+            float speed = movement.MPPKGMBHPAN;
+            if (string.IsNullOrEmpty(Plugin.Session?.ConnectedSlot) || movement.KOOPDFHCIIF
+                || movement.IsCrouching() || !GameManagerScript.IsGameRunning())
             {
-                return;
+                return speed;
             }
-            float mult = GetEffectiveWalkMultiplier();
-            if (Math.Abs(mult - 1f) < 0.01f)
-            {
-                return;
-            }
-            if (BaseWalkSpeedField.GetValue(__instance) is float baseSpeed && baseSpeed > 0f)
-            {
-                __instance.OverwritePlayerSpeed(baseSpeed * mult);
-                var animator = __instance.GetAnimator();
-                if (animator != null && __instance.IsInWalkState())
-                {
-                    animator.speed = Mathf.Clamp(mult, 0.65f, 2.5f);
-                }
-            }
+            return speed * (Plugin.Delivery.IsSlownessTrapActive ? 0.65f : UnlockedWalkMultiplier);
         }
     }
 }

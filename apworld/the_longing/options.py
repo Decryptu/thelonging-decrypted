@@ -62,25 +62,6 @@ class TimeSkipItems(DefaultOnToggle):
     display_name = "Time Skip Items"
 
 
-class WalkSpeed(Choice):
-    """Controls the Shade's walking pace through the Underground Kingdom."""
-
-    display_name = "Shade Walk Speed"
-    option_vanilla = 0
-    option_brisk = 1
-    option_swift = 2
-    option_hasty = 3
-    default = 1
-
-    def to_multiplier(self) -> float:
-        return {
-            self.option_vanilla: 1.0,
-            self.option_brisk: 1.75,
-            self.option_swift: 2.5,
-            self.option_hasty: 3.5,
-        }[self.value]
-
-
 class ShuffleMattocksAndKeys(DefaultOnToggle):
     """Shuffle Mattocks, the Secret Key, and major cavern passage passes into the multiworld."""
 
@@ -184,7 +165,6 @@ class LongingOptions(PerGameCommonOptions):
     countdown_length: CountdownLength
     starting_time_rate: StartingTimeRate
     time_skip_items: TimeSkipItems
-    walk_speed: WalkSpeed
     shuffle_mattocks_and_keys: ShuffleMattocksAndKeys
     shuffle_books: ShuffleBooks
     shuffle_crystals: ShuffleCrystals
@@ -206,7 +186,6 @@ OPTION_GROUPS = [
             CountdownLength,
             StartingTimeRate,
             TimeSkipItems,
-            WalkSpeed,
             RequiredCrystals,
             RequiredBooks,
         ],
@@ -262,11 +241,6 @@ def export_option_schema() -> dict[str, Any]:
                 "default": 12,
             },
             "time_skip_items": {"type": "toggle", "default": True},
-            "walk_speed": {
-                "type": "choice",
-                "values": ["vanilla", "brisk", "swift", "hasty"],
-                "default": "brisk",
-            },
             "shuffle_mattocks_and_keys": {"type": "toggle", "default": True},
             "shuffle_books": {
                 "type": "choice",

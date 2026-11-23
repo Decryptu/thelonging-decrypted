@@ -47,6 +47,14 @@ namespace TheLongingDecrypted.Archipelago
 
         public bool Connect(string host, int port, string slotName, string password)
         {
+            string address = $"{host}:{port}";
+            bool inCavern = GameManagerScript.IsGameRunning() && SceneManager.GetActiveScene().buildIndex >= 3;
+            if (inCavern && (ConnectedHost != address || ConnectedSlot != slotName))
+            {
+                StatusMessage = "Return to the title screen to change Archipelago slots.";
+                return false;
+            }
+
             Disconnect();
             try
             {
@@ -75,10 +83,18 @@ namespace TheLongingDecrypted.Archipelago
                 }
 
                 var success = (LoginSuccessful)result;
+                string seed = session.RoomState?.Seed ?? "default";
+                if (inCavern && SeedName != seed)
+                {
+                    StatusMessage = "Return to the title screen to join a different Archipelago seed.";
+                    _ = session.Socket.DisconnectAsync();
+                    return false;
+                }
+
                 _session = session;
-                ConnectedHost = $"{host}:{port}";
+                ConnectedHost = address;
                 ConnectedSlot = slotName;
-                SeedName = session.RoomState?.Seed ?? "default";
+                SeedName = seed;
                 ActiveConfig = SlotConfig.FromSlotData(success.SlotData);
 
                 // Isolate save folder per seed + slot before touching FileBasedPrefs
@@ -323,7 +339,7 @@ namespace TheLongingDecrypted.Archipelago
                 return;
             }
 
-            // SetTimeFirstGameStart resets the elapsed clock at the end of the intro.
+            // The intro sets this flag before the timer processes its queued reset.
             if (FileBasedPrefs.GetInt("FIRSTFIRSTGAMESTART", 0) == 0)
             {
                 return;
@@ -336,14 +352,16 @@ namespace TheLongingDecrypted.Archipelago
                 return;
             }
 
+            // The game sets FakeHudOff two seconds after starting the timer. Wait for
+            // that handoff before saving the first checkpoint for a fresh slot.
+            if (!previouslyInitialized && FileBasedPrefs.GetInt("FakeHudOff", 0) == 0)
+            {
+                return;
+            }
+
             const long fourHundredDays = 34_560_000L;
             long targetSeconds = Math.Max(60L, Math.Min(fourHundredDays, ActiveConfig.CountdownSeconds));
-            long initialAdvance = fourHundredDays - targetSeconds;
-            if (previouslyInitialized)
-            {
-                // A legacy save has no checkpoint and the in-memory clock may belong to another slot.
-                initialAdvance -= TMan.GetOverallTime();
-            }
+            long initialAdvance = fourHundredDays - targetSeconds - TMan.GetOverallTime();
             if (initialAdvance != 0)
             {
                 TMan.AddInstaTime(initialAdvance);

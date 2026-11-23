@@ -409,6 +409,23 @@ def build_registries(catalog: dict[str, object]) -> tuple[list[dict[str, object]
         )
         next_item_id += 1
 
+    # Append new items after the existing registry to preserve every published ID.
+    for name, key in (
+        ("Progressive Walk Speed", "AP_WALK_SPEED"),
+        ("Progressive Waypoint Recall", "AP_WAYPOINT_RECALL"),
+    ):
+        items_out.append({
+            "id": next_item_id,
+            "name": name,
+            "classification": "useful",
+            "category": "mobility",
+            "game_key": key,
+            "secondary_key": None,
+            "amount": 1,
+            "action": "unlock",
+        })
+        next_item_id += 1
+
     item_keys = catalog["item_keys"]
     assert isinstance(item_keys, dict)
     pickups = catalog["pickups"]
@@ -477,7 +494,21 @@ def build_registries(catalog: dict[str, object]) -> tuple[list[dict[str, object]
         )
         next_loc_id += 1
 
-    for m in MILESTONE_LOCATIONS:
+    rooms = {room["name"]: room for room in catalog["rooms"]}
+    discoveries = [
+        {
+            "name": f"Discover {SCENE_LABELS[scene]}",
+            "game_uid": f"discover:{scene}",
+            "scene": scene,
+            "map_region": rooms[scene]["region"],
+            "ap_region": "The Great Halls" if scene == "entrance_library" else SCENE_TO_AP_REGION[scene],
+            "pool": "mobility",
+            "depth": "core",
+            "requires": [],
+        }
+        for scene in ("home", "king", "entrance_hall", "treasury", "moss_cliff", "entrance_library", "greatCave_complete")
+    ]
+    for m in [*MILESTONE_LOCATIONS, *discoveries]:
         locations_out.append(
             {
                 "id": next_loc_id,
@@ -636,6 +667,7 @@ def write_site_catalog(catalog: dict[str, object], items: list[dict[str, object]
         "comfort": "comfort",
         "instrument": "comfort",
         "coal_sulfur": "comfort",
+        "mobility": "tools",
     }
     summary = catalog["summary"]
     assert isinstance(summary, dict)

@@ -98,8 +98,6 @@ class LongingWorld(World):
             "countdown_seconds": self.options.countdown_length.to_seconds(),
             "starting_time_rate": self.options.starting_time_rate.value,
             "time_skip_items": bool(self.options.time_skip_items.value),
-            "walk_speed": self.options.walk_speed.current_key,
-            "walk_speed_multiplier": self.options.walk_speed.to_multiplier(),
             "shuffle_mattocks_and_keys": bool(self.options.shuffle_mattocks_and_keys.value),
             "shuffle_books": self.options.shuffle_books.current_key,
             "shuffle_crystals": self.options.shuffle_crystals.current_key,

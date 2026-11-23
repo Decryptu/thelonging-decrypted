@@ -16,7 +16,6 @@ import {
   PRESETS,
   type ShuffleDepth,
   type TrapDensity,
-  type WalkSpeed,
   makeYamlFilename,
   serializeYaml,
   validateConfig,
@@ -166,7 +165,6 @@ function initYamlGenerator(): void {
   const countdownSelect = byId<HTMLSelectElement>("countdown-select");
   const timeRateRange = byId<HTMLInputElement>("time-rate-range");
   const timeRateValue = byId<HTMLElement>("time-rate-value");
-  const walkSpeedSelect = byId<HTMLSelectElement>("walk-speed-select");
   const timeSkipItems = byId<HTMLInputElement>("time-skip-items");
   const shuffleMattocks = byId<HTMLInputElement>("shuffle-mattocks");
   const booksSelect = byId<HTMLSelectElement>("books-select");
@@ -210,7 +208,6 @@ function initYamlGenerator(): void {
     countdownSelect.value = state.countdownLength;
     timeRateRange.value = String(state.startingTimeRate);
     timeRateValue.textContent = `${state.startingTimeRate}x`;
-    walkSpeedSelect.value = state.walkSpeed;
     timeSkipItems.checked = state.timeSkipItems;
     shuffleMattocks.checked = state.shuffleMattocksAndKeys;
     booksSelect.value = state.shuffleBooks;
@@ -279,7 +276,6 @@ function initYamlGenerator(): void {
       goal: goalSelect.value as GoalOption,
       countdownLength: countdownSelect.value as CountdownLength,
       startingTimeRate: Number(timeRateRange.value),
-      walkSpeed: walkSpeedSelect.value as WalkSpeed,
       timeSkipItems: timeSkipItems.checked,
       shuffleMattocksAndKeys: shuffleMattocks.checked,
       shuffleBooks: booksSelect.value as ShuffleDepth,

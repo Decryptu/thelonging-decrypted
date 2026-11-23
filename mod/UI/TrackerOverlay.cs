@@ -1,12 +1,11 @@
 using System;
 using TheLongingDecrypted.Patches;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace TheLongingDecrypted.UI
 {
     /// <summary>
-    /// Compact IMGUI Archipelago connection panel, tracker HUD, and fast-travel helper (toggle with F8).
+    /// Compact IMGUI Archipelago connection panel and tracker HUD (toggle with F8).
     /// </summary>
     public sealed class TrackerOverlay : MonoBehaviour
     {
@@ -125,24 +124,6 @@ namespace TheLongingDecrypted.UI
                 long remaining = Math.Max(0L, 34_560_000L - elapsed);
                 var ts = TimeSpan.FromSeconds(remaining);
                 GUILayout.Label($"Clock: {(int)ts.TotalDays}d {ts.Hours:00}h {ts.Minutes:00}m {ts.Seconds:00}s ({TimeAndMovementPatches.GetEffectiveTimeRate():0}x)");
-                GUILayout.Label($"Walk Speed: {TimeAndMovementPatches.GetEffectiveWalkMultiplier():0.00}x");
-
-                GUILayout.BeginHorizontal();
-                if (GUILayout.Button("1.0x")) Plugin.WalkSpeedOverrideMultiplier = 1.0f;
-                if (GUILayout.Button("1.75x")) Plugin.WalkSpeedOverrideMultiplier = 1.75f;
-                if (GUILayout.Button("2.5x")) Plugin.WalkSpeedOverrideMultiplier = 2.5f;
-                if (GUILayout.Button("3.5x")) Plugin.WalkSpeedOverrideMultiplier = 3.5f;
-                GUILayout.EndHorizontal();
-
-                GUILayout.Space(4f);
-                GUILayout.Label("Quick Waypoints:");
-                GUILayout.BeginHorizontal();
-                if (GUILayout.Button("Home")) SceneManager.LoadScene(4);
-                if (GUILayout.Button("King")) SceneManager.LoadScene(3);
-                if (GUILayout.Button("Entrance")) SceneManager.LoadScene(7);
-                if (GUILayout.Button("Library") && ProgressionPatches.CanEnterLibrary()) SceneManager.LoadScene(46);
-                GUILayout.EndHorizontal();
-
                 GUILayout.Space(4f);
                 if (GUILayout.Button("Disconnect"))
                 {

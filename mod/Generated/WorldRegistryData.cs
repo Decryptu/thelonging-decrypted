@@ -123,6 +123,8 @@ namespace TheLongingDecrypted.Generated
             [400400072L] = new ItemRegistryEntry(400400072L, "Book: King Pest", "books", "B00BZ", null, 1, "item"),
             [400400073L] = new ItemRegistryEntry(400400073L, "Book: The House on the Borderland", "books", "B00BZ", null, 1, "item"),
             [400400074L] = new ItemRegistryEntry(400400074L, "Book: The Anatomy of Melancholy", "books", "B00BZ", null, 1, "item"),
+            [400400075L] = new ItemRegistryEntry(400400075L, "Progressive Walk Speed", "mobility", "AP_WALK_SPEED", null, 1, "unlock"),
+            [400400076L] = new ItemRegistryEntry(400400076L, "Progressive Waypoint Recall", "mobility", "AP_WAYPOINT_RECALL", null, 1, "unlock"),
         };
 
         public static readonly IReadOnlyDictionary<string, LocationRegistryEntry> LocationsByUid = new Dictionary<string, LocationRegistryEntry>
@@ -272,6 +274,13 @@ namespace TheLongingDecrypted.Generated
             ["eternity:T33PCHIERD"] = new LocationRegistryEntry(400401142L, "Halls of Eternity - Eternal Carpet III", "eternity:T33PCHIERD", "halls_of_eternity", "comfort"),
             ["eternity:VROHG"] = new LocationRegistryEntry(400401143L, "Halls of Eternity - Eternal Curtain", "eternity:VROHG", "halls_of_eternity", "comfort"),
             ["event:well_arrival"] = new LocationRegistryEntry(400401144L, "The Well - Reach the Well Shaft", "event:well_arrival", "brunnen", "tools"),
+            ["discover:home"] = new LocationRegistryEntry(400401145L, "Discover Shade's Home", "discover:home", "home", "mobility"),
+            ["discover:king"] = new LocationRegistryEntry(400401146L, "Discover King's Chamber", "discover:king", "king", "mobility"),
+            ["discover:entrance_hall"] = new LocationRegistryEntry(400401147L, "Discover Entrance Hall", "discover:entrance_hall", "entrance_hall", "mobility"),
+            ["discover:treasury"] = new LocationRegistryEntry(400401148L, "Discover King's Treasury", "discover:treasury", "treasury", "mobility"),
+            ["discover:moss_cliff"] = new LocationRegistryEntry(400401149L, "Discover Moss Cliff", "discover:moss_cliff", "moss_cliff", "mobility"),
+            ["discover:entrance_library"] = new LocationRegistryEntry(400401150L, "Discover Library Vestibule", "discover:entrance_library", "entrance_library", "mobility"),
+            ["discover:greatCave_complete"] = new LocationRegistryEntry(400401151L, "Discover Great Cave", "discover:greatCave_complete", "greatCave_complete", "mobility"),
         };
 
         public static readonly IReadOnlyDictionary<long, LocationRegistryEntry> LocationsById = new Dictionary<long, LocationRegistryEntry>
@@ -421,6 +430,13 @@ namespace TheLongingDecrypted.Generated
             [400401142L] = new LocationRegistryEntry(400401142L, "Halls of Eternity - Eternal Carpet III", "eternity:T33PCHIERD", "halls_of_eternity", "comfort"),
             [400401143L] = new LocationRegistryEntry(400401143L, "Halls of Eternity - Eternal Curtain", "eternity:VROHG", "halls_of_eternity", "comfort"),
             [400401144L] = new LocationRegistryEntry(400401144L, "The Well - Reach the Well Shaft", "event:well_arrival", "brunnen", "tools"),
+            [400401145L] = new LocationRegistryEntry(400401145L, "Discover Shade's Home", "discover:home", "home", "mobility"),
+            [400401146L] = new LocationRegistryEntry(400401146L, "Discover King's Chamber", "discover:king", "king", "mobility"),
+            [400401147L] = new LocationRegistryEntry(400401147L, "Discover Entrance Hall", "discover:entrance_hall", "entrance_hall", "mobility"),
+            [400401148L] = new LocationRegistryEntry(400401148L, "Discover King's Treasury", "discover:treasury", "treasury", "mobility"),
+            [400401149L] = new LocationRegistryEntry(400401149L, "Discover Moss Cliff", "discover:moss_cliff", "moss_cliff", "mobility"),
+            [400401150L] = new LocationRegistryEntry(400401150L, "Discover Library Vestibule", "discover:entrance_library", "entrance_library", "mobility"),
+            [400401151L] = new LocationRegistryEntry(400401151L, "Discover Great Cave", "discover:greatCave_complete", "greatCave_complete", "mobility"),
         };
     }
 }
