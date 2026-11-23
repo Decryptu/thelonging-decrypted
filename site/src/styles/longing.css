@@ -1,14 +1,14 @@
 :root {
-  --stone-dark: #3d2923;
-  --stone-mid: #47322a;
+  --stone-dark: #33221c;
+  --stone-mid: #3f2c24;
   --stone-deep: #2a1b16;
-  --clay: #594238;
-  --clay-hover: #6c5145;
-  --sand: #987767;
-  --sand-dim: #856657;
-  --sand-bright: #b39280;
+  --clay: #8c6d5b;
+  --clay-hover: #9e7e6a;
+  --sand: #c6a48e;
+  --sand-dim: #ab8c78;
+  --sand-bright: #e0c4ac;
   --ink: #080400;
-  --ink-soft: #231510;
+  --ink-soft: #1a0e0a;
   --void: #000000;
   --eye-yellow: #f6f600;
   --crystal-blue: #9bd5f7;
@@ -733,7 +733,7 @@ select {
 
 .ink-field input[type="text"]:focus,
 .ink-field select:focus {
-  background: #c2a290;
+  background: #ecd6c0;
 }
 
 .range-label-row {
