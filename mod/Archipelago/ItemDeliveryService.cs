@@ -44,6 +44,10 @@ namespace TheLongingDecrypted.Archipelago
                     break;
                 case "unlock":
                     FileBasedPrefs.SetInt(entry.GameKey, FileBasedPrefs.GetInt(entry.GameKey, 0) + entry.Amount);
+                    if (entry.Category == "mobility")
+                    {
+                        TheLongingDecrypted.Patches.WaypointRecallPatches.RefreshMobilityLabel();
+                    }
                     break;
                 case "mushroom":
                     FileBasedPrefs.SetInt(entry.GameKey, FileBasedPrefs.GetInt(entry.GameKey, 0) + entry.Amount);

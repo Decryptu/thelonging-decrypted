@@ -11,6 +11,7 @@ namespace TheLongingDecrypted.Patches
     {
         private const string VisitedHomeKey = "AP_VISITED_HOME";
         private const int MaxRecallRing = 3;
+        private static GameObject _card;
         private static Text _label;
         private static string _feedback;
         private static GameManagerScript _recalling;
@@ -20,6 +21,7 @@ namespace TheLongingDecrypted.Patches
 
         internal static int RecallTier => Mathf.Clamp(FileBasedPrefs.GetInt("AP_WAYPOINT_RECALL", 0), 0, MaxRecallRing);
         private static bool HasSlot => !string.IsNullOrEmpty(Plugin.Session?.ConnectedSlot);
+        private static bool IsShiftHeld => Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 
         internal static int CavernRing(int scene)
         {
@@ -61,29 +63,48 @@ namespace TheLongingDecrypted.Patches
                 return;
             }
 
-            if (!_label || _label.transform.parent != ___FEGOHOGGOHE)
+            if (!_card || _card.transform.parent != ___FEGOHOGGOHE)
             {
-                var labelObject = new GameObject("Cavern Travel", typeof(RectTransform));
-                labelObject.transform.SetParent(___FEGOHOGGOHE, false);
+                _card = new GameObject("Cavern Travel", typeof(RectTransform));
+                _card.transform.SetParent(___FEGOHOGGOHE, false);
+                var backdrop = _card.AddComponent<Image>();
+                backdrop.color = new Color(0.11f, 0.09f, 0.07f, 0.94f);
+                backdrop.raycastTarget = false;
+                var border = _card.AddComponent<Outline>();
+                border.effectColor = new Color(0.62f, 0.49f, 0.27f, 0.92f);
+                border.effectDistance = new Vector2(2f, -2f);
+                var cardRect = _card.GetComponent<RectTransform>();
+                // Attach cleanly to the upper-right edge of the foldout so slot action buttons stay unobstructed.
+                cardRect.anchorMin = new Vector2(1.02f, 0.80f);
+                cardRect.anchorMax = new Vector2(1.92f, 0.96f);
+                cardRect.offsetMin = cardRect.offsetMax = Vector2.zero;
+
+                var labelObject = new GameObject("Cavern Travel Text", typeof(RectTransform));
+                labelObject.transform.SetParent(_card.transform, false);
                 _label = labelObject.AddComponent<Text>();
                 _label.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
                 _label.fontSize = 18;
                 _label.alignment = TextAnchor.MiddleCenter;
-                _label.color = new Color(0.91f, 0.83f, 0.64f);
+                _label.color = new Color(0.95f, 0.89f, 0.72f);
                 _label.raycastTarget = false;
                 var shadow = labelObject.AddComponent<Shadow>();
                 shadow.effectDistance = new Vector2(1f, -1f);
-                var rect = _label.rectTransform;
-                // The left column has space between the native instructions and Home.
-                rect.anchorMin = new Vector2(0.05f, 0.43f);
-                rect.anchorMax = new Vector2(0.55f, 0.62f);
-                rect.offsetMin = rect.offsetMax = Vector2.zero;
+                var textRect = _label.rectTransform;
+                textRect.anchorMin = new Vector2(0.04f, 0.06f);
+                textRect.anchorMax = new Vector2(0.96f, 0.94f);
+                textRect.offsetMin = textRect.offsetMax = Vector2.zero;
             }
 
             if (!__state)
             {
                 _feedback = null;
             }
+            UpdateLabel();
+        }
+
+        internal static void RefreshMobilityLabel()
+        {
+            _feedback = null;
             UpdateLabel();
         }
 
@@ -96,14 +117,40 @@ namespace TheLongingDecrypted.Patches
 
             int ring = RecallTier;
             _label.text = $"Walking pace {TimeAndMovementPatches.UnlockedWalkMultiplier:0.##}×\nRecall ring {ring}/{MaxRecallRing}\n"
-                + (_feedback ?? (ring == 0 ? "Find a Waypoint Recall to travel." : "Shift-click a saved waypoint to recall."));
+                + (_feedback ?? (ring == 0 ? "Find a Waypoint Recall to travel." : "Shift-click Go or Home to recall."));
+        }
+
+        [HarmonyPatch(typeof(GameManagerScript), nameof(GameManagerScript.GoHome))]
+        [HarmonyPrefix]
+        private static bool RecallHome(GameManagerScript __instance)
+        {
+            if (!HasSlot || !IsShiftHeld)
+            {
+                return true;
+            }
+
+            TryRecall(__instance, 1, requireFoldoutOpen: false);
+            return false;
+        }
+
+        [HarmonyPatch(typeof(GameManagerScript), nameof(GameManagerScript.GoToSaveSlotPlace))]
+        [HarmonyPrefix]
+        private static bool RecallSelectedSlot(GameManagerScript __instance, int OFLAKBJMDAL)
+        {
+            if (!HasSlot || !IsShiftHeld || OFLAKBJMDAL < 1 || OFLAKBJMDAL > 16)
+            {
+                return true;
+            }
+
+            TryRecall(__instance, OFLAKBJMDAL, requireFoldoutOpen: true);
+            return false;
         }
 
         [HarmonyPatch(typeof(GameManagerScript), nameof(GameManagerScript.WaypointGotoInteraction))]
         [HarmonyPrefix]
         private static bool RecallSavedWaypoint(GameManagerScript __instance, BaseEventData NHKKAONFPNH)
         {
-            if (!HasSlot || !(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
+            if (!HasSlot || !IsShiftHeld)
             {
                 return true;
             }
@@ -114,13 +161,13 @@ namespace TheLongingDecrypted.Patches
                 return true;
             }
 
-            TryRecall(__instance, slot);
+            TryRecall(__instance, slot, requireFoldoutOpen: true);
             return false;
         }
 
-        private static void TryRecall(GameManagerScript game, int slot)
+        private static void TryRecall(GameManagerScript game, int slot, bool requireFoldoutOpen)
         {
-            if (!game.ODEFEGGOFKP || !GameManagerScript.IsGameRunning() || _recalling
+            if ((requireFoldoutOpen && !game.ODEFEGGOFKP) || !GameManagerScript.IsGameRunning() || _recalling
                 || FileBasedPrefs.BlockNewSaves || FileBasedPrefs.HasKey("WasInside")
                 || FileBasedPrefs.GetInt("FakeHudOff", 0) == 0
                 || CavernRing(SceneManager.GetActiveScene().buildIndex) == 0
@@ -156,7 +203,10 @@ namespace TheLongingDecrypted.Patches
             _destination = scene;
             _waypoint = waypoint;
             game.GetInputManager().StopAutoMoving();
-            game.CloseFoldout();
+            if (game.ODEFEGGOFKP)
+            {
+                game.CloseFoldout();
+            }
             game.LoadNewScene(scene);
         }
 
@@ -164,6 +214,10 @@ namespace TheLongingDecrypted.Patches
         {
             _feedback = message;
             UpdateLabel();
+            if (!_label || !_label.gameObject.activeInHierarchy)
+            {
+                Plugin.Delivery?.PushNotification(message);
+            }
         }
 
         [HarmonyPatch(typeof(GameManagerScript), "JIJFJAAELBE")]

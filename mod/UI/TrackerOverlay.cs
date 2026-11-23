@@ -124,6 +124,7 @@ namespace TheLongingDecrypted.UI
                 long remaining = Math.Max(0L, 34_560_000L - elapsed);
                 var ts = TimeSpan.FromSeconds(remaining);
                 GUILayout.Label($"Clock: {(int)ts.TotalDays}d {ts.Hours:00}h {ts.Minutes:00}m {ts.Seconds:00}s ({TimeAndMovementPatches.GetEffectiveTimeRate():0}x)");
+                GUILayout.Label($"Mobility: {TimeAndMovementPatches.UnlockedWalkMultiplier:0.##}x Walk | Recall Ring {WaypointRecallPatches.RecallTier}/3");
                 GUILayout.Space(4f);
                 if (GUILayout.Button("Disconnect"))
                 {

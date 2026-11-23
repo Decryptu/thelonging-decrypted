@@ -8,7 +8,7 @@ A complete, approachable Archipelago multiworld and randomizer for *The Longing*
 
 ## Milestones
 
-1. **1.0 release:** Verify fresh solo and multiworld playthroughs, including recording a waypoint in the native UI and recalling across rings with normal player input. Publish the matched `TheLongingDecrypted` plugin, `the_longing.apworld`, and PopTracker pack with player setup and save recovery notes.
+1. **1.0 release:** Publish the matched `TheLongingDecrypted` plugin, `the_longing.apworld`, and PopTracker pack at `1.0.0` with updated player setup and save recovery notes.
 
 ## Decisions
 
