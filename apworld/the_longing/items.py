@@ -240,7 +240,12 @@ def build_item_pool(world: LongingWorld, total_locations: int) -> tuple[list[Lon
             ("Time Skip (1 Hour)", 6, ItemClassification.useful),
             ("Time Skip (15 Minutes)", 6, ItemClassification.filler),
         ]
+        # A single skip must never swallow more than a quarter of the countdown.
+        longest_skip = opts.countdown_length.to_seconds() // 4
         for name, count, cls in pacing_pack:
+            entry = ITEM_BY_NAME[name]
+            if entry["action"] == "time_skip" and int(entry["amount"]) > longest_skip:
+                continue
             for _ in range(count):
                 if len(pool) >= total_locations:
                     break

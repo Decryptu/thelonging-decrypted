@@ -1,7 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CodeStage.AntiCheat.ObscuredTypes;
+using TheLongingDecrypted.Cosmetics;
 using TheLongingDecrypted.Generated;
+using TheLongingDecrypted.Patches;
+using TheLongingDecrypted.Relics;
+using TheLongingDecrypted.UI;
 using UnityEngine;
 
 namespace TheLongingDecrypted.Archipelago
@@ -12,46 +17,28 @@ namespace TheLongingDecrypted.Archipelago
         public const string ReceivedCrystalsPrefKey = "AP_RECEIVED_CRYSTALS";
         public const string ReceivedBooksPrefKey = "AP_RECEIVED_BOOKS";
 
-        private readonly Queue<string> _recentNotifications = new Queue<string>();
-        private const int MaxNotifications = 10;
+        private const int MaxNotes = 10;
+        private readonly Queue<string> _notes = new Queue<string>();
+        private readonly Dictionary<string, float> _trapUntil = new Dictionary<string, float>();
+        private readonly Dictionary<string, float> _trapLength = new Dictionary<string, float>();
+        private int _quietArrivals;
 
-        public float SlownessTrapUntil { get; private set; }
-        public float DarknessTrapUntil { get; private set; }
-        public float TimeStallTrapUntil { get; private set; }
-        public float EspressoBuffUntil { get; private set; }
-        public float ExistentialTrapUntil { get; private set; }
-        public float HiccupTrapUntil { get; private set; }
-        public float SpiderScareUntil { get; private set; }
-        public float FalseWakeUntil { get; private set; }
-        public float TinyShadeUntil { get; private set; }
-        public string ActiveExistentialThought { get; private set; } = string.Empty;
-
-        public IEnumerable<string> RecentNotifications => _recentNotifications;
-
-        public bool IsSlownessTrapActive => Time.unscaledTime < SlownessTrapUntil;
-        public bool IsDarknessTrapActive => Time.unscaledTime < DarknessTrapUntil;
-        public bool IsTimeStallTrapActive => Time.unscaledTime < TimeStallTrapUntil;
-        public bool IsEspressoBuffActive => Time.unscaledTime < EspressoBuffUntil;
-        public bool IsExistentialTrapActive => Time.unscaledTime < ExistentialTrapUntil;
-        public bool IsHiccupTrapActive => Time.unscaledTime < HiccupTrapUntil;
-        public bool IsSpiderScareActive => Time.unscaledTime < SpiderScareUntil;
-        public bool IsFalseWakeActive => Time.unscaledTime < FalseWakeUntil;
-        public bool IsTinyShadeActive => Time.unscaledTime < TinyShadeUntil;
-
-        private static readonly string[] ExistentialThoughts =
-        {
-            "\"If I wait 400 days to wake a King who immediately ends the world... am I the villain, or just middle management?\"",
-            "\"What if the Mattock isn't breaking because the rock is hard, but because it simply lacks the emotional support to continue?\"",
-            "\"I have walked 40,000 steps in total darkness to stare at a stalactite. Peak subterranean gameplay.\"",
-            "\"Do the spiders think I'm a weird yellow roommate who refuses to pay rent?\"",
-            "\"If time flows faster when my home is cozy, does a fourth carpet bend the space-time continuum?\""
-        };
+        public bool IsSlownessTrapActive => TrapFractionLeft("TRAP_SLOWNESS") > 0f;
+        public bool IsDarknessTrapActive => TrapFractionLeft("TRAP_DARKNESS") > 0f;
+        public bool IsTimeStallTrapActive => TrapFractionLeft("TRAP_TIME_STALL") > 0f;
+        public bool IsHiccupTrapActive => TrapFractionLeft("TRAP_HICCUP") > 0f;
+        public bool IsSpiderScareActive => TrapFractionLeft("TRAP_SPIDER_SCARE") > 0f;
+        public bool IsTinyShadeActive => TrapFractionLeft("TRAP_TINY_SHADE") > 0f;
 
         public int BonusTimeRate => FileBasedPrefs.GetInt(BonusTimeRatePrefKey, 0);
         public int ReceivedCrystals => FileBasedPrefs.GetInt(ReceivedCrystalsPrefKey, 0);
         public int ReceivedBooks => FileBasedPrefs.GetInt(ReceivedBooksPrefKey, 0);
 
-        public void DeliverItem(long itemId, string senderName, bool replaySilent = false)
+        public IEnumerable<string> LatestNotes(int count) => _notes.Reverse().Take(count);
+
+        public bool HasUnlock(string unlockKey) => FileBasedPrefs.GetInt(unlockKey, 0) > 0;
+
+        public void DeliverItem(long itemId, string senderName, bool replaySilent = false, bool fromMyself = false)
         {
             if (!WorldRegistryData.ItemsById.TryGetValue(itemId, out var entry))
             {
@@ -65,51 +52,34 @@ namespace TheLongingDecrypted.Archipelago
                     GrantInventoryItem(entry);
                     break;
                 case "unlock":
-                case "cosmetic":
+                    if (RelicBag.Find(entry.GameKey) != null)
+                    {
+                        RelicBag.Grant(entry.GameKey);
+                        break;
+                    }
                     FileBasedPrefs.SetInt(entry.GameKey, FileBasedPrefs.GetInt(entry.GameKey, 0) + entry.Amount);
-                    FileBasedPrefs.SetInt("AP_UNLOCK_" + entry.GameKey, 1);
                     if (entry.Category == "mobility")
                     {
-                        TheLongingDecrypted.Patches.WaypointRecallPatches.RefreshMobilityLabel();
+                        WaypointRecallPatches.RefreshMobilityLabel();
                     }
-                    else if (entry.Category == "cosmetic" || entry.Action == "cosmetic")
-                    {
-                        TheLongingDecrypted.Patches.CosmeticAndCustomItemPatches.AutoEquipIfNone(entry.GameKey);
-                    }
+                    break;
+                case "cosmetic":
+                    Wardrobe.Grant(entry.GameKey);
                     break;
                 case "conch":
-                    FileBasedPrefs.SetInt(entry.GameKey, FileBasedPrefs.GetInt(entry.GameKey, 0) + entry.Amount);
-                    FileBasedPrefs.SetInt("AP_UNLOCK_" + entry.GameKey, 1);
-                    if (!replaySilent)
-                    {
-                        Plugin.Session?.ScoutRandomUncheckedLocation("Echoing Conch");
-                    }
-                    break;
                 case "fertilizer":
-                    FileBasedPrefs.SetInt(entry.GameKey, FileBasedPrefs.GetInt(entry.GameKey, 0) + entry.Amount);
-                    FileBasedPrefs.SetInt("AP_UNLOCK_" + entry.GameKey, 1);
-                    if (!replaySilent)
-                    {
-                        TheLongingDecrypted.Patches.CosmeticAndCustomItemPatches.ApplyMushroomFertilizer();
-                    }
-                    break;
                 case "buff":
-                    FileBasedPrefs.SetInt(entry.GameKey, FileBasedPrefs.GetInt(entry.GameKey, 0) + 1);
-                    FileBasedPrefs.SetInt("AP_UNLOCK_" + entry.GameKey, 1);
-                    if (!replaySilent && (entry.GameKey == "AP_BUFF_ESPRESSO" || entry.GameKey == "BUFF_ESPRESSO"))
-                    {
-                        TriggerEspressoBuff(entry.Amount);
-                    }
+                    RelicBag.Grant(entry.GameKey);
                     break;
                 case "mushroom":
                     FileBasedPrefs.SetInt(entry.GameKey, FileBasedPrefs.GetInt(entry.GameKey, 0) + entry.Amount);
                     break;
                 case "time_skip":
-                    if (entry.GameKey == "TIME_SKIP_43200")
+                    if (entry.GameKey == RelicBag.Snooze)
                     {
-                        FileBasedPrefs.SetInt("AP_UNLOCK_TIME_SKIP_43200", 1);
+                        RelicBag.Grant(entry.GameKey);
                     }
-                    if (!replaySilent)
+                    else if (!replaySilent)
                     {
                         TMan.AddInstaTime((long)entry.Amount);
                         TMan.SaveValues();
@@ -124,9 +94,6 @@ namespace TheLongingDecrypted.Archipelago
                         TriggerTrap(entry);
                     }
                     break;
-                case "filler":
-                default:
-                    break;
             }
 
             if (entry.Category == "crystals")
@@ -138,24 +105,46 @@ namespace TheLongingDecrypted.Archipelago
                 FileBasedPrefs.SetInt(ReceivedBooksPrefKey, ReceivedBooks + entry.Amount);
             }
 
-            if (!replaySilent)
+            if (replaySilent)
             {
-                var from = string.IsNullOrEmpty(senderName) ? "Multiworld" : senderName;
-                PushNotification($"Received {entry.Name} (from {from})");
+                _quietArrivals++;
+                return;
+            }
+            Announce(entry, senderName, fromMyself);
+        }
+
+        /// <summary>Sums up what arrived while the game was closed.</summary>
+        public void AnnounceQuietArrivals()
+        {
+            if (_quietArrivals > 0)
+            {
+                Note(Lines.WhileAway(_quietArrivals));
+                FrameHud.Say(Lines.WhileAwayTitle, Lines.WhileAway(_quietArrivals), "ink:icons_0023");
+                _quietArrivals = 0;
             }
         }
 
-        public bool HasUnlock(string unlockKey)
+        private void Announce(ItemRegistryEntry entry, string senderName, bool fromMyself)
         {
-            return FileBasedPrefs.GetInt(unlockKey, 0) > 0;
+            Note(fromMyself || string.IsNullOrEmpty(senderName) ? $"I found {entry.Name}." : $"{senderName} left {entry.Name}.");
+            if (entry.Action == "trap")
+            {
+                return;
+            }
+            string key = entry.Action == "time_rate" ? BonusTimeRatePrefKey : entry.GameKey;
+            string thought = entry.Action == "time_skip" && entry.GameKey != RelicBag.Snooze
+                ? "How the time flies!"
+                : entry.Action == "filler" ? "A quiet moment. I like those." : Lines.ThoughtOf(key, entry.Category);
+            FrameHud.Say(Lines.NameOf(key, entry.Name), $"{Lines.ReceivedFrom(senderName, fromMyself)} {thought}", Icons.ForItem(entry.GameKey, entry.Category));
         }
 
-        public void PushNotification(string message)
+        /// <summary>Keeps a line for the log and the far worlds card.</summary>
+        public void Note(string message)
         {
-            _recentNotifications.Enqueue($"[{DateTime.Now:HH:mm:ss}] {message}");
-            while (_recentNotifications.Count > MaxNotifications)
+            _notes.Enqueue(message);
+            while (_notes.Count > MaxNotes)
             {
-                _recentNotifications.Dequeue();
+                _notes.Dequeue();
             }
             Plugin.Log.LogInfo(message);
         }
@@ -171,11 +160,6 @@ namespace TheLongingDecrypted.Archipelago
                     ObscuredPrefs.SetInt("B00BZ", Math.Min(40, currentBooks + entry.Amount));
                 }
             }
-            else if (key == "ITMM0023Z")
-            {
-                int mult = FileBasedPrefs.GetInt("AP_CUSTOM_MOSS_SACK", 0) > 0 ? 2 : 1;
-                ObscuredPrefs.SetInt(key, ObscuredPrefs.GetInt(key, 0) + entry.Amount * mult);
-            }
             else
             {
                 ObscuredPrefs.SetInt(key, ObscuredPrefs.GetInt(key, 0) + entry.Amount);
@@ -183,51 +167,42 @@ namespace TheLongingDecrypted.Archipelago
 
             if (!string.IsNullOrEmpty(entry.SecondaryKey))
             {
-                ObscuredPrefs.SetInt(
-                    entry.SecondaryKey,
-                    ObscuredPrefs.GetInt(entry.SecondaryKey, 0) + entry.Amount
-                );
+                ObscuredPrefs.SetInt(entry.SecondaryKey, ObscuredPrefs.GetInt(entry.SecondaryKey, 0) + entry.Amount);
             }
+            RelicBag.SyncPouch();
         }
 
-        public void TriggerEspressoBuff(int durationSeconds = 180)
+        // ---- traps --------------------------------------------------------------------------------------------------
+
+        /// <summary>1 when a trap has just sprung, 0 when it is over.</summary>
+        public float TrapFractionLeft(string key)
         {
-            EspressoBuffUntil = Math.Max(EspressoBuffUntil, Time.unscaledTime) + durationSeconds;
+            if (!_trapUntil.TryGetValue(key, out float until) || !_trapLength.TryGetValue(key, out float length))
+            {
+                return 0f;
+            }
+            return Mathf.Clamp01((until - Time.unscaledTime) / Mathf.Max(0.1f, length));
         }
 
         private void TriggerTrap(ItemRegistryEntry entry)
         {
-            switch (entry.GameKey)
+            string key = entry.GameKey;
+            switch (key)
             {
-                case "TRAP_SLOWNESS":
-                    SlownessTrapUntil = Math.Max(SlownessTrapUntil, Time.unscaledTime) + entry.Amount;
-                    break;
-                case "TRAP_DARKNESS":
-                    DarknessTrapUntil = Math.Max(DarknessTrapUntil, Time.unscaledTime) + entry.Amount;
-                    break;
-                case "TRAP_TIME_STALL":
-                    TimeStallTrapUntil = Math.Max(TimeStallTrapUntil, Time.unscaledTime) + entry.Amount;
-                    break;
                 case "DISUAD&JSAD§232":
-                    ObscuredPrefs.SetInt("DISUAD&JSAD§232", ObscuredPrefs.GetInt("DISUAD&JSAD§232", 0) + 1);
-                    break;
+                    ObscuredPrefs.SetInt(key, ObscuredPrefs.GetInt(key, 0) + 1);
+                    FrameHud.Say(Lines.TrapName(key), Lines.TrapLine(key), "ink:icons_0032");
+                    return;
                 case "TRAP_EXISTENTIAL":
-                    ExistentialTrapUntil = Math.Max(ExistentialTrapUntil, Time.unscaledTime) + entry.Amount;
-                    ActiveExistentialThought = ExistentialThoughts[UnityEngine.Random.Range(0, ExistentialThoughts.Length)];
-                    break;
-                case "TRAP_HICCUP":
-                    HiccupTrapUntil = Math.Max(HiccupTrapUntil, Time.unscaledTime) + entry.Amount;
-                    break;
-                case "TRAP_SPIDER_SCARE":
-                    SpiderScareUntil = Math.Max(SpiderScareUntil, Time.unscaledTime) + entry.Amount;
-                    break;
-                case "TRAP_FALSE_WAKE":
-                    FalseWakeUntil = Math.Max(FalseWakeUntil, Time.unscaledTime) + entry.Amount;
-                    break;
-                case "TRAP_TINY_SHADE":
-                    TinyShadeUntil = Math.Max(TinyShadeUntil, Time.unscaledTime) + entry.Amount;
-                    break;
+                    var thoughts = Lines.GloomyThoughts;
+                    ShadeSpeech.Think(thoughts[UnityEngine.Random.Range(0, thoughts.Length)]);
+                    return;
             }
+
+            float left = TrapFractionLeft(key) * (_trapLength.TryGetValue(key, out float old) ? old : 0f);
+            _trapLength[key] = left + entry.Amount;
+            _trapUntil[key] = Time.unscaledTime + left + entry.Amount;
+            ShadeSpeech.Think(Lines.TrapLine(key));
         }
     }
 }

@@ -2,6 +2,8 @@ using HarmonyLib;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using TMPro;
+using TheLongingDecrypted.UI;
 using UnityEngine.UI;
 
 namespace TheLongingDecrypted.Patches
@@ -12,7 +14,7 @@ namespace TheLongingDecrypted.Patches
         private const string VisitedHomeKey = "AP_VISITED_HOME";
         private const int MaxRecallRing = 3;
         private static GameObject _card;
-        private static Text _label;
+        private static TextMeshProUGUI _label;
         private static string _feedback;
         private static GameManagerScript _recalling;
         private static string _recallSave;
@@ -65,34 +67,15 @@ namespace TheLongingDecrypted.Patches
 
             if (!_card || _card.transform.parent != ___FEGOHOGGOHE)
             {
-                _card = new GameObject("Cavern Travel", typeof(RectTransform));
-                _card.transform.SetParent(___FEGOHOGGOHE, false);
-                var backdrop = _card.AddComponent<Image>();
-                backdrop.color = new Color(0.11f, 0.09f, 0.07f, 0.94f);
-                backdrop.raycastTarget = false;
-                var border = _card.AddComponent<Outline>();
-                border.effectColor = new Color(0.62f, 0.49f, 0.27f, 0.92f);
-                border.effectDistance = new Vector2(2f, -2f);
-                var cardRect = _card.GetComponent<RectTransform>();
-                // Attach cleanly to the upper-right edge of the foldout so slot action buttons stay unobstructed.
-                cardRect.anchorMin = new Vector2(1.02f, 0.80f);
-                cardRect.anchorMax = new Vector2(1.92f, 0.96f);
-                cardRect.offsetMin = cardRect.offsetMax = Vector2.zero;
-
-                var labelObject = new GameObject("Cavern Travel Text", typeof(RectTransform));
-                labelObject.transform.SetParent(_card.transform, false);
-                _label = labelObject.AddComponent<Text>();
-                _label.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
-                _label.fontSize = 18;
-                _label.alignment = TextAnchor.MiddleCenter;
-                _label.color = new Color(0.95f, 0.89f, 0.72f);
-                _label.raycastTarget = false;
-                var shadow = labelObject.AddComponent<Shadow>();
-                shadow.effectDistance = new Vector2(1f, -1f);
-                var textRect = _label.rectTransform;
-                textRect.anchorMin = new Vector2(0.04f, 0.06f);
-                textRect.anchorMax = new Vector2(0.96f, 0.94f);
-                textRect.offsetMin = textRect.offsetMax = Vector2.zero;
+                // Hangs from the right edge of the foldout, clear of the slot buttons.
+                var card = NativeUi.Image("Cavern Travel", ___FEGOHOGGOHE, NativeUi.Card());
+                _card = card.gameObject;
+                card.rectTransform.anchorMin = card.rectTransform.anchorMax = new Vector2(1f, 1f);
+                card.rectTransform.pivot = new Vector2(0f, 1f);
+                card.rectTransform.sizeDelta = new Vector2(470f, 190f);
+                card.rectTransform.anchoredPosition = new Vector2(10f, -82f);
+                _label = NativeUi.Text("Words", card.transform, 24f, NativeUi.Ink, TextAlignmentOptions.MidlineLeft).Fit(16f);
+                NativeUi.Stretch(_label.rectTransform, 24f);
             }
 
             if (!__state)
@@ -115,9 +98,7 @@ namespace TheLongingDecrypted.Patches
                 return;
             }
 
-            int ring = RecallTier;
-            _label.text = $"Walking pace {TimeAndMovementPatches.UnlockedWalkMultiplier:0.##}×\nRecall ring {ring}/{MaxRecallRing}\n"
-                + (_feedback ?? (ring == 0 ? "Find a Waypoint Recall to travel." : "Shift-click Go or Home to recall."));
+            _label.text = _feedback ?? $"{Lines.Pace(TimeAndMovementPatches.WalkSpeedTier)} {Lines.Recall(RecallTier)}";
         }
 
         [HarmonyPatch(typeof(GameManagerScript), nameof(GameManagerScript.GoHome))]
@@ -173,7 +154,7 @@ namespace TheLongingDecrypted.Patches
                 || CavernRing(SceneManager.GetActiveScene().buildIndex) == 0
                 || game.GetInputManager()?.GetMovementScript()?.IsInSpecialState() != false)
             {
-                Deny("Shade cannot recall from here.");
+                Deny(Lines.RecallNotHere);
                 return;
             }
 
@@ -182,19 +163,19 @@ namespace TheLongingDecrypted.Patches
             int waypoint = slot == 1 ? 90 : FileBasedPrefs.GetInt("wpASf87532" + slot, -1);
             if (waypoint < 0 || (slot == 1 && !FileBasedPrefs.HasKey(VisitedHomeKey)))
             {
-                Deny("Visit and mark this waypoint first.");
+                Deny(Lines.RecallUnknown);
                 return;
             }
 
             int ring = CavernRing(scene);
             if (ring == 0)
             {
-                Deny("This place lies outside the recall rings.");
+                Deny(Lines.RecallOutside);
                 return;
             }
             if (ring > RecallTier)
             {
-                Deny($"This waypoint needs recall ring {ring}.");
+                Deny(Lines.RecallTooFar);
                 return;
             }
 
@@ -216,7 +197,7 @@ namespace TheLongingDecrypted.Patches
             UpdateLabel();
             if (!_label || !_label.gameObject.activeInHierarchy)
             {
-                Plugin.Delivery?.PushNotification(message);
+                ShadeSpeech.Think(message);
             }
         }
 

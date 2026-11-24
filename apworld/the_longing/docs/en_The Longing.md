@@ -13,6 +13,11 @@
 - **Home Comforts, Relics, Musical Instrument Parts, and Hearth Fuel** (coal, timber, flint, sulfur).
 - **Time Skips & Time Rate Boosts** to pace the 400-day countdown for a real multiworld session.
 
+- **The Cavern Peddler** keeps a stall in the Pillared Gallery. Walk up and talk to trade coal for eight multiworld checks, relics, hats, companions, and small favors. Coal drops from the ceiling beside the stall. The last four checks need a Mattock.
+- **Relics** sit in the bottom of the game's frame. Click one to use it and hover over it to read about it. Each needs a real-time rest afterwards that continues while the game is closed. Another copy readies it and shortens its rest.
+- **Hats and companions** appear in the sides of the frame. Click to put one on or take it off.
+- **Everything else you own** (walking pace, recall ring, time rate, passes, coal, moss, and so on) is shown along the bottom of the frame.
+
 ## Goals
 
 - **Wake the King:** Reduce the countdown to zero and wake the King in his chamber.

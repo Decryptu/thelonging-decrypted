@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using HarmonyLib;
+using TheLongingDecrypted.Relics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -90,9 +91,9 @@ namespace TheLongingDecrypted.Patches
                 return speed;
             }
             float mult = Plugin.Delivery.IsSlownessTrapActive ? 0.65f : UnlockedWalkMultiplier;
-            if (Plugin.Delivery.IsEspressoBuffActive)
+            if (RelicBag.EspressoActive)
             {
-                mult *= 1.85f;
+                mult *= 1.5f;
             }
             return speed * mult;
         }

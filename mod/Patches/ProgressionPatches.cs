@@ -1,4 +1,5 @@
 using HarmonyLib;
+using TheLongingDecrypted.UI;
 
 namespace TheLongingDecrypted.Patches
 {
@@ -12,7 +13,7 @@ namespace TheLongingDecrypted.Patches
         internal static bool CanEnterLibrary()
         {
             return AllowInteraction(Plugin.Session?.ActiveConfig.ShuffleMattocksAndKeys == true,
-                "AP_LIBRARY_PASS", "Library Door Pass");
+                "AP_LIBRARY_PASS", Lines.LibraryShut);
         }
 
         [HarmonyPatch(typeof(Interactable_DoorOpening_Up07), nameof(Interactable_DoorOpening_Up07.Interact))]
@@ -20,7 +21,7 @@ namespace TheLongingDecrypted.Patches
         private static bool CheckUpperGate()
         {
             return AllowInteraction(Plugin.Session?.ActiveConfig.ShuffleMattocksAndKeys == true,
-                "AP_SURFACE_GATE_PASS", "Surface Gate Pass");
+                "AP_SURFACE_GATE_PASS", Lines.GateShut);
         }
 
         [HarmonyPatch(typeof(Interactable_MushroomGrow), nameof(Interactable_MushroomGrow.Interact))]
@@ -31,10 +32,10 @@ namespace TheLongingDecrypted.Patches
             bool shuffled = config != null && (config.ShuffleMattocksAndKeys || config.ShuffleMushroomsAndMoss);
             // The mushroom caches this ID lazily. Read it from the progress component on first interaction.
             return __instance.GetComponent<ProgressClass>()?.GetUID() != GiantMushroomUid
-                || AllowInteraction(shuffled, "AP_GIANT_SPORES", "Giant Mushroom Spores");
+                || AllowInteraction(shuffled, "AP_GIANT_SPORES", Lines.SporesMissing);
         }
 
-        private static bool AllowInteraction(bool shuffled, string unlockKey, string itemName)
+        private static bool AllowInteraction(bool shuffled, string unlockKey, string refusal)
         {
             // The selected slot and its save remain active on disconnect.
             if (!shuffled || string.IsNullOrEmpty(Plugin.Session?.ConnectedSlot) || Plugin.Delivery.HasUnlock(unlockKey))
@@ -42,7 +43,7 @@ namespace TheLongingDecrypted.Patches
                 return true;
             }
 
-            Plugin.Delivery.PushNotification($"Requires {itemName}.");
+            ShadeSpeech.Think(refusal);
             return false;
         }
     }

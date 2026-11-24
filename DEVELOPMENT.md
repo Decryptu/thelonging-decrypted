@@ -8,11 +8,11 @@ Everything a contributor needs to inspect *The Longing*, run the player hub loca
 | --- | --- |
 | `data/` | Structured world catalog (`world_catalog.json`) extracted from game scenes and assemblies |
 | `apworld/the_longing/` | Archipelago 0.6.8+ world package (options, items, locations, regions, rules, Universal Tracker map page, docs, generation & tracker tests) |
-| `tracker/` | PopTracker pack (manifest, cavern map & icons, Lua logic & Archipelago autotracking for 152 checks, 7 discoveries, progressive mobility, and 3 recall rings) |
-| `mod/` | BepInEx 5 x86 C# client plugin (`net472`, Harmony patches, Archipelago client, IMGUI tracker HUD) |
+| `tracker/` | PopTracker pack (manifest, cavern map & icons, Lua logic & Archipelago autotracking for 160 checks, 7 discoveries, progressive mobility, and 3 recall rings) |
+| `mod/` | BepInEx 5 x86 C# client plugin (`net472`, Harmony patches, Archipelago client, interface built from the game's own sprites and fonts) |
 | `site/` | GitHub Pages player hub (Vite + TypeScript, option-synced YAML generator, interactive cavern tracker, branching setup checklist), deployed from `main` |
 | `assets/` | Project emblem (`logo.png`) |
-| `tools/` | Scripts: `extract_catalog.py`, `sync_world_data.py`, `build_apworld.py`, `build_tracker_pack.py`, `decode_save.py`, `decompile.ps1`, `check_public_metadata.py` |
+| `tools/` | Scripts: `extract_catalog.py`, `build_head_anchors.py`, `sync_world_data.py`, `build_apworld.py`, `build_tracker_pack.py`, `decode_save.py`, `decompile.ps1`, `check_public_metadata.py` |
 | `.githooks/` | Publication metadata hooks (`commit-msg`, `pre-push`) |
 | `local/` | Ignored local directory for save backups, decompiled classes (`local/code/`), local NuGet cache, and extracted research assets |
 
@@ -77,6 +77,9 @@ python tools/build_tracker_pack.py --output dist/the_longing_poptracker.zip
 
 # Package the_longing.apworld from tracked files
 python tools/build_apworld.py --output dist/the_longing.apworld
+
+# Recompute where hats sit on every Shade animation frame (needs the game install)
+python tools/build_head_anchors.py
 
 # Build the BepInEx 5 x86 plugin (net472)
 dotnet build mod/TheLongingDecrypted.csproj -c Release

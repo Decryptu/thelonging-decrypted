@@ -27,9 +27,9 @@ export function getSetupSteps(role: PlayerRole, method: InstallMethod): SetupSte
       },
       {
         id: "manager_plugin",
-        title: "Import TheLongingDecrypted-v1.0.0-BepInEx5-x86.zip",
+        title: "Import TheLongingDecrypted-v1.1.0-BepInEx5-x86.zip",
         detail:
-          "Download the v1.0.0 plugin zip from GitHub Releases and import it into your profile so TheLongingDecrypted.dll, Archipelago.MultiClient.Net.dll, and Newtonsoft.Json.dll load automatically.",
+          "Download the v1.1.0 plugin zip from GitHub Releases and import it into your profile so TheLongingDecrypted.dll, Archipelago.MultiClient.Net.dll, and Newtonsoft.Json.dll load automatically.",
       },
     );
   } else {
@@ -42,9 +42,9 @@ export function getSetupSteps(role: PlayerRole, method: InstallMethod): SetupSte
       },
       {
         id: "manual_plugin",
-        title: "Extract TheLongingDecrypted-v1.0.0-BepInEx5-x86.zip into the game folder",
+        title: "Extract TheLongingDecrypted-v1.1.0-BepInEx5-x86.zip into the game folder",
         detail:
-          "Download the v1.0.0 plugin archive from GitHub Releases and place TheLongingDecrypted.dll, Archipelago.MultiClient.Net.dll, and Newtonsoft.Json.dll inside BepInEx/plugins/TheLongingDecrypted/.",
+          "Download the v1.1.0 plugin archive from GitHub Releases and place TheLongingDecrypted.dll, Archipelago.MultiClient.Net.dll, and Newtonsoft.Json.dll inside BepInEx/plugins/TheLongingDecrypted/.",
       },
     );
   }
@@ -55,7 +55,7 @@ export function getSetupSteps(role: PlayerRole, method: InstallMethod): SetupSte
         id: "host_ap",
         title: "Install Archipelago 0.6.8+ and add the_longing.apworld",
         detail:
-          "Drop the matching v1.0.0 the_longing.apworld into Archipelago's custom_worlds folder and restart the Archipelago Launcher.",
+          "Drop the matching v1.1.0 the_longing.apworld into Archipelago's custom_worlds folder and restart the Archipelago Launcher.",
       },
       {
         id: "host_yaml",
@@ -82,9 +82,9 @@ export function getSetupSteps(role: PlayerRole, method: InstallMethod): SetupSte
   steps.push(
     {
       id: "connect_room",
-      title: "Connect from the title screen with F8",
+      title: "Connect from the title screen",
       detail:
-        "Press F8 on the title screen, enter host, port, slot name, and optional password, and connect. Each seed + slot gets its own isolated save and countdown checkpoint; return to the title screen before switching slots.",
+        "Choose Far worlds on the title screen (or press F8), enter the server, port, player name, and optional password, and choose Listen. Each seed + slot gets its own isolated save and countdown checkpoint; return to the title screen before switching slots.",
     },
     {
       id: "first_check",

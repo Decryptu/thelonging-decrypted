@@ -6,13 +6,32 @@ using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.BounceFeatures.DeathLink;
 using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Helpers;
+using Archipelago.MultiClient.Net.MessageLog.Messages;
 using Archipelago.MultiClient.Net.Models;
 using TheLongingDecrypted.Generated;
 using TheLongingDecrypted.Patches;
+using TheLongingDecrypted.UI;
 using UnityEngine.SceneManagement;
 
 namespace TheLongingDecrypted.Archipelago
 {
+    /// <summary>What lies wrapped on one of the Peddler's far shelves.</summary>
+    public sealed class ShopOffer
+    {
+        public string ItemName { get; }
+        public string PlayerName { get; }
+        public bool IsMine { get; }
+        public long ItemId { get; }
+
+        public ShopOffer(string itemName, string playerName, bool isMine, long itemId)
+        {
+            ItemName = itemName;
+            PlayerName = playerName;
+            IsMine = isMine;
+            ItemId = itemId;
+        }
+    }
+
     public sealed class ArchipelagoSessionManager
     {
         public const string GameName = "The Longing";
@@ -23,8 +42,7 @@ namespace TheLongingDecrypted.Archipelago
         private readonly ItemDeliveryService _delivery;
         private readonly ConcurrentQueue<Action> _mainThreadQueue = new ConcurrentQueue<Action>();
         private readonly HashSet<long> _checkedLocations = new HashSet<long>();
-        private readonly ConcurrentDictionary<long, string> _scoutedShopOffers = new ConcurrentDictionary<long, string>();
-        private readonly List<string> _conchHints = new List<string>();
+        private readonly ConcurrentDictionary<long, ShopOffer> _shopOffers = new ConcurrentDictionary<long, ShopOffer>();
 
         private ArchipelagoSession _session;
         private DeathLinkService _deathLinkService;
@@ -41,13 +59,19 @@ namespace TheLongingDecrypted.Archipelago
         public int CheckedCount => _checkedLocations.Count;
         public int TotalLocations => ActiveConfig.EnabledLocationIds.Count;
         public bool GoalSent => FileBasedPrefs.GetInt(GoalSentPrefKey, 0) > 0;
-        public IReadOnlyList<string> ConchHints => _conchHints;
 
         public bool IsLocationChecked(long locationId) => _checkedLocations.Contains(locationId);
 
-        public string GetScoutedShopOffer(long locationId)
+        public ShopOffer GetShopOffer(long locationId)
         {
-            return _scoutedShopOffers.TryGetValue(locationId, out var offer) ? offer : null;
+            return _shopOffers.TryGetValue(locationId, out var offer) ? offer : null;
+        }
+
+        /// <summary>True once this slot was sent at least one copy of the named item.</summary>
+        public bool HasReceived(string itemName)
+        {
+            return _session != null && _session.Items.AllItemsReceived.Any(i =>
+                WorldRegistryData.ItemsById.TryGetValue(i.ItemId, out var entry) && entry.Name == itemName);
         }
 
         public ArchipelagoSessionManager(ItemDeliveryService delivery)
@@ -61,7 +85,7 @@ namespace TheLongingDecrypted.Archipelago
             bool inCavern = GameManagerScript.IsGameRunning() && SceneManager.GetActiveScene().buildIndex >= 3;
             if (inCavern && (ConnectedHost != address || ConnectedSlot != slotName))
             {
-                StatusMessage = "Return to the title screen to change Archipelago slots.";
+                StatusMessage = Lines.NeverKnock;
                 return false;
             }
 
@@ -96,7 +120,7 @@ namespace TheLongingDecrypted.Archipelago
                 string seed = session.RoomState?.Seed ?? "default";
                 if (inCavern && SeedName != seed)
                 {
-                    StatusMessage = "Return to the title screen to join a different Archipelago seed.";
+                    StatusMessage = Lines.NeverKnock;
                     _ = session.Socket.DisconnectAsync();
                     return false;
                 }
@@ -117,8 +141,11 @@ namespace TheLongingDecrypted.Archipelago
                     _checkedLocations.Add(locId);
                 }
 
+                _shopOffers.Clear();
+
                 // Subscribe to incoming items
                 session.Items.ItemReceived += OnItemReceived;
+                session.MessageLog.OnMessageReceived += message => OnServerMessage(session, message);
                 session.Socket.SocketClosed += reason =>
                 {
                     _mainThreadQueue.Enqueue(() =>
@@ -128,7 +155,8 @@ namespace TheLongingDecrypted.Archipelago
                             return;
                         }
                         StatusMessage = $"Disconnected ({reason})";
-                        _delivery.PushNotification(StatusMessage);
+                        _delivery.Note(StatusMessage);
+                        FrameHud.Say(Lines.MultiworldName, Lines.MultiworldAsleep, "icons/worlds_dim.png");
                     });
                 };
 
@@ -158,7 +186,8 @@ namespace TheLongingDecrypted.Archipelago
                 }
 
                 StatusMessage = $"Connected ({slotName} @ {host}:{port})";
-                _delivery.PushNotification($"Connected to Archipelago! Goal: {ActiveConfig.Goal}");
+                Plugin.Log.LogInfo(StatusMessage);
+                FrameHud.Say(Lines.MultiworldName, $"{Lines.MultiworldAwake} {Lines.Goal(ActiveConfig.Goal)}", "icons/ink_worlds.png");
                 return true;
             }
             catch (Exception ex)
@@ -249,7 +278,7 @@ namespace TheLongingDecrypted.Archipelago
             {
                 _session.Locations.CompleteLocationChecksAsync(locationId);
                 var label = displayName ?? (WorldRegistryData.LocationsById.TryGetValue(locationId, out var e) ? e.Name : locationId.ToString());
-                _delivery.PushNotification($"Check sent: {label}");
+                Plugin.Log.LogInfo($"Checked {label}");
             }
             return true;
         }
@@ -304,7 +333,8 @@ namespace TheLongingDecrypted.Archipelago
             _session.SetGoalAchieved();
             FileBasedPrefs.SetInt(GoalSentPrefKey, 1);
             FileBasedPrefs.ManualySave();
-            _delivery.PushNotification(reason);
+            _delivery.Note(reason);
+            FrameHud.Say(Lines.GoalReachedName, Lines.GoalReached, "ink:icons_0035");
         }
 
         private void OnItemReceived(IReceivedItemsHelper helper)
@@ -329,6 +359,7 @@ namespace TheLongingDecrypted.Archipelago
             ApplyInitialCountdownIfReady();
             DrainReceivedItems(_session.Items, replaySilent: true);
             _initialSyncPending = false;
+            _delivery.AnnounceQuietArrivals();
         }
 
         private void DrainReceivedItems(IReceivedItemsHelper helper, bool replaySilent)
@@ -338,8 +369,8 @@ namespace TheLongingDecrypted.Archipelago
             while (appliedIndex < allItems.Count)
             {
                 var info = allItems[appliedIndex];
-                string sender = _session?.Players?.GetPlayerName(info.Player) ?? "Multiworld";
-                _delivery.DeliverItem(info.ItemId, sender, replaySilent);
+                bool fromMyself = info.Player != null && info.Player.Slot == _session.ConnectionInfo.Slot;
+                _delivery.DeliverItem(info.ItemId, info.Player?.Alias, replaySilent, fromMyself);
                 appliedIndex++;
                 FileBasedPrefs.SetInt(ReceivedIndexPrefKey, appliedIndex);
                 FileBasedPrefs.ManualySave();
@@ -403,16 +434,38 @@ namespace TheLongingDecrypted.Archipelago
             var dl = _pendingDeathLink;
             _pendingDeathLink = null;
             var cause = string.IsNullOrEmpty(dl.Cause) ? $"{dl.Source} succumbed" : dl.Cause;
-            _delivery.PushNotification($"DeathLink from {dl.Source}: {cause} (returning Shade Home)");
+            _delivery.Note($"DeathLink from {dl.Source}: {cause}");
+            FrameHud.Say(dl.Source, Lines.DeathLink, "ink:icons_0032");
             game.LoadNewScene(4);
+        }
+
+        /// <summary>Tells the Shade what became of something it just found for somebody else.</summary>
+        private void OnServerMessage(ArchipelagoSession session, LogMessage message)
+        {
+            if (message is HintItemSendLogMessage || !(message is ItemSendLogMessage sent)
+                || !sent.IsSenderTheActivePlayer || sent.IsReceiverTheActivePlayer)
+            {
+                return;
+            }
+            string item = sent.Item.ItemDisplayName ?? sent.Item.ItemName;
+            string owner = sent.Receiver.Alias;
+            _mainThreadQueue.Enqueue(() =>
+            {
+                if (_session == session)
+                {
+                    _delivery.Note($"I sent {item} to {owner}.");
+                    FrameHud.Say(item, Lines.SentAway(owner), "icons/ink_bundle.png");
+                }
+            });
         }
 
         public void ScoutShopLocationsAsync()
         {
-            if (!IsConnected || _session == null)
+            if (!IsConnected)
             {
                 return;
             }
+            var session = _session;
             var shopIds = WorldRegistryData.LocationsById.Values
                 .Where(e => e.Pool == "shop" && ActiveConfig.EnabledLocationIds.Contains(e.Id))
                 .Select(e => e.Id)
@@ -423,20 +476,15 @@ namespace TheLongingDecrypted.Archipelago
             }
             try
             {
-                _session.Locations.ScoutLocationsAsync(shopIds).ContinueWith(task =>
+                session.Locations.ScoutLocationsAsync(shopIds).ContinueWith(task =>
                 {
                     if (task.IsFaulted || task.IsCanceled || task.Result == null)
                     {
                         return;
                     }
-                    foreach (var kv in task.Result)
+                    foreach (var found in task.Result)
                     {
-                        var info = kv.Value;
-                        string playerName = _session?.Players?.GetPlayerName(info.Player) ?? $"Player {info.Player}";
-                        string itemName = info.ItemDisplayName ?? info.ItemName ?? $"Item #{info.ItemId}";
-                        string gameName = info.Player != null ? info.Player.Game : string.Empty;
-                        string suffix = !string.IsNullOrEmpty(gameName) ? $" ({playerName} - {gameName})" : $" ({playerName})";
-                        _scoutedShopOffers[kv.Key] = $"{itemName}{suffix}";
+                        _shopOffers[found.Key] = Describe(session, found.Value);
                     }
                 });
             }
@@ -446,50 +494,61 @@ namespace TheLongingDecrypted.Archipelago
             }
         }
 
-        public void ScoutRandomUncheckedLocation(string sourceLabel = "Echoing Conch")
+        private static ShopOffer Describe(ArchipelagoSession session, ScoutedItemInfo info)
         {
-            if (!IsConnected || _session == null)
+            bool mine = info.Player != null && info.Player.Slot == session.ConnectionInfo.Slot;
+            return new ShopOffer(
+                info.ItemDisplayName ?? info.ItemName ?? Lines.WrappedName,
+                info.Player?.Alias ?? Lines.Somebody,
+                mine,
+                info.ItemId);
+        }
+
+        private List<long> UnheardLocations => ActiveConfig.EnabledLocationIds.Where(id => !_checkedLocations.Contains(id)).ToList();
+
+        /// <summary>Whether there is anything left to whisper about.</summary>
+        public bool CanWhisper => IsConnected && ActiveConfig.AutoHints && UnheardLocations.Count > 0;
+
+        /// <summary>
+        /// Asks what lies at a random unchecked location. Returns why that is impossible, or null once the answer is on
+        /// its way to <paramref name="heard"/> on the main thread.
+        /// </summary>
+        public string Whisper(Action<string> heard)
+        {
+            if (!IsConnected || !ActiveConfig.AutoHints)
             {
-                _delivery.PushNotification($"{sourceLabel}: Connect to Archipelago to hear multiworld echoes.");
-                return;
+                return Lines.ConchSilent;
             }
-            var uncheckedIds = ActiveConfig.EnabledLocationIds
-                .Where(id => !_checkedLocations.Contains(id))
-                .ToList();
-            if (uncheckedIds.Count == 0)
+            var unheard = UnheardLocations;
+            if (unheard.Count == 0)
             {
-                _delivery.PushNotification($"{sourceLabel}: All cavern locations have been checked!");
-                return;
+                return Lines.ConchNothingLeft;
             }
-            long targetId = uncheckedIds[UnityEngine.Random.Range(0, uncheckedIds.Count)];
-            string locName = WorldRegistryData.LocationsById.TryGetValue(targetId, out var locEntry)
-                ? locEntry.Name
-                : $"Location #{targetId}";
+            var session = _session;
+            long target = unheard[UnityEngine.Random.Range(0, unheard.Count)];
+            string place = WorldRegistryData.LocationsById.TryGetValue(target, out var entry) ? entry.Name : target.ToString();
             try
             {
-                _session.Locations.ScoutLocationsAsync(new[] { targetId }).ContinueWith(task =>
+                session.Locations.ScoutLocationsAsync(new[] { target }).ContinueWith(task =>
                 {
-                    if (task.IsFaulted || task.IsCanceled || task.Result == null || !task.Result.TryGetValue(targetId, out var info))
+                    if (task.IsFaulted || task.IsCanceled || task.Result == null || !task.Result.TryGetValue(target, out var info))
                     {
                         return;
                     }
-                    string playerName = _session?.Players?.GetPlayerName(info.Player) ?? $"Player {info.Player}";
-                    string itemName = info.ItemDisplayName ?? info.ItemName ?? $"Item #{info.ItemId}";
-                    string hint = $"{locName} holds {itemName} for {playerName}";
+                    var offer = Describe(session, info);
+                    string line = Lines.ConchWhisper(place, offer.ItemName, offer.PlayerName, offer.IsMine);
                     _mainThreadQueue.Enqueue(() =>
                     {
-                        _conchHints.Insert(0, hint);
-                        if (_conchHints.Count > 12)
-                        {
-                            _conchHints.RemoveAt(_conchHints.Count - 1);
-                        }
-                        _delivery.PushNotification($"{sourceLabel}: {hint}");
+                        _delivery.Note(line);
+                        heard(line);
                     });
                 });
+                return null;
             }
             catch (Exception ex)
             {
-                Plugin.Log.LogWarning($"Conch scouting failed: {ex.Message}");
+                Plugin.Log.LogWarning($"Whisper failed: {ex.Message}");
+                return Lines.ConchSilent;
             }
         }
     }

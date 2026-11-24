@@ -137,7 +137,7 @@ class ShuffleShop(DefaultOnToggle):
 
 
 class CustomItemsAndCosmetics(DefaultOnToggle):
-    """Include custom utility upgrades (Shade's Lantern, Chisel of Efficiency, Echoing Conch, Double Espresso) and unlockable hats/pets in the item pool."""
+    """Include reusable relics (Shade's Lantern, Chisel of Efficiency, Echoing Conch, King's Snooze Button, Double Espresso...) and unlockable hats/pets in the item pool. Extra copies of a relic shorten its cooldown."""
 
     display_name = "Custom Items and Cosmetics"
 

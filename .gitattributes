@@ -21,3 +21,4 @@
 *.png binary
 *.webp binary
 *.ico binary
+*.csv text eol=lf

@@ -27,11 +27,10 @@ namespace TheLongingDecrypted.Patches
 
         private static readonly FieldInfo ReadLinesField = AccessTools.Field(typeof(ReadingBehaviour), "NJECGNGCNEF");
         private static readonly FieldInfo ReadTitleLabelField = AccessTools.Field(typeof(ReadingBehaviour), "EKHKHEMALCK");
-        private static readonly FieldInfo ReadPageLineIdxField = AccessTools.Field(typeof(ReadingBehaviour), "ICLMHFJCLAE");
-        private static readonly FieldInfo ReadLeftPageField = AccessTools.Field(typeof(ReadingBehaviour), "JOKLDGCODBN");
-        private static readonly FieldInfo ReadRightPageField = AccessTools.Field(typeof(ReadingBehaviour), "BBJDFBNLNPM");
-        private static readonly FieldInfo ReadLinesPerPageField = AccessTools.Field(typeof(ReadingBehaviour), "ELGHCECLHJF");
-        private static readonly MethodInfo SetPageCounterMethod = AccessTools.Method(typeof(ReadingBehaviour), "SetPageCounter");
+        private static readonly FieldInfo SpecialBookField = AccessTools.Field(typeof(ReadingBehaviour), "DCHECDEFLPN");
+
+        private static readonly Dictionary<BookInShelf, KeyValuePair<string, Sprite>> Classics =
+            new Dictionary<BookInShelf, KeyValuePair<string, Sprite>>();
 
         public sealed class FanficVolume
         {
@@ -69,12 +68,12 @@ namespace TheLongingDecrypted.Patches
                 "books/book_cover_01.png",
                 new[]
                 {
-                    "Summary: He was a 3-foot tall yellow creature of pure patience. His mattress was fifteen bundles of damp cavern moss. What happens when the drafts from the Entrance Hall blow through his freshly hung Eternal Curtain?",
+                    "Summary: He was a 3-foot tall black creature of pure patience. His mattress was fifteen bundles of damp cavern moss. What happens when the drafts from the Entrance Hall blow through his freshly hung Eternal Curtain?",
                     "Chapter 1: The Friction of Flint",
-                    "The hearth fire crackled with an almost scandalous warmth. The Shade adjusted his tiny ochre shoulders, feeling the heat trace along his collarbone as he reclined upon fifteen layers of freshly harvested moss.",
+                    "The hearth fire crackled with an almost scandalous warmth. The Shade adjusted his tiny inky shoulders, feeling the heat trace along his collarbone as he reclined upon fifteen layers of freshly harvested moss.",
                     "\"You've been waiting 399 days for me,\" whispered a voice like grinding limestone from across the room. It was the Mattock, leaning provocatively against the freshly chipped wall.",
                     "\"My handle is seasoned oak,\" the Mattock murmured, its iron head glinting in the amber firelight. \"Hold me with both hands. Strike the wall until our durability hits zero.\"",
-                    "The Shade blushed a deep, luminous saffron. His oversized golden eyes fluttered shut as his fingers curled around the smooth wooden grip.",
+                    "The Shade blushed a deep, luminous shade of slightly less black. His oversized golden eyes fluttered shut as his fingers curled around the smooth wooden grip.",
                     "\"Careful,\" the Shade breathed, a shiver running all the way down to his stubby toes. \"If we chip this alcove any faster, the time multiplier will hit 24x and the neighbours in the Hollow Knight multiworld will hear us.\"",
                     "Outside, a single water drop fell from the ceiling. Plink. Inside, the moss bed had never felt softer."
                 }
@@ -90,7 +89,7 @@ namespace TheLongingDecrypted.Patches
                     "Summary: The Shade climbed into the old iron well bucket expecting freedom, or perhaps a tragic fall. He did NOT expect the muscular Cavern Troll to climb in right after him.",
                     "Chapter 1: Tight Quarters",
                     "The iron chain groaned under their combined weight as the bucket swayed in the narrow stone shaft. There was nowhere to look except directly against the Troll's broad, moss-dusted chest.",
-                    "\"You're trembling, little yellow one,\" the Troll rumbled, his voice vibrating right through the bucket floor. \"Is it the draft from the surface... or is it me?\"",
+                    "\"You're trembling, little dark one,\" the Troll rumbled, his voice vibrating right through the bucket floor. \"Is it the draft from the surface... or is it me?\"",
                     "\"Your knee is pressing against my Lapis Lazuli,\" the Shade squeaked, pressing his palms flat against the Troll's surprisingly warm ribs.",
                     "The Troll chuckled, leaning down until his tusks brushed the rim of the Shade's ear. \"Keep holding onto my belt like that, little Shade, and I might pull this rope all the way to the stars.\"",
                     "By the time the bucket reached the mossy rim of the upper world, neither of them was in any hurry to climb out."
@@ -106,7 +105,7 @@ namespace TheLongingDecrypted.Patches
                 {
                     "Summary: Every day the Shade walks into the throne room to check the countdown. Every day the King pretends to be asleep so the cute little guy will stay and comb his beard.",
                     "Chapter 1: Beneath the Beard",
-                    "It was Day 214 when the Shade noticed the King'sstone fingers twitching against the throne armrest. The massive monarch's beard cascaded across the cavern floor like a velvet waterfall.",
+                    "It was Day 214 when the Shade noticed the King's stone fingers twitching against the throne armrest. The massive monarch's beard cascaded across the cavern floor like a velvet waterfall.",
                     "Gently, almost reverently, the Shade nestled into a warm curl of the royal beard. It smelled of ancient cedar, sulfur incense, and raw regality.",
                     "\"Ten million seconds left,\" the Shade whispered against the King's colossal thumb, tracing the carved runes with a delicate yellow fingertip.",
                     "A low, resonant purr echoed from deep within the King's chest, shaking loose a shower of rose-quartz dust from the ceiling. In his dream, the King smiled."
@@ -240,9 +239,6 @@ namespace TheLongingDecrypted.Patches
         public static void ToggleAo3Mode()
         {
             IsAo3ModeActive = !IsAo3ModeActive;
-            Plugin.Delivery?.PushNotification(IsAo3ModeActive
-                ? "AO3 Fanfiction Book Mode ENABLED! Check your bookshelf at Home."
-                : "AO3 Fanfiction Book Mode disabled (classic literature restored).");
         }
 
         public static void RefreshAllActiveShelfBooks()
@@ -285,40 +281,51 @@ namespace TheLongingDecrypted.Patches
 
         private static void ApplyShelfBookOverride(BookInShelf shelfBook)
         {
-            if (shelfBook == null || !IsAo3ModeActive)
+            if (shelfBook == null)
             {
                 return;
             }
 
             try
             {
-                string origTitle = ShelfTitleField?.GetValue(shelfBook) as string ?? shelfBook.gameObject.name;
-                string origFile = ShelfFileField?.GetValue(shelfBook) as string ?? origTitle;
-                var fanfic = SelectFanficForKey(origFile);
+                var label = ShelfLabelField?.GetValue(shelfBook) as TextMeshProUGUI;
+                var cover = ShelfImageField?.GetValue(shelfBook) as Image;
+                if (!IsAo3ModeActive)
+                {
+                    if (Classics.TryGetValue(shelfBook, out var classic))
+                    {
+                        Classics.Remove(shelfBook);
+                        if (label != null)
+                        {
+                            label.text = classic.Key;
+                        }
+                        if (cover != null)
+                        {
+                            cover.sprite = classic.Value;
+                        }
+                    }
+                    return;
+                }
 
-                if (ShelfLabelField?.GetValue(shelfBook) is TextMeshProUGUI label && label != null)
+                string title = ShelfTitleField?.GetValue(shelfBook) as string ?? shelfBook.gameObject.name;
+                var fanfic = SelectFanficForKey(ShelfFileField?.GetValue(shelfBook) as string ?? title);
+                if (!Classics.ContainsKey(shelfBook))
+                {
+                    Classics[shelfBook] = new KeyValuePair<string, Sprite>(label != null ? label.text : title, cover != null ? cover.sprite : null);
+                }
+                if (label != null)
                 {
                     label.text = fanfic.Title;
                 }
-
-                if (ShelfImageField?.GetValue(shelfBook) is Image img && img != null && !string.IsNullOrEmpty(fanfic.CoverImageFile))
+                var sprite = CustomAssetLoader.LoadSprite(fanfic.CoverImageFile, new Vector2(0.5f, 0.5f));
+                if (cover != null && sprite != null)
                 {
-                    var customTex = CustomAssetLoader.LoadTextureOrNull(fanfic.CoverImageFile);
-                    if (customTex != null)
-                    {
-                        var coverSprite = Sprite.Create(
-                            customTex,
-                            new Rect(0f, 0f, customTex.width, customTex.height),
-                            new Vector2(0.5f, 0.5f),
-                            100f
-                        );
-                        img.sprite = coverSprite;
-                    }
+                    cover.sprite = sprite;
                 }
             }
             catch (Exception ex)
             {
-                Plugin.Log.LogWarning($"BookInShelf AO3 override error: {ex.Message}");
+                Plugin.Log.LogWarning($"Could not dress the shelf: {ex.Message}");
             }
         }
 
@@ -326,7 +333,8 @@ namespace TheLongingDecrypted.Patches
         [HarmonyPostfix]
         private static void OnOpenBookPostfix(ReadingBehaviour __instance, string FKEBECGHCDH, string CBKOHMKMCNM)
         {
-            if (__instance == null || !IsAo3ModeActive)
+            // The Shade's own thoughts and the moss book have pages of a different kind.
+            if (__instance == null || !IsAo3ModeActive || SpecialBookField?.GetValue(__instance) is true)
             {
                 return;
             }
@@ -334,57 +342,19 @@ namespace TheLongingDecrypted.Patches
             try
             {
                 var fanfic = SelectFanficForKey(FKEBECGHCDH ?? CBKOHMKMCNM);
-                string[] formattedLines = BuildFormattedBookLines(fanfic);
-
-                ReadLinesField?.SetValue(__instance, formattedLines);
-
-                if (ReadTitleLabelField?.GetValue(__instance) is TextMeshProUGUI titleLabel && titleLabel != null)
+                string[] lines = BuildFormattedBookLines(fanfic);
+                ReadLinesField?.SetValue(__instance, lines);
+                if (ReadTitleLabelField?.GetValue(__instance) is TextMeshProUGUI title && title != null)
                 {
-                    titleLabel.text = fanfic.Title;
+                    title.text = fanfic.Title;
                 }
-
-                int currentLine = (int)(ReadPageLineIdxField?.GetValue(__instance) ?? 0);
-                if (currentLine < 0 || currentLine >= formattedLines.Length)
-                {
-                    ReadPageLineIdxField?.SetValue(__instance, 0);
-                    currentLine = 0;
-                }
-
-                // Refresh left & right page text immediately
-                int linesPerPage = (int)(ReadLinesPerPageField?.GetValue(__instance) ?? 20);
-                var leftTmp = ReadLeftPageField?.GetValue(__instance) as TextMeshProUGUI;
-                var rightTmp = ReadRightPageField?.GetValue(__instance) as TextMeshProUGUI;
-
-                if (leftTmp != null)
-                {
-                    leftTmp.text = SlicePageLines(formattedLines, currentLine, linesPerPage);
-                }
-                if (rightTmp != null)
-                {
-                    rightTmp.text = SlicePageLines(formattedLines, currentLine + linesPerPage, linesPerPage);
-                }
-
-                SetPageCounterMethod?.Invoke(__instance, new object[] { currentLine });
+                int bookmark = FileBasedPrefs.GetInt("SDAB(klh" + FKEBECGHCDH, 0);
+                __instance.SetPageCounter(bookmark >= 0 && bookmark < lines.Length ? bookmark : 0);
             }
             catch (Exception ex)
             {
-                Plugin.Log.LogWarning($"ReadingBehaviour AO3 override error: {ex.Message}");
+                Plugin.Log.LogWarning($"Could not open the other book: {ex.Message}");
             }
-        }
-
-        private static string SlicePageLines(string[] lines, int startLine, int count)
-        {
-            if (lines == null || startLine >= lines.Length)
-            {
-                return string.Empty;
-            }
-            var sb = new StringBuilder();
-            int end = Math.Min(lines.Length, startLine + count);
-            for (int i = startLine; i < end; i++)
-            {
-                sb.Append(lines[i]).Append('\n');
-            }
-            return sb.ToString();
         }
 
         private static string[] BuildFormattedBookLines(FanficVolume fanfic)
@@ -418,7 +388,7 @@ namespace TheLongingDecrypted.Patches
                 sb.AppendLine();
             }
             sb.AppendLine("--- End of Chapter ---");
-            sb.AppendLine("(Leave Kudos at the Cavern Peddler!)");
+            sb.AppendLine("(The author lives on kudos and damp moss.)");
 
             return WrapBookText(sb.ToString(), 38);
         }

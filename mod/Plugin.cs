@@ -3,7 +3,10 @@ using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
 using TheLongingDecrypted.Archipelago;
+using TheLongingDecrypted.Cosmetics;
 using TheLongingDecrypted.Patches;
+using TheLongingDecrypted.Peddler;
+using TheLongingDecrypted.Relics;
 using TheLongingDecrypted.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,7 +18,7 @@ namespace TheLongingDecrypted
     {
         public const string PluginGuid = "com.decrypt.thelongingdecrypted";
         public const string PluginName = "The Longing Decrypted";
-        public const string PluginVersion = "1.0.0";
+        public const string PluginVersion = "1.1.0";
 
         internal static ManualLogSource Log { get; private set; }
         internal static ItemDeliveryService Delivery { get; private set; }
@@ -61,16 +64,23 @@ namespace TheLongingDecrypted
             _harmony.PatchAll(typeof(LocationCheckPatches));
             _harmony.PatchAll(typeof(ProgressionPatches));
             _harmony.PatchAll(typeof(WaypointRecallPatches));
-            _harmony.PatchAll(typeof(CavernShopPatches));
-            _harmony.PatchAll(typeof(CosmeticAndCustomItemPatches));
+            _harmony.PatchAll(typeof(WaypointPicturePatches));
+            _harmony.PatchAll(typeof(PeddlerStall));
+            _harmony.PatchAll(typeof(RelicBag));
+            _harmony.PatchAll(typeof(MultiworldPanel));
             _harmony.PatchAll(typeof(FanficBookPatches));
 
             SceneManager.sceneLoaded += LocationCheckPatches.OnSceneLoaded;
-            SceneManager.sceneLoaded += CavernShopPatches.OnSceneLoaded;
+            SceneManager.sceneLoaded += OnSceneLoaded;
 
-            var overlayGo = new GameObject("TheLongingDecryptedOverlay");
-            DontDestroyOnLoad(overlayGo);
-            overlayGo.AddComponent<TrackerOverlay>();
+            var runtime = new GameObject("TheLongingDecrypted");
+            DontDestroyOnLoad(runtime);
+            runtime.AddComponent<ModRuntime>();
+            runtime.AddComponent<FrameHud>();
+            runtime.AddComponent<TroubleOverlay>();
+            runtime.AddComponent<MultiworldPanel>();
+            runtime.AddComponent<PeddlerPanel>();
+            runtime.AddComponent<ShadeDresser>();
 
             Log.LogInfo($"{PluginName} v{PluginVersion} initialized (BepInEx 5 x86).");
         }
@@ -78,9 +88,15 @@ namespace TheLongingDecrypted
         private void OnDestroy()
         {
             SceneManager.sceneLoaded -= LocationCheckPatches.OnSceneLoaded;
-            SceneManager.sceneLoaded -= CavernShopPatches.OnSceneLoaded;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
             Session?.Disconnect();
             _harmony?.UnpatchSelf();
+        }
+
+        private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            NativeUi.OnSceneChanged();
+            PeddlerStall.OnSceneLoaded(scene, mode);
         }
 
         internal static void ActivateSlotSaveIsolation(string seedName, string slotName)

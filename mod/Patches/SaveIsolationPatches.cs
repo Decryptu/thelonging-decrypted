@@ -46,6 +46,7 @@ namespace TheLongingDecrypted.Patches
         {
             _clockReady = false;
             FileBasedPrefs.ResetLoadedSaves();
+            GameManagerScript.ClearWaypointPicCache();
             // The game's existence cache is shared across save paths.
             LastCheckTimeField?.SetValue(null, -1f);
         }
